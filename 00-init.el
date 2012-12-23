@@ -5,7 +5,7 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(starter-kit)
+(defvar my-packages '(starter-kit starter-kit-lisp)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)
