@@ -19,19 +19,6 @@
   ;; Perform general cleanup.
   (global-set-key (kbd "C-c n") 'esk-cleanup-buffer)
 
-  ;; Turn on the menu bar for exploring new modes
-  (global-set-key (kbd "C-<f10>") 'menu-bar-mode)
-
-  ;; Font size
-  (define-key global-map (kbd "C-+") 'text-scale-increase)
-  (define-key global-map (kbd "C--") 'text-scale-decrease)
-
-  ;; Use regex searches by default.
-  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-  (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
-  (global-set-key (kbd "C-M-s") 'isearch-forward)
-  (global-set-key (kbd "C-M-r") 'isearch-backward)
-
   ;; Jump to a definition in the current file. (Protip: this is awesome.)
   (global-set-key (kbd "C-x C-i") 'imenu)
 
@@ -40,22 +27,8 @@
   (global-set-key (kbd "C-c y") 'bury-buffer)
   (global-set-key (kbd "C-c r") 'revert-buffer)
 
-  ;; Window switching. (C-x o goes to the next window)
-  (windmove-default-keybindings) ;; Shift+direction
-  (global-set-key (kbd "C-x O") (lambda () (interactive) (other-window -1))) ;; back one
-  (global-set-key (kbd "C-x C-o") (lambda () (interactive) (other-window 2))) ;; forward two
-
-  ;; If you want to be able to M-x without meta (phones, etc)
-  (global-set-key (kbd "C-c x") 'execute-extended-command)
-
   ;; Help should search more than just commands
   (global-set-key (kbd "C-h a") 'apropos)
-
-  ;; Should be able to eval-and-replace anywhere.
-  (global-set-key (kbd "C-c e") 'esk-eval-and-replace)
-
-  ;; M-S-6 is awkward
-  (global-set-key (kbd "C-c q") 'join-line)
 
   ;; This is a little hacky since VC doesn't support git add internally
   (eval-after-load 'vc
@@ -77,6 +50,10 @@
   ;; How I start a shell..
   (global-set-key (kbd "C-z") 'shell)
 
+  ;; How I switch windows.. rely on C-x o by default to jump. Might as
+  ;; well have shift-array-key support
+  (windmove-default-keybindings) ;; Shift+direction
+
   ;; Use C-x C-m per Steve Yegge's advice:
   ;; https://sites.google.com/site/steveyegge2/effective-emacs
   (global-set-key "\C-x\C-m" 'execute-extended-command)
@@ -84,4 +61,11 @@
   ;; How I start up Magit
   (global-set-key (kbd "C-x m") 'magit-status)
 
-  )
+  ;; Use regex searches by default.
+  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+
+  ;; Needs to be able to increase/decrease text at will for pairing,
+  ;; presentations, missing glasses, etc.
+  (define-key global-map (kbd "C-+") 'text-scale-increase)
+  (define-key global-map (kbd "C--") 'text-scale-decrease))
