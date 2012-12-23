@@ -1,4 +1,5 @@
-;; These are other people's keybindings.
+;;
+;; These are other the keybindings of other people.
 ;;
 ;; Chiefly,
 ;;
