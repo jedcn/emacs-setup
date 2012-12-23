@@ -57,9 +57,6 @@
   ;; M-S-6 is awkward
   (global-set-key (kbd "C-c q") 'join-line)
 
-  ;; So good!
-  (global-set-key (kbd "C-c g") 'magit-status)
-
   ;; This is a little hacky since VC doesn't support git add internally
   (eval-after-load 'vc
     (define-key vc-prefix-map "i"
@@ -77,10 +74,14 @@
 
   ;; Begin..
 
+  ;; How I start a shell..
   (global-set-key (kbd "C-z") 'shell)
 
   ;; Use C-x C-m per Steve Yegge's advice:
   ;; https://sites.google.com/site/steveyegge2/effective-emacs
   (global-set-key "\C-x\C-m" 'execute-extended-command)
+
+  ;; How I start up Magit
+  (global-set-key (kbd "C-x m") 'magit-status)
 
   )
