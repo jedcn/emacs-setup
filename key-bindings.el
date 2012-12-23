@@ -45,9 +45,6 @@
   (global-set-key (kbd "C-x O") (lambda () (interactive) (other-window -1))) ;; back one
   (global-set-key (kbd "C-x C-o") (lambda () (interactive) (other-window 2))) ;; forward two
 
-  ;; Start a regular shell if you prefer that.
-  (global-set-key (kbd "C-x C-m") 'shell)
-
   ;; If you want to be able to M-x without meta (phones, etc)
   (global-set-key (kbd "C-c x") 'execute-extended-command)
 
@@ -76,4 +73,10 @@
   (define-key isearch-mode-map (kbd "C-o")
     (lambda () (interactive)
       (let ((case-fold-search isearch-case-fold-search))
-        (occur (if isearch-regexp isearch-string (regexp-quote isearch-string)))))))
+        (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
+
+  ;; Begin..
+
+  (global-set-key (kbd "C-z") 'shell)
+
+  )
