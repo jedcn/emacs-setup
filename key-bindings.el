@@ -79,4 +79,8 @@
 
   (global-set-key (kbd "C-z") 'shell)
 
+  ;; Use C-x C-m per Steve Yegge's advice:
+  ;; https://sites.google.com/site/steveyegge2/effective-emacs
+  (global-set-key "\C-x\C-m" 'execute-extended-command)
+
   )

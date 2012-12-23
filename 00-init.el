@@ -13,6 +13,3 @@
     (package-install p)))
 
 (global-set-key (kbd "M-x") 'smex)
-
-;; Use C-x C-m to do M-x per Steve Yegge's advice
-(global-set-key "\C-x\C-m" 'execute-extended-command)
