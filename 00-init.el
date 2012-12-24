@@ -3,6 +3,10 @@
 ;; https://github.com/technomancy/emacs-starter-kit
 ;;
 
+;; Add marmalade to package repos
+(eval-after-load "package"
+  '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
+
 (when (not package-archive-contents)
   (package-refresh-contents))
 
