@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: def.self
+# key: ds
+# --
+def self.$1($2)
+  $0
+end

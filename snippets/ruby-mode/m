@@ -1,0 +1,7 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+# name: module modulename...end
+# key: m
+# --
+module ${1:modulename}
+  $0
+end

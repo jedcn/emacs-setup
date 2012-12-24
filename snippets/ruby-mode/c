@@ -1,0 +1,7 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+# name: class classname...end
+# key: c
+# --
+class ${1:classname}
+  $0
+end
