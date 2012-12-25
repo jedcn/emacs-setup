@@ -20,3 +20,7 @@
 (setq jedcn-yasnippet-dir (concat esk-user-dir "/yasnippet"))
 (add-to-list 'load-path jedcn-yasnippet-dir)
 (load "setup-yasnippet.el")
+
+(setq jedcn-key-bindings-dir (concat esk-user-dir "/key-bindings"))
+(add-to-list 'load-path jedcn-key-bindings-dir)
+(load "setup-key-bindings.el")
