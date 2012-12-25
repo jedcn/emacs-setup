@@ -1,0 +1,7 @@
+# -*- mode: javascript; require-final-newline: nil; backup-inhibited: t -*-
+#name: (function())();
+# key: fs
+# --
+(function() {
+  $0                        
+});
