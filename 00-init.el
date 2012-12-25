@@ -17,6 +17,10 @@
   (when (not (package-installed-p p))
     (package-install p)))
 
+(setq jedcn-mac-dir (concat esk-user-dir "/mac"))
+(add-to-list 'load-path jedcn-mac-dir)
+(load "setup-mac.el")
+
 (setq jedcn-yasnippet-dir (concat esk-user-dir "/yasnippet"))
 (add-to-list 'load-path jedcn-yasnippet-dir)
 (load "setup-yasnippet.el")
