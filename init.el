@@ -2,20 +2,9 @@
 ;;
 ;; https://github.com/technomancy/emacs-starter-kit
 ;;
-
-;; Add marmalade to package repos
-(eval-after-load "package"
-  '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
-
-(when (not package-archive-contents)
-  (package-refresh-contents))
-
-(defvar my-packages '(starter-kit starter-kit-lisp yasnippet)
-  "A list of packages to ensure are installed at launch.")
-
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+(setq jedcn-package-management-dir (concat esk-user-dir "/package-management"))
+(add-to-list 'load-path jedcn-package-management-dir)
+(load "setup-package-management.el")
 
 (setq jedcn-mac-dir (concat esk-user-dir "/mac"))
 (add-to-list 'load-path jedcn-mac-dir)
