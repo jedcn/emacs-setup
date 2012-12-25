@@ -16,3 +16,7 @@
 (dolist (p my-packages)
   (when (not (package-installed-p p))
     (package-install p)))
+
+(setq jedcn-yasnippet-dir (concat esk-user-dir "/yasnippet"))
+(add-to-list 'load-path jedcn-yasnippet-dir)
+(load "setup-yasnippet.el")
