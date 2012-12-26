@@ -10,10 +10,6 @@
 (add-to-list 'load-path jedcn-mac-dir)
 (load "setup-mac.el")
 
-(setq jedcn-rvm-dir (concat esk-user-dir "/rvm"))
-(add-to-list 'load-path jedcn-rvm-dir)
-(load "setup-rvm.el")
-
 (setq jedcn-yasnippet-dir (concat esk-user-dir "/yasnippet"))
 (add-to-list 'load-path jedcn-yasnippet-dir)
 (load "setup-yasnippet.el")
@@ -21,3 +17,11 @@
 (setq jedcn-key-bindings-dir (concat esk-user-dir "/key-bindings"))
 (add-to-list 'load-path jedcn-key-bindings-dir)
 (load "setup-key-bindings.el")
+
+(add-hook 'after-init-hook
+          #'(lambda ()
+
+              (setq jedcn-rvm-dir (concat esk-user-dir "/rvm"))
+              (add-to-list 'load-path jedcn-rvm-dir)
+              (load "setup-rvm.el")))
+
