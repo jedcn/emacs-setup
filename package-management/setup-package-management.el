@@ -9,7 +9,7 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(starter-kit starter-kit-lisp yasnippet)
+(defvar my-packages '(starter-kit starter-kit-lisp yasnippet rvm)
   "A list of packages to ensure are installed at launch.")
 
 (dolist (p my-packages)

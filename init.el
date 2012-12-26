@@ -10,6 +10,10 @@
 (add-to-list 'load-path jedcn-mac-dir)
 (load "setup-mac.el")
 
+(setq jedcn-rvm-dir (concat esk-user-dir "/rvm"))
+(add-to-list 'load-path jedcn-rvm-dir)
+(load "setup-rvm.el")
+
 (setq jedcn-yasnippet-dir (concat esk-user-dir "/yasnippet"))
 (add-to-list 'load-path jedcn-yasnippet-dir)
 (load "setup-yasnippet.el")
