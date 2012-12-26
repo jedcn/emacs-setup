@@ -23,5 +23,9 @@
 
               (setq jedcn-rvm-dir (concat esk-user-dir "/rvm"))
               (add-to-list 'load-path jedcn-rvm-dir)
-              (load "setup-rvm.el")))
+              (load "setup-rvm.el")
+
+              (setq jedcn-rspec-mode-dir (concat esk-user-dir "/rspec-mode"))
+              (add-to-list 'load-path jedcn-rspec-mode-dir)
+              (load "setup-rspec-mode.el")))
 
