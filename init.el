@@ -18,6 +18,10 @@
 (add-to-list 'load-path jedcn-key-bindings-dir)
 (load "setup-key-bindings.el")
 
+(setq jedcn-themes-dir (concat esk-user-dir "/themes"))
+(add-to-list 'load-path jedcn-themes-dir)
+(load "setup-themes.el")
+
 (add-hook 'after-init-hook
           #'(lambda ()
 
