@@ -31,5 +31,11 @@
 
               (setq jedcn-rspec-mode-dir (concat esk-user-dir "/rspec-mode"))
               (add-to-list 'load-path jedcn-rspec-mode-dir)
-              (load "setup-rspec-mode.el")))
+              (load "setup-rspec-mode.el")
+
+              ;; Load every .el file in misc
+              (setq jedcn-misc-dir (concat esk-user-dir "/misc"))
+              (add-to-list 'load-path jedcn-misc-dir)
+              (mapc 'load (directory-files jedcn-misc-dir nil "^[^#].*el$"))
+              ))
 
