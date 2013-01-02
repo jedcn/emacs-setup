@@ -85,6 +85,10 @@
   ;; How I start up Magit
   (global-set-key (kbd "C-x m") 'magit-status)
 
+  ;; Magnars
+  ;; How I jump to a line
+  (global-set-key (kbd "C-x g") 'goto-line)
+
   ;; Technomancy:
   ;; Use regex searches by default.
   (global-set-key (kbd "C-s") 'isearch-forward-regexp)
