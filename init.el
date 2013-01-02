@@ -33,6 +33,10 @@
               (add-to-list 'load-path jedcn-rspec-mode-dir)
               (load "setup-rspec-mode.el")
 
+              (setq jedcn-magit-dir (concat esk-user-dir "/magit"))
+              (add-to-list 'load-path jedcn-magit-dir)
+              (eval-after-load 'magit '(load "setup-magit.el"))
+
               ;; Load every .el file in misc
               (setq jedcn-misc-dir (concat esk-user-dir "/misc"))
               (add-to-list 'load-path jedcn-misc-dir)
