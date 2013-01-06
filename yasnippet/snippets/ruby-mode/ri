@@ -1,4 +1,7 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
-#name: puts "DBG: var=value"
+#name: it '...' (RSpec)
+# key: ri
 # --
-puts "DBG: $1='#{${1:var}}'"
+it '${1:description}' do
+  $0
+end

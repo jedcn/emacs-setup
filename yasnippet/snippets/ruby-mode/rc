@@ -1,7 +1,7 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
-#name: describe '...' (RSpec)
-# key: rd
+#name: context '...' (RSpec)
+# key: rc
 # --
-describe ${1:CodeUnderTest} do
+context ${1:CodeUnderTest} do
   $0
 end

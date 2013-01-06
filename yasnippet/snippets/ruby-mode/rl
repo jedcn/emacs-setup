@@ -1,6 +1,7 @@
 # -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
-#name: it '...' (RSpec)
+#name: let '...' (RSpec)
+# key: rl
 # --
-it '${1:description}' do
+let :${1:symbol} do
   $0
 end
