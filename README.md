@@ -16,8 +16,11 @@ After almost 10 years of using emacs, I have a sinking feeling that I
 should've started figuring out how to use this stuff about.. 10 years
 ago.
 
-This is a first (likely to fail) attempt to pay attention to how
-things are working and set things up the way I'd like.
+This is a first attempt to pay attention to how things are working and
+set things up the way I'd like.
+
+More than anything, this is an attempt to split out one big .emacs
+file into distinct, de-coupled, self-describing directories and files.
 
 ## How I got here
 
@@ -56,3 +59,15 @@ Here we go. The basic idea is that I setup Emacs as follows:
 ## Emacs Starter Kit, Emacs Rocks, Jim Weirich
 
 This is just my minimalistic take on their stuff. Nothing original.
+
+## What's Happen Here?
+
+Because EmacsStarterKit is involved, every *.el file in root directory
+of this project is loaded up. I think this is alphabetical, so I try
+to keep this minimal.
+
+In turn, a central file named init.el loads up stuff in the various
+sub-directories.
+
+As a general catch-all, it also loads up any *.el file in the misc
+sub-directory.
