@@ -14,4 +14,4 @@
 ;;     move to.
 ;;
 (require 'ace-jump-mode)
-(define-key global-map (kbd "C-;") 'ace-jump-mode)
+(define-key global-map (kbd "C-'") 'ace-jump-mode)
