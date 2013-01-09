@@ -1,5 +1,7 @@
-;; See:
-;; http://whattheemacsd.com/key-bindings.el-01.html
+;; See: http://whattheemacsd.com/key-bindings.el-01.html
+;;
+;; 'goto-line is bound to C-x g. Remap it to goto-line-with-feedback
+;;
 (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
 (defun goto-line-with-feedback ()
