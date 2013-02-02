@@ -1,0 +1,5 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: require '...'
+# key: rq
+# --
+require '${1:file}'

@@ -1,0 +1,5 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: require 'spec_helper'
+# key: rqsh
+# --
+require 'spec_helper'
