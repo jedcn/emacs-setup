@@ -1,7 +1,7 @@
 ;; This is from https://github.com/technomancy/emacs-starter-kit
 ;;
 ;; Make sure that Marmalade is always included as a package
-;; repository. Then make sure all of 'my-packages' are installed.
+;; repository.
 ;;
 (eval-after-load "package"
   '(add-to-list 'package-archives '("marmalade" . "http://marmalade-repo.org/packages/")))
@@ -22,10 +22,9 @@
                       haml-mode
                       feature-mode
                       puppet-mode
-                      web)
+                      web
+                      dash
+                      s
+                      projectile)
 
-  "A list of packages to ensure are installed at launch.")
-
-;; (dolist (p my-packages)
-;;   (when (not (package-installed-p p))
-;;     (package-install p)))
+  "A list of packages that I use")
