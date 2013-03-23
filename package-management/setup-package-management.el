@@ -9,9 +9,23 @@
 (when (not package-archive-contents)
   (package-refresh-contents))
 
-(defvar my-packages '(starter-kit starter-kit-lisp yasnippet rvm rspec-mode dired-details dired-details+ markdown-mode ace-jump-mode yaml-mode haml-mode feature-mode puppet-mode)
+(defvar my-packages '(starter-kit
+                      starter-kit-lisp
+                      yasnippet
+                      rvm
+                      rspec-mode
+                      dired-details
+                      dired-details+
+                      markdown-mode
+                      ace-jump-mode
+                      yaml-mode
+                      haml-mode
+                      feature-mode
+                      puppet-mode
+                      web)
+
   "A list of packages to ensure are installed at launch.")
 
-(dolist (p my-packages)
-  (when (not (package-installed-p p))
-    (package-install p)))
+;; (dolist (p my-packages)
+;;   (when (not (package-installed-p p))
+;;     (package-install p)))
