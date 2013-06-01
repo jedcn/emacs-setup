@@ -1,0 +1,72 @@
+* Key Bindings
+
+  I think my main inspiration for keybindings have come from [[https://github.com/technomancy/emacs-starter-kit/blob/v2/modules/starter-kit-bindings.el][ESK]] and
+  from [[https://github.com/magnars/.emacs.d/blob/master/key-bindings.el][Magnars]].
+
+  Documenting (and configuring) keybindings is somewhat strange. These
+  things "appear" out of no where, and don't always follow an obvious
+  order. At any rate.. here we go.
+
+** Running Methods
+
+  When it comes to running methods explicitly, I always use C-x C-m.
+  I picked this up from Steve Yegge's [[https://sites.google.com/site/steveyegge2/effective-emacs][Effective Emacs]].
+
+#+begin_src emacs-lisp
+  (global-set-key "\C-x\C-m" 'execute-extended-command)
+#+end_src
+
+** Text Size
+
+  Making text larger or smaller (at your quick command..) is absolutely
+  necessary and is something I use every day, several times a day.
+
+  This happens most commonly when I'm showing someone something in
+  emacs (say, pairing or running a meeting), but also when I'm at home
+  and don't have my glasses.
+
+  These particular keybindings are all about the + and the -.
+
+#+begin_src emacs-lisp
+  (define-key global-map (kbd "C-+") 'text-scale-increase)
+  (define-key global-map (kbd "C--") 'text-scale-decrease)
+#+end_src
+
+** Magit
+
+  Magit is everyone's favorite piece of software.
+
+  I like to think "C-x m"agit.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x m") 'magit-status)
+#+end_src
+
+** Not Yet Transferred
+
+(progn
+
+  ;; Magnars:
+  ;; I don't need to kill emacs that easily
+  ;; the mnemonic is C-x REALLY QUIT
+  (global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
+  (global-set-key (kbd "C-x C-c") 'delete-frame)
+
+
+  ;; Technomancy:
+  ;; Activate occur easily inside isearch
+  (define-key isearch-mode-map (kbd "C-o")
+    (lambda () (interactive)
+      (let ((case-fold-search isearch-case-fold-search))
+        (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
+
+
+  ;; Magnars
+  ;; How I jump to a line
+  (global-set-key (kbd "C-x g") 'goto-line)
+
+  ;; Technomancy:
+  ;; Use regex searches by default.
+  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
+  (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
+
