@@ -1,73 +1,34 @@
 # Jed Northridge's Emacs Setup
 
-I don't understand emacs.
+This project documents how I get up and running with Emacs on a new
+machine.
 
-I don't know elisp.
-
-I really don't understand computers.
-
-But, I want to create some stuff using emacs.
-
-This is how I set stuff up.
+The project also describes my Emacs configuration.
 
 ## Background
 
-After almost 10 years of using emacs, I have a sinking feeling that I
-should've started figuring out how to use this stuff about.. 10 years
-ago.
+I use Emacs 24+ on MacOS with the Emacs Starter Kit (ESK).
 
-This is a first attempt to pay attention to how things are working and
-set things up the way I'd like.
+I get Emacs via brew, using something like `brew install emacs --cocoa`.
 
-More than anything, this is an attempt to split out one big .emacs
-file into distinct, de-coupled, self-describing directories and files.
+Once I have Emacs, I use the package management facilities to get the
+ESK.
 
-## How I got here
+Once I've got Emacs and the ESK, it is now the case that starting
+Emacs will in turn case the ESK to look in the directory
+~/emacs.d/$USER and load up any files ending in .el that it sees
+there.
 
-After watching the [Emacs Rocks](http://emacsrocks.com/) videos, I was
-intrigued to see and use that setup.
+While .el files are directly involved here, I don't author any of
+these myself.
 
-I liked what I saw, and the fresh approach. This got me thinking about
-really trying to figure things out.
+Instead, I create .org files that serve three purposes:
 
-Next up, I re-watched the [Peepcode on Emacs](https://peepcode.com/products/meet-emacs)
+* The .org files contain documentation of my configuration.
+* The .org files contain embedded elisp configuration.
+* The .org files can be parsed and the elisp can be extracted from them.
 
-There were a few things I wanted to change, and as I went to customize
-my setup, partially inspirted by the Meet Emacs Peepcode, I revisited
-the [emacs-starter-kit](https://github.com/technomancy/emacs-starter-kit).
-
-Combined with [Jim Weirich's setup](https://github.com/jimweirich/emacs-setup-esk), I figured this was a way forward.
-
-## And So..
-
-Here we go. The basic idea is that I setup Emacs as follows:
-
-* Get Emacs 24 somehow. I go here: http://emacsformacosx.com/
-
-* Start Emacs once. This will create a ~/.emacs.d directory
-
-* git clone this repository. It can go anywhere on your computer, but
-  you need the contents to appear to be at ~/.emacs.d/$USER. You could
-  do this by cloning it and then moving the cloned directory to
-  ~/.emacs.d/, and renaming it to be your $USER. You could also put it
-  somewhere and link to it with ln -s.
-
-* Then.. shut down emacs, and start it again! Wait for compilation.
-
-* ta-da?
-
-## Emacs Starter Kit, Emacs Rocks, Jim Weirich
-
-This is just my minimalistic take on their stuff. Nothing original.
-
-## What's Happen Here?
-
-Because EmacsStarterKit is involved, every *.el file in root directory
-of this project is loaded up. I think this is alphabetical, so I try
-to keep this minimal.
-
-In turn, a central file named init.el loads up stuff in the various
-sub-directories.
-
-As a general catch-all, it also loads up any *.el file in the misc
-sub-directory.
+So, there it is: I maintain my emacs configuration side-by-side with
+its documentation in .org files, and then I extract these .org files
+out into .el files and this is what Emacs actually uses at start up
+time.
