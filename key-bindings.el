@@ -5,3 +5,5 @@
 (define-key global-map (kbd "C--") 'text-scale-decrease)
 
 (global-set-key (kbd "C-x m") 'magit-status)
+
+(setq mac-command-modifier 'meta)

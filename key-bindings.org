@@ -42,6 +42,27 @@
   (global-set-key (kbd "C-x m") 'magit-status)
 #+end_src
 
+** MacOS's "Command"
+
+  I think keys called 'super' and 'hyper' used to appear on the
+  keyboards of fabled 'Lisp Machines,' as described in this ErgoEmacs
+  post about [[http://ergoemacs.org/emacs/emacs_hyper_super_keys.html][Super and Hyper Keys]].
+
+  I may end up taking advantage of these some day, but for now I'm
+  happy to have both the 'alt/option' key and the 'command' key on my
+  Mac do the same thing: meta.
+
+  And, given the default setup of my brew installed emacs, the
+  following change makes it so that "command does meta"
+
+  If I'm back this way in the future again, I'd like to remind myself
+  to consider the following variables: mac-option-modifier,
+  mac-command-modifier, and ns-function-modifer.
+
+#+begin_src emacs-lisp
+  (setq mac-command-modifier 'meta)
+#+end_src
+
 ** Not Yet Transferred
 
 (progn
