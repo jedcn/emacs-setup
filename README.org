@@ -95,8 +95,9 @@
   configuration:
 
 #+begin_src emacs-lisp
-  (setq jedcn-config-files '("key-bindings.org"
-                             "personal-information.org"))
+  (setq jedcn-config-files '("personal-information.org"
+                             "key-bindings.org"
+                             "behaviors.org"))
 #+end_src
 
   And this function enables you to create .el from .org files:
