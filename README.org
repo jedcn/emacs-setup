@@ -1,0 +1,88 @@
+* Jed Northridge's Emacs Setup
+
+  This project documents how I get up and running with Emacs on a new
+  machine.
+
+  The project also describes my Emacs configuration.
+
+** Overview of Emacs Usage
+
+  I use Emacs 24+ on MacOS with the Emacs Starter Kit (ESK).
+
+  I get Emacs via brew, using something like `brew install emacs --cocoa`.
+
+  Once I have Emacs, I use the package management facilities to get the
+  ESK. See below for details.
+
+  Once I've got Emacs and the ESK, it is now the case that starting
+  Emacs will in turn case the ESK to look in the directory
+  ~/emacs.d/$USER and load up any files ending in .el that it sees
+  there.
+
+  While .el files are directly involved here, I don't author any of
+  these myself.
+
+*** .org vs .el
+
+  The .org files in this project serve three purposes:
+
+    + The .org files contain documentation of my configuration
+
+    + The .org files contain embedded elisp configuration
+
+    + The .org files can be parsed and the elisp can be extracted from them
+
+  In turn, the .el files in this project are derived from the .org files.
+
+*** In Closing..
+
+  So, there it is: I maintain my emacs configuration side-by-side with
+  its documentation in .org files, and then I extract these .org files
+  out into .el files and this is what Emacs actually uses at start up
+  time.
+
+** Installation Specifics
+
+  As someone who is still learning Emacs, I am often overwhelmed by
+  the complexity of it all.
+
+  Here's how I got up and running with Emacs on MacOS with brew:
+
+#+begin_src shell-script
+  brew install emacs --cocoa
+#+end_src
+
+  This took a bit of time to complete, and when it was done I was
+  prompted to run this command that made it appear in my Applications
+  selector-thingy.
+
+#+begin_src shell-script
+  ln -s /usr/local/Cellar/emacs/24.3/Emacs.app /Applications
+#+end_src
+
+  Once I was running emacs, I switched to the *scratch* buffer and
+  copy-and-pasted the following elisp in:
+
+#+begin_src emacs-lisp
+  (package-initialize)
+
+  (add-to-list 'package-archives
+    '("melpa" . "http://melpa.milkbox.net/packages/") t)
+
+  (package-list-packages)
+#+end_src
+
+  Once this is in your *scratch* buffer (or any other buffer.. emacs
+  doesn't care) you can move your cursor past the closing parens in
+  each of these statements and press C-x C-e.
+
+  Doing this will cause Emacs to "look backwards" to the last set of
+  parens and execute the code there.
+
+  These specific lines initialize the package management system,
+  temporarily add well-known repository to that system, and then
+  start the package manager within Emacs.
+
+  I installed ESK by searching down to find 'starter-kit,' pressing
+  'i' to mark it for installation, and then pressing 'x' to execute
+  on my installation instructions.
