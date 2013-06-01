@@ -32,6 +32,43 @@
   (define-key global-map (kbd "C--") 'text-scale-decrease)
 #+end_src
 
+** Goto Line
+
+  The following makes it so that when I press C-x g I can expect to be
+  prompted to enter a line number to jump to it:
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x g") 'goto-line)
+#+end_src
+
+  And the elisp below makes it so that whatever goto-line was bound to
+  is now bound to a new function: goto-line-with-feedback.
+
+  In turn, goto-line-with-feedback modifies the buffer you're working
+  in to show line numbers but only when you are actively looking to
+  pick a number.
+
+  The point of showing line numbers is to give you an idea of where
+  you'll end up.
+
+  The point of *only* showing them while going to a line is to keep
+  the screen free of distractions (line numbers) unless it is helpful.
+
+  This comes from [[http://whattheemacsd.com/key-bindings.el-01.html][this post]] within "what the emacs.d."
+
+#+begin_src emacs-lisp
+  (global-set-key [remap goto-line] 'goto-line-with-feedback)
+
+  (defun goto-line-with-feedback ()
+    "Show line numbers temporarily, while prompting for the line number input"
+    (interactive)
+    (unwind-protect
+        (progn
+          (linum-mode 1)
+          (goto-line (read-number "Goto line: ")))
+      (linum-mode -1)))
+#+end_src
+
 ** Magit
 
   Magit is everyone's favorite piece of software.
@@ -82,12 +119,9 @@
         (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
 
 
-  ;; Magnars
-  ;; How I jump to a line
-  (global-set-key (kbd "C-x g") 'goto-line)
+
 
   ;; Technomancy:
   ;; Use regex searches by default.
   (global-set-key (kbd "C-s") 'isearch-forward-regexp)
   (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
-
