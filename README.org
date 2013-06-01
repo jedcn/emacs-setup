@@ -43,6 +43,8 @@
 
 ** Installation Specifics
 
+*** Details Concerning Initial Emacs Setup
+
   As someone who is still learning Emacs, I am often overwhelmed by
   the complexity of it all.
 
@@ -86,3 +88,36 @@
   I installed ESK by searching down to find 'starter-kit,' pressing
   'i' to mark it for installation, and then pressing 'x' to execute
   on my installation instructions.
+
+*** Details Concerning .el generation from .org files
+
+  The following elisp defines which .org files are in my
+  configuration:
+
+#+begin_src emacs-lisp
+  (setq jedcn-config-files '("key-bindings.org"
+                             "personal-information.org"))
+#+end_src
+
+  And this function enables you to create .el from .org files:
+
+#+begin_src emacs-lisp
+  (defun extract-and-load-elisp-from-org (org-file-list)
+    "Create and load .el files from .org files named in ORG-FILE-LIST"
+    (while org-file-list
+      (setq org-file (car org-file-list))
+      (org-babel-load-file org-file)
+      (setq org-file-list (cdr org-file-list))
+      ))
+#+end_src
+
+  And, finally, here's an invocation of this function and converts all
+  of my .org files (and loads them..)
+
+#+begin_src emacs-lisp
+  (extract-and-load-elisp-from-org jedcn-config-files)
+#+end_src
+
+  Once they've been generated, the .el files will exist and the ESK
+  will seek them out and load them as part of its normal start up
+  process (presuming they are located at ~/.emacs.d/$USER).
