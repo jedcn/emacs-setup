@@ -95,7 +95,8 @@
   configuration:
 
 #+begin_src emacs-lisp
-  (setq jedcn-config-files '("personal-information.org"
+  (setq jedcn-config-files '("general.org"
+                             "personal-information.org"
                              "key-bindings.org"
                              "behaviors.org"))
 #+end_src

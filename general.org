@@ -1,0 +1,18 @@
+* General
+
+** Start Server
+
+  As the documentation states:
+
+    Allow this Emacs process to be a server for client processes.
+
+  In particular, this allows me to setup my git configuration like so:
+
+     git config --global core.editor /usr/local/bin/emacsclient
+
+  And then, if any git command issued through the terminal needs an
+  editor, my single running instance of Emacs can provide the edits.
+
+#+begin_src emacs-lisp
+  (server-start)
+#+end_src
