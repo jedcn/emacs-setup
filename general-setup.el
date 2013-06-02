@@ -1,4 +1,6 @@
 
+(set-face-attribute 'default nil :font "Menlo-18")
+
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)

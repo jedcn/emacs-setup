@@ -1,5 +1,14 @@
 * General
 
+** Standard Font
+
+  I like a bigger font (say, 18) and I vary between "Monaco-18" or
+  "Menlo-18".
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :font "Menlo-18")
+#+end_src
+
 ** UTF-8
 
   I picked this up from Magnars in his [[https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el][sane-defaults.el]].
