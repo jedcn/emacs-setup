@@ -98,7 +98,8 @@
   (setq jedcn-config-files '("general-setup.org"
                              "personal-information.org"
                              "key-bindings.org"
-                             "behaviors.org"))
+                             "behaviors.org"
+                             "modes.org"))
 #+end_src
 
   And this function enables you to create .el from .org files:

@@ -1,0 +1,55 @@
+* Modes
+
+  Modes bring significant functionality into Emacs.
+
+  These are the modes that I use.
+
+  I've also added associated configuration.
+
+** Package Intallation
+
+  I get packages by typing M-x package-list-packages, then browsing
+  through what I see there, and then pressing an 'i' with my cursor on
+  the name and finally pressing an 'x' to make it so.
+
+  However, while I was reading through Sacha Chua's emacs
+  configuration, I came across this function that I've started using
+  and that's used below.
+
+#+begin_src emacs-lisp
+  (defun sacha/package-install (package &optional repository)
+    "Install PACKAGE if it has not yet been installed.
+  If REPOSITORY is specified, use that."
+    (unless (package-installed-p package)
+      (let ((package-archives (if repository
+                                  (list (assoc repository package-archives))
+                                package-archives)))
+      (package-install package))))
+#+end_src
+
+  I copied her stuff in directly above and use it below.
+
+  Here's a link to her blog post where I found her configuration:
+  [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]].
+
+  Here's a link to my package configuration in [[file:general-setup.org][general.org]].
+
+** Package Listing
+
+*** markdown-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'markdown-mode)
+#+end_src
+
+*** puppet-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'puppet-mode)
+#+end_src
+
+*** haml-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'haml-mode)
+#+end_src
