@@ -1,5 +1,24 @@
 * General
 
+** Package Repository
+
+  My understanding of package repositories is pretty limited.
+
+  I think, by default, that Emacs 24+ comes configured with a single
+  repository: elpa.gnu.org, and that this doesn't have as many
+  packages as you'd like.
+
+  That said, I've used both http://marmalade-repo.org/ and
+  http://melpa.milkbox.net/, and for now I'll pick the latter because
+  I saw Sacha Chua using it.
+
+#+begin_src emacs-lisp
+  (package-initialize)
+
+  (add-to-list 'package-archives
+    '("melpa" . "http://melpa.milkbox.net/packages/") t)
+#+end_src
+
 ** Standard Font
 
   I like a bigger font (say, 18) and I vary between "Monaco-18" or
