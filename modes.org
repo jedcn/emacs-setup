@@ -38,14 +38,38 @@
 
 *** markdown-mode
 
+  I write in Markdown all the time, and sometimes I use the
+  "compilation" facility of this mode.
+
+  If you do start using the compilation aspect, you'll need a command
+  line "markdown" to execute.
+
+  I got markdown with a brew install markdown.
+
+  My notes indicate that:
+
+    You can change the markdown executable, or read more about the
+    mode, here: http://jblevins.org/projects/markdown-mode/
+
+    Also, Highlights:
+
+    + C-c C-c p: Run markdown on buffer contents. Open result in
+      browser.
+
+  I don't compilation working right now. Something's up with my shell
+  and emacs. All I see is something like '/bin/bash: markdown: command
+  not found'
+
 #+begin_src emacs-lisp
   (sacha/package-install 'markdown-mode)
+  (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 #+end_src
 
 *** puppet-mode
 
 #+begin_src emacs-lisp
   (sacha/package-install 'puppet-mode)
+  (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 #+end_src
 
 *** haml-mode
