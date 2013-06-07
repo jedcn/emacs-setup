@@ -15,3 +15,5 @@ If REPOSITORY is specified, use that."
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
 (sacha/package-install 'haml-mode)
+
+(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
