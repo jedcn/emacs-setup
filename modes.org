@@ -77,6 +77,12 @@
 #+begin_src emacs-lisp
   (sacha/package-install 'haml-mode)
 #+end_src
+*** yaml-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+#+end_src
 *** ruby-mode
 
 #+begin_src emacs-lisp
