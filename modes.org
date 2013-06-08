@@ -237,6 +237,26 @@
 
   (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
 #+end_src
+** yasnippet
+
+  I don't understand or use snippets as much as I should.
+
+  My favorite to use is 'dbg,' which I found in Jim Weirich's emacs
+  setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'yasnippet)
+  (require 'yasnippet)
+  (setq yas-snippet-dirs (concat esk-user-dir "/snippets"))
+#+end_src
+
+  I see the following in the official documentation, and my snippets
+  don't pop in ruby-mode without it:
+
+#+begin_src emacs-lisp
+  (yas-global-mode 1)
+#+end_src
+
 ** Packages I used once, and may use again
 
   + yasnippet

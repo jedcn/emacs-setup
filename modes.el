@@ -74,3 +74,9 @@ If REPOSITORY is specified, use that."
   (magit-refresh))
 
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+
+(sacha/package-install 'yasnippet)
+(require 'yasnippet)
+(setq yas-snippet-dirs (concat esk-user-dir "/snippets"))
+
+(yas-global-mode 1)
