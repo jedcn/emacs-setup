@@ -138,3 +138,24 @@
 
   (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
 #+end_src
+*** starter-kit-lisp
+
+  I don't do lisp often, but I find starter-kit-lisp helps me out.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'starter-kit-lisp)
+#+end_src
+
+** Packages I used once, and may use again
+
+  + yasnippet
+  + rvm
+  + rspec-mode
+  + dired-details
+  + dired-details+
+  + feature-mode
+  + puppet-mode
+  + web
+  + dash
+  + s
+  + projectile

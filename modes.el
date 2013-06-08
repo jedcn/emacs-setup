@@ -53,3 +53,5 @@ If REPOSITORY is specified, use that."
   (magit-refresh))
 
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+
+(sacha/package-install 'starter-kit-lisp)
