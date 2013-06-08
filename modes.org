@@ -90,3 +90,51 @@
   (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
   (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
 #+end_src
+*** magit
+
+  I get Magit through emacs-starter-kit, but I use the following
+  configuration and setup.
+
+  This comes from two blog posts: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].
+
+  As you can read in the blog posts, the main points of this lisp are:
+
+  + Give Magit full screen when you start it.
+
+  + Setup Magit so that pressing "q" gets rid of full screen.
+
+  + Setup Magit so that pressing "W" toggles paying attention to
+    whitespace.
+
+#+begin_src emacs-lisp
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+
+  (defun magit-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer"
+    (interactive)
+    (kill-buffer)
+    (jump-to-register :magit-fullscreen))
+
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+
+  (defun magit-toggle-whitespace ()
+    (interactive)
+    (if (member "-w" magit-diff-options)
+        (magit-dont-ignore-whitespace)
+      (magit-ignore-whitespace)))
+
+  (defun magit-ignore-whitespace ()
+    (interactive)
+    (add-to-list 'magit-diff-options "-w")
+    (magit-refresh))
+
+  (defun magit-dont-ignore-whitespace ()
+    (interactive)
+    (setq magit-diff-options (remove "-w" magit-diff-options))
+    (magit-refresh))
+
+  (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+#+end_src
