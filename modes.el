@@ -57,3 +57,20 @@ If REPOSITORY is specified, use that."
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
 
 (sacha/package-install 'starter-kit-lisp)
+
+(sacha/package-install 'rvm)
+
+(rvm-use-default)
+
+(add-hook 'ruby-mode-hook
+          (lambda () (rvm-activate-corresponding-ruby)))
+
+(sacha/package-install 'feature-mode)
+
+(sacha/package-install 'rspec-mode)
+
+(defadvice rspec-compile (around rspec-compile-around)
+  "Use BASH shell for running the specs because of ZSH issues."
+  (let ((shell-file-name "/bin/bash"))
+    ad-do-it))
+(ad-activate 'rspec-compile)

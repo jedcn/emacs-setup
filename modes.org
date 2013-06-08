@@ -34,7 +34,9 @@
 
   Here's a link to my package configuration in [[file:general-setup.org][general.org]].
 
-** Package Listing
+** General Package Listing
+
+  These are packages that I mainly use for syntax highlighting.
 
 *** markdown-mode
 
@@ -142,21 +144,101 @@
 #+end_src
 *** starter-kit-lisp
 
-  I don't do lisp often, but I find starter-kit-lisp helps me out.
+  I don't do lisp often, but I find starter-kit-lisp helps me out
+  when I do.
 
 #+begin_src emacs-lisp
   (sacha/package-install 'starter-kit-lisp)
 #+end_src
 
+** Ruby Packages
+
+  I really enjoy writing ruby.
+
+  At a high level, my MacOS has RVM installed from http://rvm.io.
+
+  Then, my emacs uses a package named rvm that understands how
+  http://rvm.io works, and can direct emacs to use any of the various
+  rubies that rvm provides.
+
+  I explicitly use the default ruby from RVM, but Emacs also updates
+  the ruby I'm using each time I start editing a file in ruby-mode. I
+  think this works by looking at the location of the file I'm editing,
+  looking "up" to find the associated .rvmrc or .ruby-version, and
+  then activating it.
+
+  With all of that said, my main flow is to run rspec and cucumber
+  from within emacs. This capability is provided by feature-mode and
+  rspec-mode.
+
+  The main key bindings I use are:
+
+    + C-c , v
+
+      Run rspec or cucumber against the file I'm editing
+
+    + C-c , s
+
+      Run rspec or cucumber against the single line of the spec or
+      feature I'm editing.
+
+*** rvm
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'rvm)
+#+end_src
+
+  For emacs, on a MacOS, I believe the following configures my setup
+  so that I'll use the default ruby provided by RVM when I need ruby.
+
+#+begin_src emacs-lisp
+  (rvm-use-default)
+#+end_src
+
+  I was reading a [[http://devblog.avdi.org/2011/10/11/rvm-el-and-inf-ruby-emacs-reboot-14/][blog post by Avdi Grimm about how he was using RVM]]
+  the other day, and that's where I picked up the following helpful
+  snippet that works with the emacs rvm subsystem to activate the
+  correct version of ruby each time you open a ruby-based file:
+
+#+begin_src emacs-lisp
+  (add-hook 'ruby-mode-hook
+            (lambda () (rvm-activate-corresponding-ruby)))
+#+end_src
+*** feature-mode
+
+  I don't often write Gherkin at work, but I do try to use Cucumber
+  whenever I get the chance on side projects. So far I've been using
+  this mode mainly for syntax highlighting.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'feature-mode)
+#+end_src
+
+*** rspec-mode
+
+  I *love* rspec.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'rspec-mode)
+#+end_src
+
+  I also have been using ZSH, and when I was getting rspec-mode up and
+  running a few months ago, I'm pretty sure I found the following
+  advice somewhere (I know I didn't come up with this myself..)
+
+#+begin_src emacs-lisp
+  (defadvice rspec-compile (around rspec-compile-around)
+    "Use BASH shell for running the specs because of ZSH issues."
+    (let ((shell-file-name "/bin/bash"))
+      ad-do-it))
+  (ad-activate 'rspec-compile)
+#+end_src
+
 ** Packages I used once, and may use again
 
   + yasnippet
-  + rvm
-  + rspec-mode
   + dired-details
   + dired-details+
-  + feature-mode
-  + puppet-mode
   + web
   + dash
   + s
