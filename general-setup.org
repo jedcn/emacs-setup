@@ -1,0 +1,58 @@
+* General
+
+** Package Repository
+
+  My understanding of package repositories is pretty limited.
+
+  I think, by default, that Emacs 24+ comes configured with a single
+  repository: elpa.gnu.org, and that this doesn't have as many
+  packages as you'd like.
+
+  That said, I've used both http://marmalade-repo.org/ and
+  http://melpa.milkbox.net/, and for now I'll pick the latter because
+  I saw Sacha Chua using it.
+
+#+begin_src emacs-lisp
+  (package-initialize)
+
+  (add-to-list 'package-archives
+    '("melpa" . "http://melpa.milkbox.net/packages/") t)
+#+end_src
+
+** Standard Font
+
+  I like a bigger font (say, 18) and I vary between "Monaco-18" or
+  "Menlo-18".
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :font "Menlo-18")
+#+end_src
+
+** UTF-8
+
+  I picked this up from Magnars in his [[https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el][sane-defaults.el]].
+
+#+begin_src emacs-lisp
+  (setq locale-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-selection-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8)
+#+end_src
+
+** Start Server
+
+  As the documentation states:
+
+    Allow this Emacs process to be a server for client processes.
+
+  In particular, this allows me to setup my git configuration like so:
+
+     git config --global core.editor /usr/local/bin/emacsclient
+
+  And then, if any git command issued through the terminal needs an
+  editor, my single running instance of Emacs can provide the edits.
+
+#+begin_src emacs-lisp
+  (server-start)
+#+end_src

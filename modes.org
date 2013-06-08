@@ -1,0 +1,161 @@
+* Modes
+
+  Modes bring significant functionality into Emacs.
+
+  These are the modes that I use.
+
+  I've also added associated configuration.
+
+** Package Intallation
+
+  I get packages by typing M-x package-list-packages, then browsing
+  through what I see there, and then pressing an 'i' with my cursor on
+  the name and finally pressing an 'x' to make it so.
+
+  However, while I was reading through Sacha Chua's emacs
+  configuration, I came across this function that I've started using
+  and that's used below.
+
+#+begin_src emacs-lisp
+  (defun sacha/package-install (package &optional repository)
+    "Install PACKAGE if it has not yet been installed.
+  If REPOSITORY is specified, use that."
+    (unless (package-installed-p package)
+      (let ((package-archives (if repository
+                                  (list (assoc repository package-archives))
+                                package-archives)))
+      (package-install package))))
+#+end_src
+
+  I copied her stuff in directly above and use it below.
+
+  Here's a link to her blog post where I found her configuration:
+  [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]].
+
+  Here's a link to my package configuration in [[file:general-setup.org][general.org]].
+
+** Package Listing
+
+*** markdown-mode
+
+  I write in Markdown all the time, and sometimes I use the
+  "compilation" facility of this mode.
+
+  If you do start using the compilation aspect, you'll need a command
+  line "markdown" to execute.
+
+  I got markdown with a brew install markdown.
+
+  My notes indicate that:
+
+    You can change the markdown executable, or read more about the
+    mode, here: http://jblevins.org/projects/markdown-mode/
+
+    Also, Highlights:
+
+    + C-c C-c p: Run markdown on buffer contents. Open result in
+      browser.
+
+  I don't compilation working right now. Something's up with my shell
+  and emacs. All I see is something like '/bin/bash: markdown: command
+  not found'
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'markdown-mode)
+  (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+#+end_src
+
+*** puppet-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'puppet-mode)
+  (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+#+end_src
+
+*** haml-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'haml-mode)
+#+end_src
+*** yaml-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+#+end_src
+*** ruby-mode
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+#+end_src
+*** magit
+
+  I get Magit through emacs-starter-kit, but I use the following
+  configuration and setup.
+
+  This comes from two blog posts: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].
+
+  As you can read in the blog posts, the main points of this lisp are:
+
+  + Give Magit full screen when you start it.
+
+  + Setup Magit so that pressing "q" gets rid of full screen.
+
+  + Setup Magit so that pressing "W" toggles paying attention to
+    whitespace.
+
+#+begin_src emacs-lisp
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+
+  (defun magit-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer"
+    (interactive)
+    (kill-buffer)
+    (jump-to-register :magit-fullscreen))
+
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+
+  (defun magit-toggle-whitespace ()
+    (interactive)
+    (if (member "-w" magit-diff-options)
+        (magit-dont-ignore-whitespace)
+      (magit-ignore-whitespace)))
+
+  (defun magit-ignore-whitespace ()
+    (interactive)
+    (add-to-list 'magit-diff-options "-w")
+    (magit-refresh))
+
+  (defun magit-dont-ignore-whitespace ()
+    (interactive)
+    (setq magit-diff-options (remove "-w" magit-diff-options))
+    (magit-refresh))
+
+  (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+#+end_src
+*** starter-kit-lisp
+
+  I don't do lisp often, but I find starter-kit-lisp helps me out.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'starter-kit-lisp)
+#+end_src
+
+** Packages I used once, and may use again
+
+  + yasnippet
+  + rvm
+  + rspec-mode
+  + dired-details
+  + dired-details+
+  + feature-mode
+  + puppet-mode
+  + web
+  + dash
+  + s
+  + projectile
