@@ -20,6 +20,3 @@
   (setq frame-title-format '(buffer-file-name "%f" ("%b")))
   ;; Make the cursor blink when inactive
   (blink-cursor-mode 1))
-
-;; Mac friendly font
-(set-face-attribute 'default nil :font "Monaco-16")
