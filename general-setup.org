@@ -1,5 +1,4 @@
 * General
-
 ** Package Repository
 
   My understanding of package repositories is pretty limited.
@@ -55,4 +54,17 @@
 
 #+begin_src emacs-lisp
   (server-start)
+#+end_src
+** Auto Revert
+
+  I use git, and often I'll do a "git checkout" from the command
+  line. When this happens, I want Emacs to automatically change any
+  open buffers to match what's changed on disk.
+
+  This is from Magnars setup: [[https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el][sane-defaults.el]].
+
+#+begin_src emacs-lisp
+  (global-auto-revert-mode 1)
+  (setq global-auto-revert-non-file-buffers t)
+  (setq auto-revert-verbose nil)
 #+end_src
