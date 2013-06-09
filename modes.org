@@ -271,6 +271,30 @@
   (setq org-src-fontify-natively t)
 #+end_src
 
+**** Editing Code Blocks
+
+  With your cursor over one of these code blocks you can type C-c '
+  and a new buffer will open for editing just that content.
+
+**** Executing Code Blocks
+
+  With your cursor over one of these code blocks you can type C-c C-c
+  and, if the code block is one of the languages that has been
+  configured to be run, the block will be executed and the results
+  printed nearby.
+
+  By default, only emacs-lisp is configured to be executed.
+  The following block makes it so that ruby is too.
+
+  Here's the documentation for this: [[http://orgmode.org/worg/org-contrib/babel/languages.html][babel/languages]].
+
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (ruby . t)))
+#+end_src
+
 ** Packages I used once, and may use again
 
   + dired-details
