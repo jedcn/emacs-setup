@@ -81,6 +81,10 @@ If REPOSITORY is specified, use that."
 
 (yas-global-mode 1)
 
+(setq org-startup-folded 'content)
+
+(setq org-hide-leading-stars 'hidestars)
+
 (setq org-src-fontify-natively t)
 
 (org-babel-do-load-languages

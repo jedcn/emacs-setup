@@ -261,6 +261,21 @@
 
   OrgMode is a large thing.
 
+*** Defaults
+
+  When I open a .org file, I like to see all of the headlines but
+  none of the text:
+
+#+begin_src emacs-lisp
+  (setq org-startup-folded 'content)
+#+end_src
+
+  Hiding the stars looks cleaner to me:
+
+#+begin_src emacs-lisp
+  (setq org-hide-leading-stars 'hidestars)
+#+end_src
+
 *** Code Blocks
 
   These emacs configuration files (.org, .el) use org's "code blocks"
