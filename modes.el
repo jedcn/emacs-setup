@@ -80,3 +80,5 @@ If REPOSITORY is specified, use that."
 (setq yas-snippet-dirs (concat esk-user-dir "/snippets"))
 
 (yas-global-mode 1)
+
+(setq org-src-fontify-natively t)

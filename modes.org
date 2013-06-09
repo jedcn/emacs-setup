@@ -257,9 +257,22 @@
   (yas-global-mode 1)
 #+end_src
 
+** org-mode
+
+  OrgMode is a large thing.
+
+*** Code Blocks
+
+  These emacs configuration files (.org, .el) use org's "code blocks"
+  extensively, and the following has Emacs pay attention to the type
+  of code within the blocks.
+
+#+begin_src emacs-lisp
+  (setq org-src-fontify-natively t)
+#+end_src
+
 ** Packages I used once, and may use again
 
-  + yasnippet
   + dired-details
   + dired-details+
   + web
