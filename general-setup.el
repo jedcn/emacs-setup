@@ -13,3 +13,7 @@
 (prefer-coding-system 'utf-8)
 
 (server-start)
+
+(require 'saveplace)
+(setq-default save-place t)
+(setq save-place-file (expand-file-name ".places" user-emacs-directory))
