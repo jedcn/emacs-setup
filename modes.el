@@ -21,6 +21,8 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'starter-kit-lisp)
 
+(sacha/package-install 'coffee-mode)
+
 (sacha/package-install 'rvm)
 
 (rvm-use-default)

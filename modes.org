@@ -94,6 +94,12 @@
   (sacha/package-install 'starter-kit-lisp)
 #+end_src
 
+*** coffee-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'coffee-mode)
+#+end_src
+
 ** Ruby Packages
 
   I really enjoy writing ruby.
