@@ -18,15 +18,6 @@
     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 #+end_src
 
-** Standard Font
-
-  I like a bigger font (say, 18) and I vary between "Monaco-18" or
-  "Menlo-18".
-
-#+begin_src emacs-lisp
-  (set-face-attribute 'default nil :font "Menlo-18")
-#+end_src
-
 ** UTF-8
 
   I picked this up from Magnars in his [[https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el][sane-defaults.el]].
@@ -64,4 +55,27 @@
   (require 'saveplace)
   (setq-default save-place t)
   (setq save-place-file (expand-file-name ".places" user-emacs-directory))
+#+end_src
+** Appearance
+
+   I haven't yet tried to customize colors. I mainly swap out a font
+   and tweak a few things.
+
+*** Font
+
+    I like a bigger font (say, 18) and I vary between "Monaco-18" or
+    "Menlo-18".
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :font "Menlo-18")
+#+end_src
+
+*** Colors
+
+    I was reading through David Rothlis' [[http://david.rothlis.net/emacs/howtolearn.html][How to Learn Emacs]], which is
+    great, and I found this one tweak to comment color that I really
+    enjoy.
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'font-lock-comment-face nil :foreground "#3f7f5f")
 #+end_src
