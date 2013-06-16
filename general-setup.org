@@ -79,3 +79,17 @@
 #+begin_src emacs-lisp
   (set-face-attribute 'font-lock-comment-face nil :foreground "#3f7f5f")
 #+end_src
+** See Occurrences while Searching
+
+   If you are searching for something, and you press C-o, you can see
+   all of the occurrences of that something within the file.
+
+   Once that *Occur* window comes up, you can press 'e' to start
+   editing. You can press C-c C-c to get out of it.
+
+#+begin_src emacs-lisp
+  (define-key isearch-mode-map (kbd "C-o")
+    (lambda () (interactive)
+      (let ((case-fold-search isearch-case-fold-search))
+        (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
+#+end_src
