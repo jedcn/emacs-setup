@@ -200,6 +200,15 @@
   (add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
 #+end_src
 
+*** ruby-electric
+
+    This minor mode automatically inserts a right brace when you
+    enter a left brace, or an "end" when you define a def.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'ruby-electric)
+#+end_src
+
 ** Magit
 
   I *love* magit.

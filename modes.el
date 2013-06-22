@@ -50,6 +50,8 @@ If REPOSITORY is specified, use that."
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
 
+(sacha/package-install 'ruby-electric)
+
 (require 'magit)
 
 (defadvice magit-status (around magit-fullscreen activate)
