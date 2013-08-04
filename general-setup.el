@@ -4,6 +4,15 @@
 (add-to-list 'package-archives
   '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
+(setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin")
+
+(defun jedcn-sync-env-path-and-exec-path (desired-path)
+  "Sets exec-path and env 'PATH' based on DESIRED-PATH"
+  (setenv "PATH" desired-path)
+  (setq exec-path (split-string desired-path ":")))
+
+(jedcn-sync-env-path-and-exec-path jedcn-env-path)
+
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)

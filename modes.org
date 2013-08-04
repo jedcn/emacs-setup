@@ -46,7 +46,7 @@
   If you do start using the compilation aspect, you'll need a command
   line "markdown" to execute.
 
-  I got markdown with a brew install markdown.
+  I got markdown with a `brew install markdown`.
 
   My notes indicate that:
 
@@ -58,12 +58,12 @@
     + C-c C-c p: Run markdown on buffer contents. Open result in
       browser.
 
-  I don't compilation working right now. Something's up with my shell
-  and emacs. All I see is something like '/bin/bash: markdown: command
-  not found'
+  I started using markdown-mode+ recently, and I did so after doing a
+  bunch of work to get pandoc installed and working with Emacs.
 
 #+begin_src emacs-lisp
   (sacha/package-install 'markdown-mode)
+  (sacha/package-install 'markdown-mode+)
   (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 #+end_src
 
@@ -342,3 +342,8 @@
   + dash
   + s
   + projectile
+** Themes
+
+I have been goofing around with the following themes:
+
+cyberpunk-theme, tangotango-theme

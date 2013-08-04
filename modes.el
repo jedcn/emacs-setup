@@ -9,6 +9,7 @@ If REPOSITORY is specified, use that."
     (package-install package))))
 
 (sacha/package-install 'markdown-mode)
+(sacha/package-install 'markdown-mode+)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 
 (sacha/package-install 'puppet-mode)
