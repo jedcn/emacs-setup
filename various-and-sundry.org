@@ -1,0 +1,71 @@
+* Various and Sundry
+
+** Jim Weirich's eval-buffer
+
+   I saw Jim Weirich give a great talk at one of the keynotes of Ruby
+   Conf 2012. The way he used buffer evaluation was just awesome!
+
+   His setup (which I think is described below) allows him to
+   consistently show you one piece of code and then pair that code up
+   with the output that comes from executing it.
+
+   Unlike using an inferior-ruby process, the resulting code output has
+   very little noise.
+
+   You can find the [[https://github.com/jimweirich/emacs-setup-esk/blob/master/eval-buffer.el][original code that he wrote right here]].
+
+   The only thing I've changed is the variable
+   "jw-eval-buffer-commands" and instead I've created
+   "jedcn-eval-bufer-commands" just because I don't have xruby.
+
+#+begin_src emacs-lisp
+  (defconst jedcn-eval-buffer-commands
+    '(("js" . "/usr/local/bin/node")
+      ("rb" . "ruby")
+      ("coffee" . "/usr/local/bin/coffee")
+      ("clj" . "/Users/jim/local/bin/clojure")
+      ("py" . "/usr/bin/python")))
+#+end_src
+
+#+begin_src emacs-lisp
+  (defconst jw-eval-buffer-name "*EVALBUFFER*")
+
+  (defun jw-eval-buffer ()
+    "Evaluate the current buffer and display the result in a buffer."
+    (interactive)
+    (save-buffer)
+    (let* ((file-name (buffer-file-name (current-buffer)))
+           (file-extension (file-name-extension file-name))
+           (buffer-eval-command-pair (assoc file-extension jedcn-eval-buffer-commands)))
+      (if buffer-eval-command-pair
+          (let ((command (concat (cdr buffer-eval-command-pair) " " file-name)))
+            (shell-command-on-region (point-min) (point-max) command jw-eval-buffer-name nil)
+            (pop-to-buffer jw-eval-buffer-name)
+            (other-window 1)
+            (jw-eval-buffer-pretty-up-errors jw-eval-buffer-name)
+            (message ".."))
+        (message "Unknown buffer type"))))
+
+  (defun jw-eval-buffer-pretty-up-errors (buffer)
+    "Fix up the buffer to highlight the error message (if it contains one)."
+    (save-excursion
+      (set-buffer buffer)
+      (goto-char (point-min))
+      (let ((pos (search-forward-regexp "\\.rb:[0-9]+:\\(in.+:\\)? +" (point-max) t)))
+        (if pos (progn
+                  (goto-char pos)
+                  (insert-string "\n\n")
+                  (end-of-line)
+                  (insert-string "\n"))))))
+
+  (defun jw-clear-eval-buffer ()
+    (interactive)
+    (save-excursion
+      (set-buffer jw-eval-buffer-name)
+      (kill-region (point-min) (point-max))))
+
+  (defun jw-eval-or-clear-buffer (n)
+    (interactive "P")
+    (cond ((null n) (jw-eval-buffer))
+          (t (jw-clear-eval-buffer))))
+#+end_src

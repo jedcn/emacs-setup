@@ -34,8 +34,6 @@
 
   In turn, the .el files in this project are derived from the .org files.
 
-*** In Closing..
-
   So, there it is: I maintain my emacs configuration side-by-side with
   its documentation in .org files, and then I extract these .org files
   out into .el files and this is what Emacs actually uses at start up
@@ -99,7 +97,8 @@
                              "personal-information.org"
                              "key-bindings.org"
                              "behaviors.org"
-                             "modes.org"))
+                             "modes.org"
+                             "various-and-sundry.org"))
 #+end_src
 
   And this function enables you to create .el from .org files:
