@@ -1,4 +1,7 @@
 * Key Bindings
+  :PROPERTIES:
+  :tangle:   init.el
+  :END:
 
   I think my main inspiration for keybindings have come from [[https://github.com/technomancy/emacs-starter-kit/blob/v2/modules/starter-kit-bindings.el][ESK]] and
   from [[https://github.com/magnars/.emacs.d/blob/master/key-bindings.el][Magnars]].

@@ -1,4 +1,7 @@
 * Personal Information
+  :PROPERTIES:
+  :tangle:   init.el
+  :END:
 
   I am not sure what these are used for, but I'm supplying values here
   that are more accurate than the defaults, and I've seen famous Emacs
