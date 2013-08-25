@@ -15,27 +15,12 @@
   through what I see there, and then pressing an 'i' with my cursor on
   the name and finally pressing an 'x' to make it so.
 
-  However, while I was reading through Sacha Chua's emacs
-  configuration, I came across this function that I've started using
-  and that's used below.
-
-#+begin_src emacs-lisp
-  (defun sacha/package-install (package &optional repository)
-    "Install PACKAGE if it has not yet been installed.
-  If REPOSITORY is specified, use that."
-    (unless (package-installed-p package)
-      (let ((package-archives (if repository
-                                  (list (assoc repository package-archives))
-                                package-archives)))
-      (package-install package))))
-#+end_src
-
-  I copied her stuff in directly above and use it below.
-
-  Here's a link to her blog post where I found her configuration:
-  [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]].
-
-  Here's a link to my package configuration in [[file:general-setup.org][general.org]].
+  If I like the package, I'll revisit this file and formally add it to
+  the list of packages I use. In this file, my intent is to provide
+  notes about the package, why I'm using it, what I'm doing with it,
+  etc. My intent is also to set it up to be automatically installed in
+  the future if I need it to be. This automatic installation happens
+  with sacha/package-install, which was defined previously.
 
 ** General Package Listing
 
