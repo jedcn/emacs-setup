@@ -35,7 +35,7 @@
    variable:
 
 #+begin_src emacs-lisp
-  (setq jedcn-es/single-org "/tmp/init.org")
+  (setq jedcn-es/single-org (concat esk-user-dir "/init.org"))
 #+end_src
 
    Here's a poorly written function that knows how to visit a list of
@@ -80,7 +80,7 @@
    to extract the elisp into a single file:
 
 #+begin_src emacs-lisp
-  (setq jedcn-es/single-el "/tmp/init.el")
+  (setq jedcn-es/single-el (concat esk-user-dir "/init.el"))
 #+end_src
 
    Babel supports code extraction with a function named

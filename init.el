@@ -274,7 +274,7 @@ If REPOSITORY is specified, use that."
                        "appendix-a.org"
                        "appendix-b.org"))
 
-(setq jedcn-es/single-org "/tmp/init.org")
+(setq jedcn-es/single-org (concat esk-user-dir "/init.org"))
 
 (defun jedcn-es/concat-files (the-files target-file)
   "Concatenate a list of THE-FILES into a single TARGET-FILE"
@@ -299,7 +299,7 @@ If REPOSITORY is specified, use that."
   "Create a single org file based on my list of config files"
   (jedcn-es/concat-files jedcn-es/files jedcn-es/single-org))
 
-(setq jedcn-es/single-el "/tmp/init.el")
+(setq jedcn-es/single-el (concat esk-user-dir "/init.el"))
 
 (defun jedcn-es/tangle-single-org ()
   (org-babel-tangle-file jedcn-es/single-org jedcn-es/single-el))
