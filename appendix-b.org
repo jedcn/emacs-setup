@@ -1,0 +1,118 @@
+* Appendix B: Babel and the Config
+
+  My configuration is recorded as several .org files. These are
+  designed for people to read. However, the configuration ends up with
+  a single init.el file. This init.el file is designed for emacs to
+  read.
+
+  How does this work? The .org files are concatenated together in a
+  specific order to create a single .org file. This resulting .org
+  file can be used to generate an init.el. It can also be used to
+  generate a PDF.
+
+** Files
+
+   The list of files to be included is stored in a variable. Order is
+   significant.
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/files '("introduction.org"
+                         "general-setup.org"
+                         "personal-information.org"
+                         "key-bindings.org"
+                         "behaviors.org"
+                         "modes.org"
+                         "various-and-sundry.org"
+                         "appendix-a.org"
+                         "appendix-b.org"))
+#+end_src
+
+** Concatenation
+
+   The location of an intermediate "single" org file is stored in a
+   variable:
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/single-org "/tmp/init.org")
+#+end_src
+
+   Here's a poorly written function that knows how to visit a list of
+   files and concatenate them to form a larger one:
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/concat-files (the-files target-file)
+    "Concatenate a list of THE-FILES into a single TARGET-FILE"
+    (let* ((original-buffer (current-buffer))
+           (result-file target-file)
+           (files the-files)
+           (file (car files)))
+      ;; do..
+      (find-file file)
+      (write-region (point-min) (point-max) result-file)
+      (setq files (cdr files))
+      (setq file (car files))
+      ;; while
+      (while files
+        (find-file file)
+        (write-region (point-min) (point-max) result-file t)
+        (setq files (cdr files))
+        (setq file (car files)))
+      (switch-to-buffer original-buffer)))
+#+end_src
+
+   Here's a function that pulls together the three most recent
+   concepts: my list of files, my temporary .org file, and the
+   function that can build take that list of files and build a single
+   large one from them.
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/create-single-org ()
+    "Create a single org file based on my list of config files"
+    (jedcn-es/concat-files jedcn-es/files jedcn-es/single-org))
+#+end_src
+
+** Extracting elisp
+
+   Literate programming uses the verb "tangling" to describe the
+   extraction of pure source code from its annotated source. We'll aim
+   to extract the elisp into a single file:
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/single-el "/tmp/init.el")
+#+end_src
+
+   Babel supports code extraction with a function named
+   org-tangle-file, and we can hook into the process described above
+   as follows:
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/tangle-single-org ()
+    (org-babel-tangle-file jedcn-es/single-org jedcn-es/single-el))
+#+end_src
+
+   Once that's done, we've got the tangled result living at
+   jedcn-es/single-el, so if we want to try it out, we can load it up:
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/load-single-el ()
+    (load-file jedcn-es/single-el))
+#+end_src
+
+   And that means that I can rebuild the master .org file, extract the
+   emacs lisp, and then load the result as follows:
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/rebuild-and-reload ()
+    "Rebuild the single .org file, extract the elisp, and reload"
+    (interactive)
+    (jedcn-es/create-single-org)
+    (jedcn-es/tangle-single-org)
+    (jedcn-es/load-single-el))
+#+end_src
+
+   This is the only function I make interactive, so I can M-x
+   jedcn-es/rebuild-and-reload and try out the latest changes.
+
+   If I like the latest changes, then it's on me to move
+   jedcn-es/single-el into a place that emacs will find when it's
+   loading things up.
