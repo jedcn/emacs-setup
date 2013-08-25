@@ -1,5 +1,7 @@
 * Appendix B: Babel and the Config
-
+  :PROPERTIES:
+  :tangle:   init.el
+  :END:
   My configuration is recorded as several .org files. These are
   designed for people to read. However, the configuration ends up with
   a single init.el file. This init.el file is designed for emacs to
