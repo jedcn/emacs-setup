@@ -6,7 +6,7 @@
    with using Emacs on MacOS. That said, I get up and running with
    Emacs using the brew based installation with:
 
-#+begin_src shell-script
+#+begin_src shell-script :tangle no
   brew install emacs --cocoa
 #+end_src
 
@@ -14,7 +14,7 @@
    to take one more step in order to make Emacs appear in your
    Applications list:
 
-#+begin_src shell-script
+#+begin_src shell-script :tangle no
   ln -s /usr/local/Cellar/emacs/24.3/Emacs.app /Applications
 #+end_src
 
@@ -27,7 +27,7 @@
    Once I was running emacs, I switched to the *scratch* buffer and
    copy-and-pasted the following elisp in:
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (package-initialize)
 
   (add-to-list 'package-archives
@@ -56,7 +56,7 @@
   The following elisp defines which .org files are in my
   configuration:
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (setq jedcn-config-files '("general-setup.org"
                              "personal-information.org"
                              "key-bindings.org"
@@ -67,7 +67,7 @@
 
   And this function enables you to create .el from .org files:
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (defun extract-and-load-elisp-from-org (org-file-list)
     "Create and load .el files from .org files named in ORG-FILE-LIST"
     (while org-file-list
@@ -80,7 +80,7 @@
   And, finally, here's an invocation of this function and converts all
   of my .org files (and loads them..)
 
-#+begin_src emacs-lisp
+#+begin_src emacs-lisp :tangle no
   (extract-and-load-elisp-from-org jedcn-config-files)
 #+end_src
 
