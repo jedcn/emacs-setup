@@ -1,7 +1,5 @@
 * General
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
+
 ** Package Repository
 
    Extensions for emacs are known as "packages," and emacs has a built

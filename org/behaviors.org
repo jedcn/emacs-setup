@@ -1,7 +1,4 @@
 * Behaviors
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
 
   ...
 

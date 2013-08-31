@@ -77,9 +77,7 @@
    For details on how I install and setup emacs see Appendix A. For
    details on how this extraction process works, Appendix B.
 * General
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
+
 ** Package Repository
 
    Extensions for emacs are known as "packages," and emacs has a built
@@ -244,9 +242,6 @@
         (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
 #+end_src
 * Personal Information
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
 
   I am not sure what these are used for, but I'm supplying values here
   that are more accurate than the defaults, and I've seen famous Emacs
@@ -257,9 +252,6 @@
         user-mail-address "northridge@gmail.com")
 #+end_src
 * Key Bindings
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
 
   I think my main inspiration for keybindings have come from [[https://github.com/technomancy/emacs-starter-kit/blob/v2/modules/starter-kit-bindings.el][ESK]] and
   from [[https://github.com/magnars/.emacs.d/blob/master/key-bindings.el][Magnars]].
@@ -434,9 +426,6 @@
   (global-set-key (kbd "C-s") 'isearch-forward-regexp)
   (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
 * Behaviors
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
 
   ...
 
@@ -476,9 +465,6 @@
   (add-hook 'before-save-hook 'cleanup-buffer-safe)
 #+end_src
 * Modes
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
 
   Modes bring significant functionality into Emacs.
 
@@ -814,9 +800,7 @@ I have been goofing around with the following themes:
 
 cyberpunk-theme, tangotango-theme
 * Various and Sundry
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
+
 ** Jim Weirich's eval-buffer
 
    I saw Jim Weirich give a great talk at one of the keynotes of Ruby
@@ -976,9 +960,7 @@ cyberpunk-theme, tangotango-theme
   will seek them out and load them as part of its normal start up
   process (presuming they are located at ~/.emacs.d/$USER).
 * Appendix B: Babel and the Config
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
+
   My configuration is recorded as several .org files. These are
   designed for people to read. However, the configuration ends up with
   a single init.el file. This init.el file is designed for emacs to
@@ -992,9 +974,14 @@ cyberpunk-theme, tangotango-theme
 ** Files
 
    The list of files to be included is stored in a variable. Order is
-   significant.
+   significant. These are presumed to be within jedcn-es/files-dir.
 
 #+begin_src emacs-lisp
+  (setq jedcn-es/files-dir (concat
+                            user-emacs-directory
+                            user-login-name
+                            "/org"))
+
   (setq jedcn-es/files '("introduction.org"
                          "general-setup.org"
                          "personal-information.org"
@@ -1012,7 +999,10 @@ cyberpunk-theme, tangotango-theme
    variable:
 
 #+begin_src emacs-lisp
-  (setq jedcn-es/single-org (concat esk-user-dir "/init.org"))
+  (setq jedcn-es/single-org (concat
+                             user-emacs-directory
+                             user-login-name
+                             "/init.org"))
 #+end_src
 
    Here's a poorly written function that knows how to visit a list of
@@ -1047,7 +1037,11 @@ cyberpunk-theme, tangotango-theme
 #+begin_src emacs-lisp
   (defun jedcn-es/create-single-org ()
     "Create a single org file based on my list of config files"
-    (jedcn-es/concat-files jedcn-es/files jedcn-es/single-org))
+    (jedcn-es/concat-files
+     (mapcar (lambda (file)
+               (concat jedcn-es/files-dir "/" file))
+             jedcn-es/files)
+     jedcn-es/single-org))
 #+end_src
 
 ** Extracting elisp

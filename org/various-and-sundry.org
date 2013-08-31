@@ -1,7 +1,5 @@
 * Various and Sundry
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
+
 ** Jim Weirich's eval-buffer
 
    I saw Jim Weirich give a great talk at one of the keynotes of Ruby

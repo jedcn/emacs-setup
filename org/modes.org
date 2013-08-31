@@ -1,7 +1,4 @@
 * Modes
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
 
   Modes bring significant functionality into Emacs.
 

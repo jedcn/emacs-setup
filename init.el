@@ -264,6 +264,11 @@ If REPOSITORY is specified, use that."
   (cond ((null n) (jw-eval-buffer))
         (t (jw-clear-eval-buffer))))
 
+(setq jedcn-es/files-dir (concat
+                          user-emacs-directory
+                          user-login-name
+                          "/org"))
+
 (setq jedcn-es/files '("introduction.org"
                        "general-setup.org"
                        "personal-information.org"
@@ -274,7 +279,10 @@ If REPOSITORY is specified, use that."
                        "appendix-a.org"
                        "appendix-b.org"))
 
-(setq jedcn-es/single-org (concat esk-user-dir "/init.org"))
+(setq jedcn-es/single-org (concat
+                           user-emacs-directory
+                           user-login-name
+                           "/init.org"))
 
 (defun jedcn-es/concat-files (the-files target-file)
   "Concatenate a list of THE-FILES into a single TARGET-FILE"
@@ -297,7 +305,11 @@ If REPOSITORY is specified, use that."
 
 (defun jedcn-es/create-single-org ()
   "Create a single org file based on my list of config files"
-  (jedcn-es/concat-files jedcn-es/files jedcn-es/single-org))
+  (jedcn-es/concat-files
+   (mapcar (lambda (file)
+             (concat jedcn-es/files-dir "/" file))
+           jedcn-es/files)
+   jedcn-es/single-org))
 
 (setq jedcn-es/single-el (concat esk-user-dir "/init.el"))
 
