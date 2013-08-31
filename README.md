@@ -2,20 +2,15 @@
 
 This project details my emacs configuration.
 
-The configuration is "[literately programmed][lp]," and this means
-that there is an associated explanation for most parts of it.
+When it comes to emacs, I agree with the following:
 
-You can proceed however you choose:
+    Constructing a solid configuration is ultimately a personal
+    journey for which you must take the first steps.
 
-* By looking through the .org files within. The elisp of the
-  configuration is spread throughout the .org files. It takes longer
-  to read, but you get commentary this way.
-* By looking through the init.el file within. No comments, just elisp.
+                    - technomancy, Emacs Starter Kit, v3
 
-Because it is literately programmed with Org-mode, the same
-configuration that I run every day can be translated and published as
-a PDF. The PDF that's generated from this configuration
-[is available here][emacs-setup-pdf].
+My first steps in this journey begin with a
+[literately programmed][lp] approach.
 
 Warm Regards,
 
@@ -23,5 +18,22 @@ Jed Northridge
 Cambridge, MA  
 August, 24th, 2013  
 
-[lp]: http://en.wikipedia.org/wiki/Literate_programming
+## Inventory
+
+* The configuration is spread across `.org` files.
+
+* The `.org` files can be assembled into a single `.org` file:
+  [emacs-setup.org][emacs-setup.org]
+
+* The single `.org` file can be translated (tangled) into a `.el`
+  file: [emacs-setup.el][emacs-setup.el]
+
+* The single `.org` file can be translated into a `.pdf`:
+  [emacs-setup.pdf][emacs-setup-pdf].
+
 [emacs-setup-pdf]: http://jedcn.org/files/emacs-setup/init.pdf
+[github-esk]: https://github.com/technomancy/emacs-starter-kit
+[github-technomancy]: https://github.com/technomancy
+[emacs-setup.el]: https://github.com/jedcn/emacs-setup/blob/master/emacs-setup.el
+[emacs-setup.org]: https://github.com/jedcn/emacs-setup/blob/master/emacs-setup.org
+[lp]: http://en.wikipedia.org/wiki/Literate_programming
