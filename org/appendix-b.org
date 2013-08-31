@@ -2,13 +2,13 @@
 
   My configuration is recorded as several .org files. These are
   designed for people to read. However, the configuration ends up with
-  a single init.el file. This init.el file is designed for emacs to
-  read.
+  a single emacs-setup.el file. This emacs-setup.el file is designed
+  for emacs to read.
 
   How does this work? The .org files are concatenated together in a
   specific order to create a single .org file. This resulting .org
-  file can be used to generate an init.el. It can also be used to
-  generate a PDF.
+  file can be used to generate an emacs-setup.el. It can also be used
+  to generate a PDF.
 
 ** Files
 
@@ -41,7 +41,7 @@
   (setq jedcn-es/single-org (concat
                              user-emacs-directory
                              user-login-name
-                             "/init.org"))
+                             "/emacs-setup.org"))
 #+end_src
 
    Here's a poorly written function that knows how to visit a list of
@@ -90,7 +90,7 @@
    to extract the elisp into a single file:
 
 #+begin_src emacs-lisp
-  (setq jedcn-es/single-el (concat esk-user-dir "/init.el"))
+  (setq jedcn-es/single-el (concat esk-user-dir "/emacs-setup.el"))
 #+end_src
 
    Babel supports code extraction with a function named

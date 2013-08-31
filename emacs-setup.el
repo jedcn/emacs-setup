@@ -282,7 +282,7 @@ If REPOSITORY is specified, use that."
 (setq jedcn-es/single-org (concat
                            user-emacs-directory
                            user-login-name
-                           "/init.org"))
+                           "/emacs-setup.org"))
 
 (defun jedcn-es/concat-files (the-files target-file)
   "Concatenate a list of THE-FILES into a single TARGET-FILE"
@@ -311,7 +311,7 @@ If REPOSITORY is specified, use that."
            jedcn-es/files)
    jedcn-es/single-org))
 
-(setq jedcn-es/single-el (concat esk-user-dir "/init.el"))
+(setq jedcn-es/single-el (concat esk-user-dir "/emacs-setup.el"))
 
 (defun jedcn-es/tangle-single-org ()
   (org-babel-tangle-file jedcn-es/single-org jedcn-es/single-el))
