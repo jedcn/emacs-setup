@@ -124,6 +124,8 @@ If REPOSITORY is specified, use that."
 
 (add-hook 'before-save-hook 'cleanup-buffer-safe)
 
+(sacha/package-install 'better-defaults)
+
 (sacha/package-install 'markdown-mode)
 (sacha/package-install 'markdown-mode+)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
@@ -135,8 +137,6 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-
-(sacha/package-install 'starter-kit-lisp)
 
 (sacha/package-install 'coffee-mode)
 
@@ -169,6 +169,8 @@ If REPOSITORY is specified, use that."
 (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
 
 (sacha/package-install 'ruby-electric)
+
+(sacha/package-install 'magit)
 
 (require 'magit)
 

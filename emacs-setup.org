@@ -508,7 +508,16 @@
 
 ** General Package Listing
 
-  These are packages that I mainly use for syntax highlighting.
+*** better-defaults
+
+    I started with Emacs Starter Kit, and am following its progression
+    from v1 to v2 and, now, v3. In v3 the esk becomes prose only, and
+    identifies =better-defaults= as a single package with "universal
+    appeal."
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'better-defaults)
+#+end_src
 
 *** markdown-mode
 
@@ -557,15 +566,6 @@
   (sacha/package-install 'yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 #+end_src
-*** starter-kit-lisp
-
-  I don't do lisp often, but I find starter-kit-lisp helps me out
-  when I do.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'starter-kit-lisp)
-#+end_src
-
 *** coffee-mode
 
 #+begin_src emacs-lisp
@@ -701,6 +701,8 @@
     whitespace.
 
 #+begin_src emacs-lisp
+  (sacha/package-install 'magit)
+
   (require 'magit)
 
   (defadvice magit-status (around magit-fullscreen activate)
