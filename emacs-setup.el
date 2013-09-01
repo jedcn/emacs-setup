@@ -124,6 +124,8 @@ If REPOSITORY is specified, use that."
 
 (add-hook 'before-save-hook 'cleanup-buffer-safe)
 
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 (sacha/package-install 'better-defaults)
 
 (sacha/package-install 'smex)

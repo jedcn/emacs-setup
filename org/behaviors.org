@@ -12,20 +12,15 @@
   + The way in which an animal or person acts in response to a
     particular situation or stimulus: "the feeding behavior of
     predators".
-  ...
 
-  What follows is configuration information related to behaviors that
-  Emacs should take, generally.
+  ...
 
 ** Whitespace Cleanup
 
-  Like most people, I hate trailing whitespace.
-
-  This elisp creates a function that cleans up whitespace, and adds a
-  hook that invokes it each time you save.
-
-  It comes from a post within "what the emacs.d," specifically titled
-  [[http://whattheemacsd.com/buffer-defuns.el-01.html][buffer defuns]].
+   The following creates a function that cleans up whitespace, and
+   then adds a hook that makes this happen each time you save. It
+   comes from a post within "what the emacs.d," specifically titled
+   [[http://whattheemacsd.com/buffer-defuns.el-01.html][buffer defuns]].
 
 #+begin_src emacs-lisp
   (defun cleanup-buffer-safe ()
@@ -36,4 +31,15 @@
     (set-buffer-file-coding-system 'utf-8))
 
   (add-hook 'before-save-hook 'cleanup-buffer-safe)
+#+end_src
+
+** Yes or No?
+
+   Emacs often asks you to type "yes or no" to proceed. As an example,
+   consider when you are in magit, and you press "k" to kill off a
+   hunk. I am happy to have a confirmation before something is
+   deleted, but I prefer to just press "y" instead of "y-e-s-<RETURN"
+
+#+begin_src emacs-lisp
+  (defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
