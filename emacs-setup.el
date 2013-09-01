@@ -217,6 +217,8 @@ If REPOSITORY is specified, use that."
 
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
 
+(setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
+
 (sacha/package-install 'yasnippet)
 (require 'yasnippet)
 (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))

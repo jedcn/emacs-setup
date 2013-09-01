@@ -704,21 +704,26 @@
 
 ** Magit
 
-  I *love* magit.
+   I *love* magit.
 
-  I get Magit through emacs-starter-kit, but I use the following
-  configuration and setup.
+   I use some elisp from the ESK to color additions and removals
+   red/green.
 
-  This comes from two blog posts: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].
+   Beyond cosmetics, here are two great blog posts about magit: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup
+   Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].  The main points are:
 
-  As you can read in the blog posts, the main points of this lisp are:
+   + Give Magit full screen when you start it.
 
-  + Give Magit full screen when you start it.
+   + Setup Magit so that pressing "q" gets rid of full screen.
 
-  + Setup Magit so that pressing "q" gets rid of full screen.
+   + Setup Magit so that pressing "W" toggles paying attention to
+     whitespace.
 
-  + Setup Magit so that pressing "W" toggles paying attention to
-    whitespace.
+   Also, I happen to have two =emacsclient= s, one at =/usr/bin= and
+   another at =/usr/local/bin=. The one at =/usr/bin= cannot find my
+   emacs server and this causes Magit to freeze whenever I try to
+   commit. This is why I explicitly set
+   =magit-emacsclient-executable=.
 
 #+begin_src emacs-lisp
   (sacha/package-install 'magit)
@@ -760,6 +765,8 @@
     (magit-refresh))
 
   (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+
+  (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 #+end_src
 ** yasnippet
 
