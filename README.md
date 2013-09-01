@@ -20,15 +20,16 @@ August, 24th, 2013
 
 ## Inventory
 
-* The configuration is spread across `.org` files.
+* The configuration is spread across `.org` files in the `org/`
+  directory.
 
 * The `.org` files can be assembled into a single `.org` file:
   [emacs-setup.org][emacs-setup.org]
 
-* The single `.org` file can be translated (tangled) into a `.el`
+* This single `.org` file can be translated (tangled) into a `.el`
   file: [emacs-setup.el][emacs-setup.el]
 
-* The single `.org` file can be translated into a `.pdf`:
+* The single `.org` file can be translated (woven) into a `.pdf`:
   [emacs-setup.pdf][emacs-setup-pdf].
 
 [emacs-setup-pdf]: http://jedcn.org/files/emacs-setup/init.pdf
