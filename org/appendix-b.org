@@ -17,8 +17,7 @@
 
 #+begin_src emacs-lisp
   (setq jedcn-es/files-dir (concat
-                            user-emacs-directory
-                            user-login-name
+                            jedcn-es/dir
                             "/org"))
 
   (setq jedcn-es/files '("introduction.org"
@@ -39,8 +38,7 @@
 
 #+begin_src emacs-lisp
   (setq jedcn-es/single-org (concat
-                             user-emacs-directory
-                             user-login-name
+                             jedcn-es/dir
                              "/emacs-setup.org"))
 #+end_src
 
@@ -90,7 +88,7 @@
    to extract the elisp into a single file:
 
 #+begin_src emacs-lisp
-  (setq jedcn-es/single-el (concat esk-user-dir "/emacs-setup.el"))
+  (setq jedcn-es/single-el (concat jedcn-es/dir "/emacs-setup.el"))
 #+end_src
 
    Babel supports code extraction with a function named

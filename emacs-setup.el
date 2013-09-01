@@ -1,4 +1,8 @@
 
+(setq jedcn-es/dir (concat
+                    user-emacs-directory
+                    "emacs-setup"))
+
 (package-initialize)
 
 (add-to-list 'package-archives
@@ -201,7 +205,7 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'yasnippet)
 (require 'yasnippet)
-(setq yas-snippet-dirs (concat esk-user-dir "/snippets"))
+(setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 
 (yas-global-mode 1)
 
@@ -265,8 +269,7 @@ If REPOSITORY is specified, use that."
         (t (jw-clear-eval-buffer))))
 
 (setq jedcn-es/files-dir (concat
-                          user-emacs-directory
-                          user-login-name
+                          jedcn-es/dir
                           "/org"))
 
 (setq jedcn-es/files '("introduction.org"
@@ -280,8 +283,7 @@ If REPOSITORY is specified, use that."
                        "appendix-b.org"))
 
 (setq jedcn-es/single-org (concat
-                           user-emacs-directory
-                           user-login-name
+                           jedcn-es/dir
                            "/emacs-setup.org"))
 
 (defun jedcn-es/concat-files (the-files target-file)
@@ -311,7 +313,7 @@ If REPOSITORY is specified, use that."
            jedcn-es/files)
    jedcn-es/single-org))
 
-(setq jedcn-es/single-el (concat esk-user-dir "/emacs-setup.el"))
+(setq jedcn-es/single-el (concat jedcn-es/dir "/emacs-setup.el"))
 
 (defun jedcn-es/tangle-single-org ()
   (org-babel-tangle-file jedcn-es/single-org jedcn-es/single-el))

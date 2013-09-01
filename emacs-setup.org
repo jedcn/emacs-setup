@@ -59,10 +59,18 @@
    from an initialization file, or init file for short.]]
    [fn:emacs-init:http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]
    The mechanism I use for managing my configuration is centered
-   around a single init file. This init file is entirely composed of
-   elisp. It is constructed using babel to extract elisp from source
-   code blocks within .org files. The resulting elisp is then
-   concatenated together. In summary:
+   around two elisp files. A smaller initialization file, =init.el=,
+   lives in =~/.emacs.d=, a location that is well known to emacs and
+   this file is read on start-up. =init.el= presumes that it will be
+   able to load a much larger elisp file located at
+   =~/emacs.d/emacs-setup/emacs-setup.el=.
+
+   These two files, =init.el= and =emacs-setup.el=, are extracted from
+   source code blocks within .org files using babel. Appendix A
+   contains =init.el= in its entirety. The contents of =emac-setup.el=
+   are spread across the remainder of the .org files and can be
+   constructed by concatenating the extract results of all files. In
+   summary:
 
    I use Org-mode and .org files to serve two purposes:
 
@@ -74,8 +82,21 @@
       Babel, a feature of Org-mode, can parse a .org file and extract
       the associated elisp.
 
-   For details on how I install and setup emacs see Appendix A. For
-   details on how this extraction process works, Appendix B.
+   Appendix A details how I install and setup emacs. It also contains
+   information about how =init.el= and the start up process works.
+   Appendix B defines a process that is capable of creating
+   emacs-setup.el from distinct .org files.
+
+   When it comes to elisp, functions and variables associated with my
+   emacs setup will begin with =jedcn-es=. The first variable we
+   define sets the expecation that the directory =emacs-setup/= can be
+   placed (or linked to) underneath =~/.emacs.d=:
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/dir (concat
+                      user-emacs-directory
+                      "emacs-setup"))
+#+end_src
 * General
 
 ** Package Repository
@@ -723,7 +744,7 @@
 #+begin_src emacs-lisp
   (sacha/package-install 'yasnippet)
   (require 'yasnippet)
-  (setq yas-snippet-dirs (concat esk-user-dir "/snippets"))
+  (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 #+end_src
 
   I see the following in the official documentation, and my snippets
@@ -978,8 +999,7 @@ cyberpunk-theme, tangotango-theme
 
 #+begin_src emacs-lisp
   (setq jedcn-es/files-dir (concat
-                            user-emacs-directory
-                            user-login-name
+                            jedcn-es/dir
                             "/org"))
 
   (setq jedcn-es/files '("introduction.org"
@@ -1000,8 +1020,7 @@ cyberpunk-theme, tangotango-theme
 
 #+begin_src emacs-lisp
   (setq jedcn-es/single-org (concat
-                             user-emacs-directory
-                             user-login-name
+                             jedcn-es/dir
                              "/emacs-setup.org"))
 #+end_src
 
@@ -1051,7 +1070,7 @@ cyberpunk-theme, tangotango-theme
    to extract the elisp into a single file:
 
 #+begin_src emacs-lisp
-  (setq jedcn-es/single-el (concat esk-user-dir "/emacs-setup.el"))
+  (setq jedcn-es/single-el (concat jedcn-es/dir "/emacs-setup.el"))
 #+end_src
 
    Babel supports code extraction with a function named

@@ -257,7 +257,7 @@
 #+begin_src emacs-lisp
   (sacha/package-install 'yasnippet)
   (require 'yasnippet)
-  (setq yas-snippet-dirs (concat esk-user-dir "/snippets"))
+  (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 #+end_src
 
   I see the following in the official documentation, and my snippets
