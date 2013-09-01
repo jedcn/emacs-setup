@@ -284,10 +284,11 @@
 ** Running Methods
 
   When it comes to running methods explicitly, I always use C-x C-m.
-  I picked this up from Steve Yegge's [[https://sites.google.com/site/steveyegge2/effective-emacs][Effective Emacs]].
+  I picked this up from Steve Yegge's [[https://sites.google.com/site/steveyegge2/effective-emacs][Effective Emacs]]. He says use
+  =execute-extended-command=, but I always use smex.
 
 #+begin_src emacs-lisp
-  (global-set-key "\C-x\C-m" 'execute-extended-command)
+  (global-set-key "\C-x\C-m" 'smex)
 #+end_src
 
 ** Text Size
@@ -517,6 +518,19 @@
 
 #+begin_src emacs-lisp
   (sacha/package-install 'better-defaults)
+#+end_src
+
+*** smex
+
+    When you want to run a command (say, via M-x) [[https://github.com/nonsequitur/smex][smex]] provides
+    instant feedback by displaying available commands and remembering
+    ones you have recently invoked.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'smex)
+  (setq smex-save-file (concat user-emacs-directory ".smex-items"))
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
 #+end_src
 
 *** markdown-mode

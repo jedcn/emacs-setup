@@ -54,7 +54,7 @@ If REPOSITORY is specified, use that."
 (setq user-full-name "Jed Northridge"
       user-mail-address "northridge@gmail.com")
 
-(global-set-key "\C-x\C-m" 'execute-extended-command)
+(global-set-key "\C-x\C-m" 'smex)
 
 (define-key global-map (kbd "C-+") 'text-scale-increase)
 (define-key global-map (kbd "C--") 'text-scale-decrease)
@@ -125,6 +125,11 @@ If REPOSITORY is specified, use that."
 (add-hook 'before-save-hook 'cleanup-buffer-safe)
 
 (sacha/package-install 'better-defaults)
+
+(sacha/package-install 'smex)
+(setq smex-save-file (concat user-emacs-directory ".smex-items"))
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
 
 (sacha/package-install 'markdown-mode)
 (sacha/package-install 'markdown-mode+)

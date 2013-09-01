@@ -32,6 +32,19 @@
   (sacha/package-install 'better-defaults)
 #+end_src
 
+*** smex
+
+    When you want to run a command (say, via M-x) [[https://github.com/nonsequitur/smex][smex]] provides
+    instant feedback by displaying available commands and remembering
+    ones you have recently invoked.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'smex)
+  (setq smex-save-file (concat user-emacs-directory ".smex-items"))
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+#+end_src
+
 *** markdown-mode
 
   I write in Markdown all the time, and sometimes I use the
