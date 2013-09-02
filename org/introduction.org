@@ -1,0 +1,99 @@
+#+TITLE: Emacs Configuration
+#+OPTIONS: toc:2 h:4
+
+* Overview
+
+  This is a simple mechanism for breaking down a single emacs
+  configuration across several component files. Any one of these
+  component files is written in a format that enables that file to
+  simultaneously be more than one thing. Each file surely contains
+  elisp that is used to configure emacs, but that same file also
+  contains a prose explanation behind the motivation and impact of the
+  associated elisp. The same mechanism combines these component pieces
+  to form an overall configuration, ultimately within a single file,
+  that emacs is capable of interpreting. In the end, the elisp from
+  each file provides a discrete section of the total, generated
+  configuration, just as the prose explanation from each file comes to
+  represent a section within this document.
+
+  The value of this mechanism draws from the belief that complexity is
+  reduced when each file can bear a single responsibility for
+  describing one smaller part of a large configuration. This follows
+  from the similar expectation that any one chapter within a larger
+  document can rightly be expected to describe a self-contained idea.
+
+  The notion of first creating a prose explanation of how "code" works
+  and then embedding that same code within that explanation is known
+  as [[http://en.wikipedia.org/wiki/Literate_programming][Literate Programming]]. This document describes two such systems.
+  The first, and larger of the two, is a literately programmed emacs
+  configuration. The second is a description of how literate
+  programming is achieved within emacs and then meaningfully used to
+  configure emacs.
+
+** Background: Literate Programming in Emacs
+
+   Emacs provides support for literate programming most directly
+   through [[http://orgmode.org/][org-mode]], and, within org-mode, [[http://orgmode.org/worg/org-contrib/babel/][babel]]. When practicing
+   literate programming in this style, you author org-mode documents
+   as normal and you additionally embed source code within these
+   documents. Org-mode gives you strong support for authoring a
+   document of any type: you can export to various formats, structure
+   documents with semantic headings, generate a table of contents,
+   enjoy hyperlink syntax, and more. In addition to basic org-mode
+   functionality, babel then allows you to include source code within
+   these documents. Source code in this context enjoys the same
+   support that emacs provides for normal editing. You can choose any
+   single language or a mix of languages and you work in the mode of
+   the language.
+
+   Embedded source code and its easy extraction is the foundation that
+   enables literate programming. Briefly, as you consider programming
+   "a thing," you are given all of the tools you need to write a
+   stand-alone document about that "thing." You are free to layout and
+   follow a narrative that you see fit. This document is my prose
+   explanation of my emacs configuration.
+
+** An Emacs Configuration
+
+   [[http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html][When Emacs is started, it normally tries to load a Lisp program
+   from an initialization file, or init file for short.]]
+   [fn:emacs-init:http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]
+   The mechanism I use for managing my configuration is centered
+   around two elisp files. A smaller initialization file, =init.el=,
+   lives in =~/.emacs.d=, a location that is well known to emacs and
+   this file is read on start-up. =init.el= presumes that it will be
+   able to load a much larger elisp file located at
+   =~/emacs.d/emacs-setup/emacs-setup.el=.
+
+   These two files, =init.el= and =emacs-setup.el=, are extracted from
+   source code blocks within .org files using babel. Appendix A
+   contains =init.el= in its entirety. The contents of =emac-setup.el=
+   are spread across the remainder of the .org files and can be
+   constructed by concatenating the extract results of all files. In
+   summary:
+
+   I use Org-mode and .org files to serve two purposes:
+
+    + .org files contain documentation of my configuration. This
+      documentation can be viewed on Github or translated into another
+      format such as LaTeX or HTML.
+
+    + .org files contain embedded elisp behind the same configuration.
+      Babel, a feature of Org-mode, can parse a .org file and extract
+      the associated elisp.
+
+   Appendix A details how I install and setup emacs. It also contains
+   information about how =init.el= and the start up process works.
+   Appendix B defines a process that is capable of creating
+   emacs-setup.el from distinct .org files.
+
+   When it comes to elisp, functions and variables associated with my
+   emacs setup will begin with =jedcn-es=. The first variable we
+   define sets the expecation that the directory =emacs-setup/= can be
+   placed (or linked to) underneath =~/.emacs.d=:
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/dir (concat
+                      user-emacs-directory
+                      "emacs-setup"))
+#+end_src

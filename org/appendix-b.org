@@ -1,0 +1,141 @@
+* Appendix B: Babel and the Config
+
+  My configuration is stored as several .org files. This is done to
+  optimize for editing and the production of documentation (via
+  =org-export=). However, emacs does not read these .org files and
+  instead it reads a single elisp file, =emacs-setup.el=.
+
+  How is a single elisp file generated from several .org files? The
+  .org files are concatenated together in a specific order to create a
+  composite .org file named =emacs-setup.org=. This composite file can
+  be used to generate =emacs-setup.el=, and it can also generate
+  complete documentation in various formats: HTML or LaTeX/PDF.
+
+  Emacs has built in support for extracting and loading elisp within
+  .org files via =org-babel-load-file=. Why not just use this on each
+  .org file individually rather than orchestrating a process by which
+  they are concatenated into a single, larger document? I want to
+  focus on woven documentation. Why not just operate on just a larger
+  .org file? I want to work towards modularity. Putting these two
+  concepts together, I think of each .org file as a stand-alone entity
+  that is both chapter in a larger story and section in a larger
+  program.
+
+  The remainder of this appendix details how this orchestration
+  works. All of the functions and variables in this section begin with
+  =jedcn-es/= to indicate their logical association with my (=jedcn=)
+  emacs setup (=es=).
+
+** Composite File
+
+   The name of the composite .org file is =emacs-setup.org=, and its
+   location is stored for future reference in =composite-org=.
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/composite-org (concat
+                                jedcn-es/dir
+                                "/emacs-setup.org"))
+#+end_src
+
+** Component Files
+
+   The list of files that will be included in the is stored in
+   =files=. Order is significant. These files are presumed to be
+   within =files-dir=.
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/files-dir (concat
+                            jedcn-es/dir
+                            "/org"))
+
+  (setq jedcn-es/files '("introduction.org"
+                         "general-setup.org"
+                         "personal-information.org"
+                         "key-bindings.org"
+                         "behaviors.org"
+                         "modes.org"
+                         "various-and-sundry.org"
+                         "appendix-a.org"
+                         "appendix-b.org"))
+#+end_src
+
+** Concatenation
+
+   The composite file is created with =create-composite-org=, which in
+   turn relies on =concat-files=, =files-dir=, and =files=, and
+   =composite-org=.
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/concat-files (the-files target-file)
+    "Concatenate a list of THE-FILES into a TARGET-FILE"
+    (let* ((original-buffer (current-buffer))
+           (result-file target-file)
+           (files the-files)
+           (file (car files)))
+      ;; do..
+      (find-file file)
+      (write-region (point-min) (point-max) result-file)
+      (setq files (cdr files))
+      (setq file (car files))
+      ;; while
+      (while files
+        (find-file file)
+        (write-region (point-min) (point-max) result-file t)
+        (setq files (cdr files))
+        (setq file (car files)))
+      (switch-to-buffer original-buffer)))
+
+  (defun jedcn-es/create-composite-org ()
+    "Create a composite org file based on my list of config files"
+    (jedcn-es/concat-files
+     (mapcar (lambda (file)
+               (concat jedcn-es/files-dir "/" file))
+             jedcn-es/files)
+     jedcn-es/composite-org))
+#+end_src
+
+** Extracting elisp
+
+   Literate programming uses the verb "tangling" to describe the
+   extraction of pure source code from its annotated source. We'll aim
+   to extract the elisp from =composite-org= and place it into
+   =composite-el=.
+
+#+begin_src emacs-lisp
+  (setq jedcn-es/composite-el (concat jedcn-es/dir "/emacs-setup.el"))
+#+end_src
+
+   Babel supports code extraction with a function named
+   =org-babel-tangle-file=, and we can hook into the process described
+   above as follows:
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/tangle-composite-org ()
+    (org-babel-tangle-file jedcn-es/composite-org jedcn-es/composite-el))
+#+end_src
+
+   When this has completed, we will have the tangled result residing
+   at =composite-el=. The next logical step is to load it up and try
+   it out:
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/load-composite-el ()
+    (load-file jedcn-es/composite-el))
+#+end_src
+
+   Stepping back, we can bundle up the creation of the composite .org
+   file from its component pieces, then tangle it, and then load the
+   result with =jedcn-es/rebuild-and-reload=:
+
+#+begin_src emacs-lisp
+  (defun jedcn-es/rebuild-and-reload ()
+    "Rebuild the composite .org file, extract the elisp, and reload"
+    (interactive)
+    (jedcn-es/create-composite-org)
+    (jedcn-es/tangle-composite-org)
+    (jedcn-es/load-composite-el))
+#+end_src
+
+   This is the only function I make interactive. In practice, this
+   means that I can fool around with my .org files, and then =M-x
+   jedcn-es/rebuild-and-reload= to try out the latest changes.

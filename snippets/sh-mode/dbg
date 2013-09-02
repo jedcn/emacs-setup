@@ -1,0 +1,4 @@
+# -*- mode: sh; require-final-newline: nil; backup-inhibited: t -*-
+#name: echo "DBG: var=value"
+# --
+echo "DBG: $1='\$${1:var}'"

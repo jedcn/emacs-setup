@@ -1,7 +1,4 @@
 * Modes
-  :PROPERTIES:
-  :tangle:   init.el
-  :END:
 
   Modes bring significant functionality into Emacs.
 
@@ -15,31 +12,38 @@
   through what I see there, and then pressing an 'i' with my cursor on
   the name and finally pressing an 'x' to make it so.
 
-  However, while I was reading through Sacha Chua's emacs
-  configuration, I came across this function that I've started using
-  and that's used below.
-
-#+begin_src emacs-lisp
-  (defun sacha/package-install (package &optional repository)
-    "Install PACKAGE if it has not yet been installed.
-  If REPOSITORY is specified, use that."
-    (unless (package-installed-p package)
-      (let ((package-archives (if repository
-                                  (list (assoc repository package-archives))
-                                package-archives)))
-      (package-install package))))
-#+end_src
-
-  I copied her stuff in directly above and use it below.
-
-  Here's a link to her blog post where I found her configuration:
-  [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]].
-
-  Here's a link to my package configuration in [[file:general-setup.org][general.org]].
+  If I like the package, I'll revisit this file and formally add it to
+  the list of packages I use. In this file, my intent is to provide
+  notes about the package, why I'm using it, what I'm doing with it,
+  etc. My intent is also to set it up to be automatically installed in
+  the future if I need it to be. This automatic installation happens
+  with sacha/package-install, which was defined previously.
 
 ** General Package Listing
 
-  These are packages that I mainly use for syntax highlighting.
+*** better-defaults
+
+    I started with Emacs Starter Kit, and am following its progression
+    from v1 to v2 and, now, v3. In v3 the esk becomes prose only, and
+    identifies =better-defaults= as a single package with "universal
+    appeal."
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'better-defaults)
+#+end_src
+
+*** smex
+
+    When you want to run a command (say, via M-x) [[https://github.com/nonsequitur/smex][smex]] provides
+    instant feedback by displaying available commands and remembering
+    ones you have recently invoked.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'smex)
+  (setq smex-save-file (concat user-emacs-directory ".smex-items"))
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+#+end_src
 
 *** markdown-mode
 
@@ -88,15 +92,6 @@
   (sacha/package-install 'yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 #+end_src
-*** starter-kit-lisp
-
-  I don't do lisp often, but I find starter-kit-lisp helps me out
-  when I do.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'starter-kit-lisp)
-#+end_src
-
 *** coffee-mode
 
 #+begin_src emacs-lisp
@@ -201,6 +196,7 @@
   (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
   (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
   (add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
 #+end_src
 
 *** ruby-electric
@@ -214,23 +210,35 @@
 
 ** Magit
 
-  I *love* magit.
+   I *love* magit.
 
-  I get Magit through emacs-starter-kit, but I use the following
-  configuration and setup.
+   I use some elisp from the ESK to color additions and removals
+   red/green.
 
-  This comes from two blog posts: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].
+   Beyond cosmetics, here are two great blog posts about magit: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup
+   Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].  The main points are:
 
-  As you can read in the blog posts, the main points of this lisp are:
+   + Give Magit full screen when you start it.
 
-  + Give Magit full screen when you start it.
+   + Setup Magit so that pressing "q" gets rid of full screen.
 
-  + Setup Magit so that pressing "q" gets rid of full screen.
+   + Setup Magit so that pressing "W" toggles paying attention to
+     whitespace.
 
-  + Setup Magit so that pressing "W" toggles paying attention to
-    whitespace.
+   Also, I happen to have two =emacsclient=s, one at =/usr/bin= and
+   another at =/usr/local/bin=. The one at =/usr/bin= cannot find my
+   emacs server and this causes Magit to freeze whenever I try to
+   commit. This is why I explicitly set
+   =magit-emacsclient-executable=.
 
 #+begin_src emacs-lisp
+  (sacha/package-install 'magit)
+
+  (eval-after-load 'magit
+    '(progn
+       (set-face-foreground 'magit-diff-add "green4")
+       (set-face-foreground 'magit-diff-del "red3")))
+
   (require 'magit)
 
   (defadvice magit-status (around magit-fullscreen activate)
@@ -263,6 +271,8 @@
     (magit-refresh))
 
   (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+
+  (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 #+end_src
 ** yasnippet
 
@@ -274,7 +284,7 @@
 #+begin_src emacs-lisp
   (sacha/package-install 'yasnippet)
   (require 'yasnippet)
-  (setq yas-snippet-dirs (concat esk-user-dir "/snippets"))
+  (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 #+end_src
 
   I see the following in the official documentation, and my snippets

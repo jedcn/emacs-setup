@@ -1,0 +1,74 @@
+* Appendix A: Installation Details
+
+  This appendix covers both how I install Emacs on MacOS and how I get
+  up and running with =emacs-setup=.
+
+** Emacs Installation
+
+   On MacOS I install Emacs using [[http://brew.sh/][Homebrew]]. I run the following at my
+   shell prompt:
+
+#+begin_src sh :tangle no
+  brew install emacs --cocoa
+#+end_src
+
+   This takes some time to complete, and when finished I take another
+   step to make Emacs appear as one of my Applications:
+
+#+begin_src sh :tangle no
+  ln -s /usr/local/Cellar/emacs/24.3/Emacs.app /Applications
+#+end_src
+
+   Now I can start emacs by selecting it graphically in the
+   Applications area or by running =/usr/local/bin/emacs=.
+
+** Using =emacs-setup=
+
+   Once I have Emacs 24+ running, I use git to clone my =emacs-setup=
+   to my machine, cd into the cloned directory, and source the file
+   =install.sh=:
+
+#+begin_src shell-script :tangle no
+  git clone https://github.com/jedcn/emacs-setup.git
+  cd emacs-setup
+  source install.sh
+#+end_src
+
+   The contents of the =install.sh= file achieve the following:
+
+   + They allow you to supply a =HOME= and will create an =.emacs.d=
+     if needed.
+
+   + They create a link within this =.emacs.d= back to the cloned
+     =emacs-setup=.
+
+   + They create a single line of elisp that loads up the composite
+     =emacs-setup.el=.
+
+#+begin_src sh :tangle install.sh
+  emacs_setup_dir=`pwd`
+
+  echo "Creating $HOME/.emacs.d (if needed)"
+  mkdir -p $HOME/.emacs.d
+
+  echo "Creating $HOME/.emacs.d/emacs-setup as link to $emacs_setup_dir"
+  ln -s $emacs_setup_dir $HOME/.emacs.d/emacs-setup
+
+  echo "Creating $HOME/.emacs.d/init.el"
+  echo '(load (concat user-emacs-directory "emacs-setup/emacs-setup.el"))' >> $HOME/.emacs.d/init.el
+#+end_src
+
+   It is important to note that =HOME= can be given a temporary value
+   and this lets me test my installation process. I can get a fresh
+   copy of =emacs-setup= and clone it into a temporary directory, and
+   then I can run the =install.sh= with a temporary value of =HOME=
+   like so:
+
+#+begin_src sh :tangle no
+  mkdir /tmp/emacs-setup && cd /tmp/emacs-setup
+  git clone https://github.com/jedcn/emacs-setup.git .
+
+  mkdir /tmp/emacs-home
+  HOME=/tmp/emacs-home source install.sh
+  HOME=/tmp/emacs-home /usr/local/bin/emacs
+#+end_src

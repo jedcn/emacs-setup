@@ -1,0 +1,4 @@
+# -*- mode: ruby; require-final-newline: nil; backup-inhibited: t -*-
+#name: variable = args[:variable] || raise(':variable is required')
+# --
+$1 = args[:$1] || raise(':$1 is required')

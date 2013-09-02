@@ -1,22 +1,67 @@
 * General
+
 ** Package Repository
 
-  My understanding of package repositories is pretty limited.
+   Extensions for emacs are known as "packages," and emacs has a built
+   in package management system. Emacs lisp packages are stored in
+   archives (elpas) and initially, emacs knows about a single such
+   archive: elpa.gnu.org. This archive has approximately 50 packages.
+   However, there are additional elpas out there, and I have had good
+   luck finding up-to-date packages in http://melpa.milkbox.net/.
 
-  I think, by default, that Emacs 24+ comes configured with a single
-  repository: elpa.gnu.org, and that this doesn't have as many
-  packages as you'd like.
-
-  That said, I've used both http://marmalade-repo.org/ and
-  http://melpa.milkbox.net/. Presently, I'm using the latter because I
-  saw Sacha Chua using it.
+   That said, each time I open up emacs I make sure that the package
+   management system is initialized before I configure it to use
+   melpa:
 
 #+begin_src emacs-lisp
   (package-initialize)
 
   (add-to-list 'package-archives
-    '("melpa" . "http://melpa.milkbox.net/packages/") t)
+               '("melpa" . "http://melpa.milkbox.net/packages/") t)
 #+end_src
+
+   My observation is that packages cannot be installed until a
+   repository is contacted, at least once, and an overview of the
+   contents are downloaded and cached locally.
+
+   The following elisp will run package-list-packages if
+   ".emacs.d/elpa" does not exist, and is rooted in the belief that
+   the first time you run package-list-packages the contents of the
+   archive are cached within ".emacs.d/elpa," for example, here:
+   "~/.emacs.d/elpa/archives/gnu/archive-contents"
+
+#+begin_src emacs-lisp
+  (unless
+      (file-directory-p "~/.emacs.d/elpa")
+    (package-list-packages))
+#+end_src
+
+   I am interested in ensuring that the elpa cache has been created so
+   that I can programatically install packages. I first read about
+   this in Sacha Chua's excellent blog post on her configuration:
+   [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]]. She defines a
+   function (copied below) that will install the package if it's not
+   present:
+
+#+begin_src emacs-lisp
+  (defun sacha/package-install (package &optional repository)
+    "Install PACKAGE if it has not yet been installed.
+  If REPOSITORY is specified, use that."
+    (unless (package-installed-p package)
+      (let ((package-archives (if repository
+                                  (list (assoc repository package-archives))
+                                package-archives)))
+      (package-install package))))
+#+end_src
+
+   In combination, these facilities are the foundation of my package
+   management strategy: initialize the subsystem, configure the
+   repositories, and then define a means to programatically install
+   missing packages. Doing this early on in my initialization process
+   means that code which follows can state, "I expect to have package
+   XYZ," by saying, 'sacha/package-install "XYZ"' and then presume
+   that XYZ is present.
+
 ** PATH
 
    Emacs can run shell commands on your behalf. When it does this, it
