@@ -284,6 +284,10 @@ If REPOSITORY is specified, use that."
   (cond ((null n) (jw-eval-buffer))
         (t (jw-clear-eval-buffer))))
 
+(setq jedcn-es/composite-org (concat
+                              jedcn-es/dir
+                              "/emacs-setup.org"))
+
 (setq jedcn-es/files-dir (concat
                           jedcn-es/dir
                           "/org"))
@@ -298,12 +302,8 @@ If REPOSITORY is specified, use that."
                        "appendix-a.org"
                        "appendix-b.org"))
 
-(setq jedcn-es/single-org (concat
-                           jedcn-es/dir
-                           "/emacs-setup.org"))
-
 (defun jedcn-es/concat-files (the-files target-file)
-  "Concatenate a list of THE-FILES into a single TARGET-FILE"
+  "Concatenate a list of THE-FILES into a TARGET-FILE"
   (let* ((original-buffer (current-buffer))
          (result-file target-file)
          (files the-files)
@@ -321,25 +321,25 @@ If REPOSITORY is specified, use that."
       (setq file (car files)))
     (switch-to-buffer original-buffer)))
 
-(defun jedcn-es/create-single-org ()
-  "Create a single org file based on my list of config files"
+(defun jedcn-es/create-composite-org ()
+  "Create a composite org file based on my list of config files"
   (jedcn-es/concat-files
    (mapcar (lambda (file)
              (concat jedcn-es/files-dir "/" file))
            jedcn-es/files)
-   jedcn-es/single-org))
+   jedcn-es/composite-org))
 
-(setq jedcn-es/single-el (concat jedcn-es/dir "/emacs-setup.el"))
+(setq jedcn-es/composite-el (concat jedcn-es/dir "/emacs-setup.el"))
 
-(defun jedcn-es/tangle-single-org ()
-  (org-babel-tangle-file jedcn-es/single-org jedcn-es/single-el))
+(defun jedcn-es/tangle-composite-org ()
+  (org-babel-tangle-file jedcn-es/composite-org jedcn-es/composite-el))
 
-(defun jedcn-es/load-single-el ()
-  (load-file jedcn-es/single-el))
+(defun jedcn-es/load-composite-el ()
+  (load-file jedcn-es/composite-el))
 
 (defun jedcn-es/rebuild-and-reload ()
-  "Rebuild the single .org file, extract the elisp, and reload"
+  "Rebuild the composite .org file, extract the elisp, and reload"
   (interactive)
-  (jedcn-es/create-single-org)
-  (jedcn-es/tangle-single-org)
-  (jedcn-es/load-single-el))
+  (jedcn-es/create-composite-org)
+  (jedcn-es/tangle-composite-org)
+  (jedcn-es/load-composite-el))
