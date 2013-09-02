@@ -1,89 +1,74 @@
 * Appendix A: Installation Details
 
-** Basic Installation with Homebrew
+  This appendix covers both how I install Emacs on MacOS and how I get
+  up and running with =emacs-setup=.
 
-   I'm not very good at Emacs, and I don't have the much experience
-   with using Emacs on MacOS. That said, I get up and running with
-   Emacs using the brew based installation with:
+** Emacs Installation
 
-#+begin_src shell-script :tangle no
+   On MacOS I install Emacs using [[http://brew.sh/][Homebrew]]. I run the following at my
+   shell prompt:
+
+#+begin_src sh :tangle no
   brew install emacs --cocoa
 #+end_src
 
-   This takes some time to complete, and when you're done, you've got
-   to take one more step in order to make Emacs appear in your
-   Applications list:
+   This takes some time to complete, and when finished I take another
+   step to make Emacs appear as one of my Applications:
 
-#+begin_src shell-script :tangle no
+#+begin_src sh :tangle no
   ln -s /usr/local/Cellar/emacs/24.3/Emacs.app /Applications
 #+end_src
 
-** Installing Emacs Starter Kit
+   Now I can start emacs by selecting it graphically in the
+   Applications area or by running =/usr/local/bin/emacs=.
 
-   Once I've got a basic Emacs running, my first step is to install
-   the Emacs Starter Kit. When present, this helpful framework loads
-   up the Emacs Lisp for customization thats embedded in this
-   document. To get Emacs Starter Kit
-   Once I was running emacs, I switched to the *scratch* buffer and
-   copy-and-pasted the following elisp in:
+** Using =emacs-setup=
 
-#+begin_src emacs-lisp :tangle no
-  (package-initialize)
+   Once I have Emacs 24+ running, I use git to clone my =emacs-setup=
+   to my machine, cd into the cloned directory, and source the file
+   =install.sh=:
 
-  (add-to-list 'package-archives
-    '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-  (package-list-packages)
+#+begin_src shell-script :tangle no
+  git clone https://github.com/jedcn/emacs-setup.git
+  cd emacs-setup
+  source install.sh
 #+end_src
 
-  Once this is in your *scratch* buffer (or any other buffer.. emacs
-  doesn't care) you can move your cursor past the closing parens in
-  each of these statements and press C-x C-e.
+   The contents of the =install.sh= file achieve the following:
 
-  Doing this will cause Emacs to "look backwards" to the last set of
-  parens and execute the code there.
+   + They allow you to supply a =HOME= and will create an =.emacs.d=
+     if needed.
 
-  These specific lines initialize the package management system,
-  temporarily add well-known repository to that system, and then
-  start the package manager within Emacs.
+   + They create a link within this =.emacs.d= back to the cloned
+     =emacs-setup=.
 
-  I installed ESK by searching down to find 'starter-kit,' pressing
-  'i' to mark it for installation, and then pressing 'x' to execute
-  on my installation instructions.
+   + They create a single line of elisp that loads up the composite
+     =emacs-setup.el=.
 
-** Details Concerning .el generation from .org files
+#+begin_src sh :tangle install.sh
+  emacs_setup_dir=`pwd`
 
-  The following elisp defines which .org files are in my
-  configuration:
+  echo "Creating $HOME/.emacs.d (if needed)"
+  mkdir -p $HOME/.emacs.d
 
-#+begin_src emacs-lisp :tangle no
-  (setq jedcn-config-files '("general-setup.org"
-                             "personal-information.org"
-                             "key-bindings.org"
-                             "behaviors.org"
-                             "modes.org"
-                             "various-and-sundry.org"))
+  echo "Creating $HOME/.emacs.d/emacs-setup as link to $emacs_setup_dir"
+  ln -s $emacs_setup_dir $HOME/.emacs.d/emacs-setup
+
+  echo "Creating $HOME/.emacs.d/init.el"
+  echo '(load (concat user-emacs-directory "emacs-setup/emacs-setup.el"))' >> $HOME/.emacs.d/init.el
 #+end_src
 
-  And this function enables you to create .el from .org files:
+   It is important to note that =HOME= can be given a temporary value
+   and this lets me test my installation process. I can get a fresh
+   copy of =emacs-setup= and clone it into a temporary directory, and
+   then I can run the =install.sh= with a temporary value of =HOME=
+   like so:
 
-#+begin_src emacs-lisp :tangle no
-  (defun extract-and-load-elisp-from-org (org-file-list)
-    "Create and load .el files from .org files named in ORG-FILE-LIST"
-    (while org-file-list
-      (setq org-file (car org-file-list))
-      (org-babel-load-file org-file)
-      (setq org-file-list (cdr org-file-list))
-      ))
+#+begin_src sh :tangle no
+  mkdir /tmp/emacs-setup && cd /tmp/emacs-setup
+  git clone https://github.com/jedcn/emacs-setup.git .
+
+  mkdir /tmp/emacs-home
+  HOME=/tmp/emacs-home source install.sh
+  HOME=/tmp/emacs-home /usr/local/bin/emacs
 #+end_src
-
-  And, finally, here's an invocation of this function and converts all
-  of my .org files (and loads them..)
-
-#+begin_src emacs-lisp :tangle no
-  (extract-and-load-elisp-from-org jedcn-config-files)
-#+end_src
-
-  Once they've been generated, the .el files will exist and the ESK
-  will seek them out and load them as part of its normal start up
-  process (presuming they are located at ~/.emacs.d/$USER).
