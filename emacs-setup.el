@@ -116,6 +116,9 @@ If REPOSITORY is specified, use that."
 (global-set-key (kbd "<C-M-S-down>") 'move-line-down)
 (global-set-key (kbd "<C-M-S-up>") 'move-line-up)
 
+(setq visible-bell t
+      inhibit-startup-message t)
+
 (defun cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer."
   (interactive)

@@ -436,6 +436,16 @@
 
   ...
 
+** Miscellaneous
+
+   Do not "ding" all of the time, and instead flash the screen. Do not
+   show the Emacs "splash" screen.
+
+#+begin_src emacs-lisp
+  (setq visible-bell t
+        inhibit-startup-message t)
+#+end_src
+
 ** Whitespace Cleanup
 
    The following creates a function that cleans up whitespace, and
