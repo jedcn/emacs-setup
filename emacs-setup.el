@@ -130,6 +130,13 @@ If REPOSITORY is specified, use that."
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 
+(defun esk-local-comment-auto-fill ()
+  (set (make-local-variable 'comment-auto-fill-only-comments) t)
+  (auto-fill-mode t))
+(add-hook 'prog-mode-hook 'esk-local-comment-auto-fill)
+
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+
 (sacha/package-install 'better-defaults)
 
 (sacha/package-install 'smex)

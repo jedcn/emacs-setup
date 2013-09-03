@@ -474,6 +474,24 @@
 #+begin_src emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
+** Autofill
+
+   By observation alone, =auto-fill-mode= makes it so that things
+   "word wrap." If you go past a certain boundary, and you type a
+   space, then the text you are working with wraps to another line. I
+   want to auto-fill if I am working on text. When I am programming, I
+   only want to auto-fill if I am writing a comment.
+
+   Both of these come from technomancy in v2 of the [[https://github.com/technomancy/emacs-starter-kit][emacs-starter-kit]].
+
+#+begin_src emacs-lisp
+  (defun esk-local-comment-auto-fill ()
+    (set (make-local-variable 'comment-auto-fill-only-comments) t)
+    (auto-fill-mode t))
+  (add-hook 'prog-mode-hook 'esk-local-comment-auto-fill)
+
+  (add-hook 'text-mode-hook 'turn-on-auto-fill)
+#+end_src
 * Modes
 
   Modes bring significant functionality into Emacs.
