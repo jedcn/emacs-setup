@@ -103,7 +103,7 @@
 
    Extensions for emacs are known as "packages," and emacs has a built
    in package management system. Emacs lisp packages are stored in
-   archives (elpas) and initially, emacs knows about a single such
+   archives (elpas) and, initially, emacs knows about a single such
    archive: elpa.gnu.org. This archive has approximately 50 packages.
    However, there are additional elpas out there, and I have had good
    luck finding up-to-date packages in http://melpa.milkbox.net/.
@@ -123,11 +123,11 @@
    repository is contacted, at least once, and an overview of the
    contents are downloaded and cached locally.
 
-   The following elisp will run package-list-packages if
-   ".emacs.d/elpa" does not exist, and is rooted in the belief that
-   the first time you run package-list-packages the contents of the
-   archive are cached within ".emacs.d/elpa," for example, here:
-   "~/.emacs.d/elpa/archives/gnu/archive-contents"
+   The following elisp will run =package-list-packages= if
+   =~/.emacs.d/elpa= does not exist, and is rooted in the belief that
+   the first time you run =package-list-packages= the contents of the
+   archive are cached within =~/.emacs.d/elpa=, for example, here:
+   =~/.emacs.d/elpa/archives/gnu/archive-contents=.
 
 #+begin_src emacs-lisp
   (unless
@@ -139,7 +139,7 @@
    that I can programatically install packages. I first read about
    this in Sacha Chua's excellent blog post on her configuration:
    [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]]. She defines a
-   function (copied below) that will install the package if it's not
+   function (copied below) that will install the package if it is not
    present:
 
 #+begin_src emacs-lisp
@@ -158,7 +158,7 @@
    repositories, and then define a means to programatically install
    missing packages. Doing this early on in my initialization process
    means that code which follows can state, "I expect to have package
-   XYZ," by saying, 'sacha/package-install "XYZ"' and then presume
+   XYZ," by saying, =(sacha/package-install "XYZ")= and then presume
    that XYZ is present.
 
 ** PATH
@@ -168,13 +168,12 @@
    commands.
 
    I am not sure how this works. There is something that is an
-   environment variabled named PATH that is reachable via (getenv
-   "PATH") and there is something else that is a elisp variable named
-   exec-path.
+   environment variabled named =PATH= that is reachable via =(getenv
+   "PATH")= and there is something else that is a elisp variable named
+   =exec-path=.
 
    Rather than interact with my shell and have Emacs learn values from
-   a $PATH proper, I am going to try being explicit about setting
-   both:
+   a =$PATH= proper, I am explicit about setting both:
 
 #+begin_src emacs-lisp
   (setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin")
@@ -244,21 +243,6 @@
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil :font "Menlo-18")
 #+end_src
-
-** See Occurrences while Searching
-
-   If you are searching for something, and you press C-o, you can see
-   all of the occurrences of that something within the file.
-
-   Once that *Occur* window comes up, you can press 'e' to start
-   editing. You can press C-c C-c to get out of it.
-
-#+begin_src emacs-lisp
-  (define-key isearch-mode-map (kbd "C-o")
-    (lambda () (interactive)
-      (let ((case-fold-search isearch-case-fold-search))
-        (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
-#+end_src
 * Personal Information
 
   I am not sure what these are used for, but I'm supplying values here
@@ -271,18 +255,32 @@
 #+end_src
 * Key Bindings
 
-  I think my main inspiration for keybindings have come from [[https://github.com/technomancy/emacs-starter-kit/blob/v2/modules/starter-kit-bindings.el][ESK]] and
-  from [[https://github.com/magnars/.emacs.d/blob/master/key-bindings.el][Magnars]].
+  My main inspiration for keybindings have come from [[https://github.com/technomancy/emacs-starter-kit/blob/v2/modules/starter-kit-bindings.el][ESK]] and from
+  [[https://github.com/magnars/.emacs.d/blob/master/key-bindings.el][Magnars]].
 
   Documenting (and configuring) keybindings is somewhat strange. These
-  things "appear" out of no where, and don't always follow an obvious
-  order. At any rate.. here we go.
+  things appear out of no where, and do not always follow an obvious
+  order.
+
+** See Occurrences while Searching
+
+   If you are searching for something, and you press =C-o=, you can
+   see all of the occurrences of that something within the file. Once
+   that *Occur* window comes up, you can press =e= to start
+   editing. You can press =C-c C-c= to get out of it.
+
+#+begin_src emacs-lisp
+  (define-key isearch-mode-map (kbd "C-o")
+    (lambda () (interactive)
+      (let ((case-fold-search isearch-case-fold-search))
+        (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
+#+end_src
 
 ** Running Methods
 
-  When it comes to running methods explicitly, I always use C-x C-m.
-  I picked this up from Steve Yegge's [[https://sites.google.com/site/steveyegge2/effective-emacs][Effective Emacs]]. He says use
-  =execute-extended-command=, but I always use smex.
+   When it comes to running methods explicitly, I always use C-x C-m.
+   I picked this up from Steve Yegge's [[https://sites.google.com/site/steveyegge2/effective-emacs][Effective Emacs]]. He says use
+   =execute-extended-command=, but I always use smex.
 
 #+begin_src emacs-lisp
   (global-set-key "\C-x\C-m" 'smex)
@@ -290,14 +288,11 @@
 
 ** Text Size
 
-  Making text larger or smaller (at your quick command..) is absolutely
-  necessary and is something I use every day, several times a day.
-
-  This happens most commonly when I'm showing someone something in
-  emacs (say, pairing or running a meeting), but also when I'm at home
-  and don't have my glasses.
-
-  These particular keybindings are all about the + and the -.
+   Making text larger or smaller with easy is something I use every
+   day, several times a day. This happens most commonly when I am
+   showing someone something in emacs (say, pairing or running a
+   meeting), but also when I am at home and do not have my glasses.
+   These particular keybindings are all about the =+= and the =-=.
 
 #+begin_src emacs-lisp
   (define-key global-map (kbd "C-+") 'text-scale-increase)
@@ -306,8 +301,8 @@
 
 ** Goto Line
 
-  The following makes it so that when I press C-x g I can expect to be
-  prompted to enter a line number to jump to it:
+  The following makes it so that when I press =C-x g= I can expect to
+  be prompted to enter a line number to jump to it.
 
 #+begin_src emacs-lisp
   (global-set-key (kbd "C-x g") 'goto-line)
@@ -316,12 +311,12 @@
   And the elisp below makes it so that whatever goto-line was bound to
   is now bound to a new function: goto-line-with-feedback.
 
-  In turn, goto-line-with-feedback modifies the buffer you're working
+  In turn, goto-line-with-feedback modifies the buffer you are working
   in to show line numbers but only when you are actively looking to
   pick a number.
 
   The point of showing line numbers is to give you an idea of where
-  you'll end up.
+  you will end up.
 
   The point of *only* showing them while going to a line is to keep
   the screen free of distractions (line numbers) unless it is helpful.
@@ -343,8 +338,6 @@
 
 ** Magit
 
-  Magit is everyone's favorite piece of software.
-
   I like to think "C-x m"agit.
 
 #+begin_src emacs-lisp
@@ -353,20 +346,18 @@
 
 ** MacOS's "Command"
 
-  I think keys called 'super' and 'hyper' used to appear on the
-  keyboards of fabled 'Lisp Machines,' as described in this ErgoEmacs
-  post about [[http://ergoemacs.org/emacs/emacs_hyper_super_keys.html][Super and Hyper Keys]].
+   I think keys called 'super' and 'hyper' used to appear on the
+   keyboards of fabled 'Lisp Machines,' as described in this ErgoEmacs
+   post about [[http://ergoemacs.org/emacs/emacs_hyper_super_keys.html][Super and Hyper Keys]]. I may take advantage of these some
+   day, but for now I am happy to have both the 'alt/option' key and
+   the 'command' key on my Mac do the same thing: meta.
 
-  I may end up taking advantage of these some day, but for now I'm
-  happy to have both the 'alt/option' key and the 'command' key on my
-  Mac do the same thing: meta.
+   Given the default setup of my brew installed emacs, the following
+   change makes it so that "command does meta"
 
-  And, given the default setup of my brew installed emacs, the
-  following change makes it so that "command does meta"
-
-  If I'm back this way in the future again, I'd like to remind myself
-  to consider the following variables: mac-option-modifier,
-  mac-command-modifier, and ns-function-modifer.
+   If I am back this way in the future again, I'd like to remind
+   myself to consider the following variables: mac-option-modifier,
+   mac-command-modifier, and ns-function-modifer.
 
 #+begin_src emacs-lisp
   (setq mac-command-modifier 'meta)
@@ -428,22 +419,6 @@
   (global-set-key (kbd "<C-M-S-down>") 'move-line-down)
   (global-set-key (kbd "<C-M-S-up>") 'move-line-up)
 #+end_src
-
-** Not Yet Transferred
-
-(progn
-
-  ;; Magnars:
-  ;; I don't need to kill emacs that easily
-  ;; the mnemonic is C-x REALLY QUIT
-  (global-set-key (kbd "C-x r q") 'save-buffers-kill-terminal)
-  (global-set-key (kbd "C-x C-c") 'delete-frame)
-
-
-  ;; Technomancy:
-  ;; Use regex searches by default.
-  (global-set-key (kbd "C-s") 'isearch-forward-regexp)
-  (global-set-key (kbd "\C-r") 'isearch-backward-regexp)
 * Behaviors
 
   ...

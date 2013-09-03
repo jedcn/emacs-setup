@@ -4,7 +4,7 @@
 
    Extensions for emacs are known as "packages," and emacs has a built
    in package management system. Emacs lisp packages are stored in
-   archives (elpas) and initially, emacs knows about a single such
+   archives (elpas) and, initially, emacs knows about a single such
    archive: elpa.gnu.org. This archive has approximately 50 packages.
    However, there are additional elpas out there, and I have had good
    luck finding up-to-date packages in http://melpa.milkbox.net/.
@@ -24,11 +24,11 @@
    repository is contacted, at least once, and an overview of the
    contents are downloaded and cached locally.
 
-   The following elisp will run package-list-packages if
-   ".emacs.d/elpa" does not exist, and is rooted in the belief that
-   the first time you run package-list-packages the contents of the
-   archive are cached within ".emacs.d/elpa," for example, here:
-   "~/.emacs.d/elpa/archives/gnu/archive-contents"
+   The following elisp will run =package-list-packages= if
+   =~/.emacs.d/elpa= does not exist, and is rooted in the belief that
+   the first time you run =package-list-packages= the contents of the
+   archive are cached within =~/.emacs.d/elpa=, for example, here:
+   =~/.emacs.d/elpa/archives/gnu/archive-contents=.
 
 #+begin_src emacs-lisp
   (unless
@@ -40,7 +40,7 @@
    that I can programatically install packages. I first read about
    this in Sacha Chua's excellent blog post on her configuration:
    [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]]. She defines a
-   function (copied below) that will install the package if it's not
+   function (copied below) that will install the package if it is not
    present:
 
 #+begin_src emacs-lisp
@@ -59,7 +59,7 @@
    repositories, and then define a means to programatically install
    missing packages. Doing this early on in my initialization process
    means that code which follows can state, "I expect to have package
-   XYZ," by saying, 'sacha/package-install "XYZ"' and then presume
+   XYZ," by saying, =(sacha/package-install "XYZ")= and then presume
    that XYZ is present.
 
 ** PATH
@@ -69,13 +69,12 @@
    commands.
 
    I am not sure how this works. There is something that is an
-   environment variabled named PATH that is reachable via (getenv
-   "PATH") and there is something else that is a elisp variable named
-   exec-path.
+   environment variabled named =PATH= that is reachable via =(getenv
+   "PATH")= and there is something else that is a elisp variable named
+   =exec-path=.
 
    Rather than interact with my shell and have Emacs learn values from
-   a $PATH proper, I am going to try being explicit about setting
-   both:
+   a =$PATH= proper, I am explicit about setting both:
 
 #+begin_src emacs-lisp
   (setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin")
@@ -144,19 +143,4 @@
 
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil :font "Menlo-18")
-#+end_src
-
-** See Occurrences while Searching
-
-   If you are searching for something, and you press C-o, you can see
-   all of the occurrences of that something within the file.
-
-   Once that *Occur* window comes up, you can press 'e' to start
-   editing. You can press C-c C-c to get out of it.
-
-#+begin_src emacs-lisp
-  (define-key isearch-mode-map (kbd "C-o")
-    (lambda () (interactive)
-      (let ((case-fold-search isearch-case-fold-search))
-        (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
 #+end_src

@@ -47,13 +47,13 @@ If REPOSITORY is specified, use that."
 
 (set-face-attribute 'default nil :font "Menlo-18")
 
+(setq user-full-name "Jed Northridge"
+      user-mail-address "northridge@gmail.com")
+
 (define-key isearch-mode-map (kbd "C-o")
   (lambda () (interactive)
     (let ((case-fold-search isearch-case-fold-search))
       (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
-
-(setq user-full-name "Jed Northridge"
-      user-mail-address "northridge@gmail.com")
 
 (global-set-key "\C-x\C-m" 'smex)
 
