@@ -130,8 +130,12 @@
 #+end_src
 ** Appearance
 
-   I haven't yet tried to customize colors. I mainly swap out a font
-   and tweak a few things.
+*** Color Theme
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'zenburn-theme)
+  (load-theme 'zenburn t)
+#+end_src
 
 *** Font
 
@@ -142,15 +146,6 @@
   (set-face-attribute 'default nil :font "Menlo-18")
 #+end_src
 
-*** Colors
-
-    I was reading through David Rothlis' [[http://david.rothlis.net/emacs/howtolearn.html][How to Learn Emacs]], which is
-    great, and I found this one tweak to comment color that I really
-    enjoy.
-
-#+begin_src emacs-lisp
-  (set-face-attribute 'font-lock-comment-face nil :foreground "#3f7f5f")
-#+end_src
 ** See Occurrences while Searching
 
    If you are searching for something, and you press C-o, you can see

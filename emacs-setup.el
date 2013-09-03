@@ -42,9 +42,10 @@ If REPOSITORY is specified, use that."
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
-(set-face-attribute 'default nil :font "Menlo-18")
+(sacha/package-install 'zenburn-theme)
+(load-theme 'zenburn t)
 
-(set-face-attribute 'font-lock-comment-face nil :foreground "#3f7f5f")
+(set-face-attribute 'default nil :font "Menlo-18")
 
 (define-key isearch-mode-map (kbd "C-o")
   (lambda () (interactive)
