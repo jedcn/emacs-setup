@@ -179,11 +179,6 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'magit)
 
-(eval-after-load 'magit
-  '(progn
-     (set-face-foreground 'magit-diff-add "green4")
-     (set-face-foreground 'magit-diff-del "red3")))
-
 (require 'magit)
 
 (defadvice magit-status (around magit-fullscreen activate)

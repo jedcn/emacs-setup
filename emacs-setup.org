@@ -706,9 +706,6 @@
 
    I *love* magit.
 
-   I use some elisp from the ESK to color additions and removals
-   red/green.
-
    Beyond cosmetics, here are two great blog posts about magit: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup
    Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].  The main points are:
 
@@ -719,19 +716,14 @@
    + Setup Magit so that pressing "W" toggles paying attention to
      whitespace.
 
-   Also, I happen to have two =emacsclient=s, one at =/usr/bin= and
-   another at =/usr/local/bin=. The one at =/usr/bin= cannot find my
-   emacs server and this causes Magit to freeze whenever I try to
-   commit. This is why I explicitly set
+   I happen to have =emacsclient= installed in two places, one at
+   =/usr/bin= and another at =/usr/local/bin=. The one at =/usr/bin=
+   cannot find my emacs server and this causes Magit to freeze
+   whenever I try to commit. This is why I explicitly set
    =magit-emacsclient-executable=.
 
 #+begin_src emacs-lisp
   (sacha/package-install 'magit)
-
-  (eval-after-load 'magit
-    '(progn
-       (set-face-foreground 'magit-diff-add "green4")
-       (set-face-foreground 'magit-diff-del "red3")))
 
   (require 'magit)
 
