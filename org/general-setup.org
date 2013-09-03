@@ -102,16 +102,18 @@
 
 ** Start Server
 
-  As the documentation states:
+   Emacs is often run for hours (or days, or weeks) at a time. One of
+   the benefits of such a long-lived process is that you can build a
+   small tool, like =emacsclient= that can connect to a running emacs
+   server and request that something be edited. For example, you can
+   tell git that it should use =emacsclient= whenever it needs to edit
+   something:
 
-    Allow this Emacs process to be a server for client processes.
+#+begin_src sh :tangle no
+  git config --global core.editor /usr/local/bin/emacsclient
+#+end_src
 
-  In particular, this allows me to setup my git configuration like so:
-
-     git config --global core.editor /usr/local/bin/emacsclient
-
-  And then, if any git command issued through the terminal needs an
-  editor, my single running instance of Emacs can provide the edits.
+   That said, here's the elisp that starts up an emacs server:
 
 #+begin_src emacs-lisp
   (server-start)
