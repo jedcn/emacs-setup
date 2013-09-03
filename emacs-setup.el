@@ -137,6 +137,27 @@ If REPOSITORY is specified, use that."
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
+(defun esk-local-column-number-mode ()
+  (make-local-variable 'column-number-mode)
+  (column-number-mode t))
+
+(add-hook 'prog-mode-hook 'esk-local-column-number-mode)
+
+(defun esk-turn-on-hl-line-mode ()
+  (when (> (display-color-cells) 8)
+    (hl-line-mode t)))
+
+(add-hook 'prog-mode-hook 'esk-turn-on-hl-line-mode)
+
+(defun esk-pretty-lambdas ()
+  (font-lock-add-keywords
+   nil `(("(?\\(lambda\\>\\)"
+          (0 (progn (compose-region (match-beginning 1) (match-end 1)
+                                    ,(make-char 'greek-iso8859-7 107))
+                    nil))))))
+
+(add-hook 'prog-mode-hook 'esk-pretty-lambdas)
+
 (sacha/package-install 'better-defaults)
 
 (sacha/package-install 'smex)
