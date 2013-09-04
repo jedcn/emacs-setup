@@ -33,7 +33,7 @@
 
 ** Text Size
 
-   Making text larger or smaller with easy is something I use every
+   Making text larger or smaller with ease is something I use every
    day, several times a day. This happens most commonly when I am
    showing someone something in emacs (say, pairing or running a
    meeting), but also when I am at home and do not have my glasses.

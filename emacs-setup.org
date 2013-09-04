@@ -3,18 +3,18 @@
 
 * Overview
 
-  This is a simple mechanism for breaking down a single emacs
+  I use a simple mechanism for breaking down a single emacs
   configuration across several component files. Any one of these
   component files is written in a format that enables that file to
   simultaneously be more than one thing. Each file surely contains
   elisp that is used to configure emacs, but that same file also
   contains a prose explanation behind the motivation and impact of the
   associated elisp. The same mechanism combines these component pieces
-  to form an overall configuration, ultimately within a single file,
-  that emacs is capable of interpreting. In the end, the elisp from
-  each file provides a discrete section of the total, generated
-  configuration, just as the prose explanation from each file comes to
-  represent a section within this document.
+  to form an overall configuration, ultimately within a single file an
+  in pure elisp, that emacs is capable of interpreting. In the end,
+  the elisp from each file provides a discrete section of the total,
+  generated configuration, just as the prose explanation from each
+  file comes to represent a section within this document.
 
   The value of this mechanism draws from the belief that complexity is
   reduced when each file can bear a single responsibility for
@@ -56,23 +56,21 @@
 ** An Emacs Configuration
 
    [[http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html][When Emacs is started, it normally tries to load a Lisp program
-   from an initialization file, or init file for short.]]
-   [fn:emacs-init:http://www.gnu.org/software/emacs/manual/html_node/emacs/Init-File.html]
-   The mechanism I use for managing my configuration is centered
-   around two elisp files. A smaller initialization file, =init.el=,
-   lives in =~/.emacs.d=, a location that is well known to emacs and
-   this file is read on start-up. =init.el= presumes that it will be
-   able to load a much larger elisp file located at
+   from an initialization file, or init file for short.]] The mechanism
+   I use for managing my configuration is centered around two elisp
+   files. A smaller initialization file, =init.el=, lives in
+   =~/.emacs.d=, a location that is well known to emacs and this file
+   is read on start-up. =init.el= presumes that it will be able to
+   load a much larger elisp file located at
    =~/emacs.d/emacs-setup/emacs-setup.el=.
 
    These two files, =init.el= and =emacs-setup.el=, are extracted from
    source code blocks within .org files using babel. Appendix A
    contains =init.el= in its entirety. The contents of =emac-setup.el=
    are spread across the remainder of the .org files and can be
-   constructed by concatenating the extract results of all files. In
-   summary:
+   constructed by concatenating the extract results of all files.
 
-   I use Org-mode and .org files to serve two purposes:
+   In summary, I use Org-mode and .org files to serve two purposes:
 
     + .org files contain documentation of my configuration. This
       documentation can be viewed on Github or translated into another
@@ -85,7 +83,7 @@
    Appendix A details how I install and setup emacs. It also contains
    information about how =init.el= and the start up process works.
    Appendix B defines a process that is capable of creating
-   emacs-setup.el from distinct .org files.
+   =emacs-setup.el= from distinct .org files.
 
    When it comes to elisp, functions and variables associated with my
    emacs setup will begin with =jedcn-es=. The first variable we
@@ -104,9 +102,10 @@
    Extensions for emacs are known as "packages," and emacs has a built
    in package management system. Emacs lisp packages are stored in
    archives (elpas) and, initially, emacs knows about a single such
-   archive: elpa.gnu.org. This archive has approximately 50 packages.
-   However, there are additional elpas out there, and I have had good
-   luck finding up-to-date packages in http://melpa.milkbox.net/.
+   archive: http://elpa.gnu.org. This archive has approximately 50
+   packages.  However, there are additional elpas out there, and I
+   have had good luck finding up-to-date packages in
+   http://melpa.milkbox.net/.
 
    That said, each time I open up emacs I make sure that the package
    management system is initialized before I configure it to use
@@ -126,8 +125,7 @@
    The following elisp will run =package-list-packages= if
    =~/.emacs.d/elpa= does not exist, and is rooted in the belief that
    the first time you run =package-list-packages= the contents of the
-   archive are cached within =~/.emacs.d/elpa=, for example, here:
-   =~/.emacs.d/elpa/archives/gnu/archive-contents=.
+   archive are cached within =~/.emacs.d/elpa=.
 
 #+begin_src emacs-lisp
   (unless
@@ -203,8 +201,8 @@
    Emacs is often run for hours (or days, or weeks) at a time. One of
    the benefits of such a long-lived process is that you can build a
    small tool, like =emacsclient= that can connect to a running emacs
-   server and request that something be edited. For example, you can
-   tell git that it should use =emacsclient= whenever it needs to edit
+   and request that something be edited. For example, you can tell git
+   that it should use =emacsclient= whenever it needs to edit
    something:
 
 #+begin_src sh :tangle no
@@ -245,10 +243,6 @@
 #+end_src
 * Personal Information
 
-  I am not sure what these are used for, but I'm supplying values here
-  that are more accurate than the defaults, and I've seen famous Emacs
-  users do it, so here we go.
-
 #+begin_src emacs-lisp
   (setq user-full-name "Jed Northridge"
         user-mail-address "northridge@gmail.com")
@@ -288,7 +282,7 @@
 
 ** Text Size
 
-   Making text larger or smaller with easy is something I use every
+   Making text larger or smaller with ease is something I use every
    day, several times a day. This happens most commonly when I am
    showing someone something in emacs (say, pairing or running a
    meeting), but also when I am at home and do not have my glasses.
@@ -469,18 +463,18 @@
    Emacs often asks you to type "yes or no" to proceed. As an example,
    consider when you are in magit, and you press "k" to kill off a
    hunk. I am happy to have a confirmation before something is
-   deleted, but I prefer to just press "y" instead of "y-e-s-<RETURN"
+   deleted, but I prefer to just press "y" instead of "y-e-s-<RETURN>"
 
 #+begin_src emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
+
 ** Autofill
 
-   By observation alone, =auto-fill-mode= makes it so that things
-   "word wrap." If you go past a certain boundary, and you type a
-   space, then the text you are working with wraps to another line. I
-   want to auto-fill if I am working on text. When I am programming, I
-   only want to auto-fill if I am writing a comment.
+   By observation alone, =auto-fill-mode= makes it so that words wrap
+   around the screen by inserting a new line once you go past a
+   certain spot. I want to auto-fill if I am working on text. When I
+   am programming, I only want to auto-fill if I am writing a comment.
 
    Both of these come from technomancy in v2 of the [[https://github.com/technomancy/emacs-starter-kit][emacs-starter-kit]].
 
@@ -534,26 +528,28 @@
 
   (add-hook 'prog-mode-hook 'esk-pretty-lambdas)
 #+end_src
-* Modes
+* Modes and Packages
 
-  Modes bring significant functionality into Emacs.
+  Modes bring significant functionality into Emacs. These are the
+  modes (and any associated configuration) that I use.
 
-  These are the modes that I use.
+  As I understand it, modes are delivered via packages. You can browse
+  available packages by typing =M-x package-list-packages=. As you
+  move around (just like a regular buffer), if you see something you
+  like you can press =i= and the package on the same line as your
+  cursor will be marked for an upcoming installation. When you are
+  ready, press 'x' to install each package that has been marked in
+  this way.
 
-  I've also added associated configuration.
-
-** Package Intallation
-
-  I get packages by typing M-x package-list-packages, then browsing
-  through what I see there, and then pressing an 'i' with my cursor on
-  the name and finally pressing an 'x' to make it so.
-
-  If I like the package, I'll revisit this file and formally add it to
+  If I like a package, I'll revisit this file and formally add it to
   the list of packages I use. In this file, my intent is to provide
-  notes about the package, why I'm using it, what I'm doing with it,
-  etc. My intent is also to set it up to be automatically installed in
-  the future if I need it to be. This automatic installation happens
-  with sacha/package-install, which was defined previously.
+  notes about a mode, why I am using it, what I am doing with it,
+  etc. Further, I want to hook the list of packages that I am using
+  into a system by which they are automatically installed. I am
+  looking to do this to make sure that I can recreate my emacs
+  installation if I move to a new computer. The means by which
+  packages are automatically installed is with a function named
+  =sacha/package-install=. This was defined previously.
 
 ** General Package Listing
 
@@ -589,7 +585,7 @@
   If you do start using the compilation aspect, you'll need a command
   line "markdown" to execute.
 
-  I got markdown with a `brew install markdown`.
+  I got markdown with =brew install markdown=.
 
   My notes indicate that:
 
@@ -598,7 +594,7 @@
 
     Also, Highlights:
 
-    + C-c C-c p: Run markdown on buffer contents. Open result in
+    + =C-c C-c p=: Run markdown on buffer contents. Open result in
       browser.
 
   I started using markdown-mode+ recently, and I did so after doing a
@@ -622,12 +618,14 @@
 #+begin_src emacs-lisp
   (sacha/package-install 'haml-mode)
 #+end_src
+
 *** yaml-mode
 
 #+begin_src emacs-lisp
   (sacha/package-install 'yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 #+end_src
+
 *** coffee-mode
 
 #+begin_src emacs-lisp
@@ -656,11 +654,11 @@
 
   The main key bindings I use are:
 
-    + C-c , v
+    + =C-c , v=
 
       Run rspec or cucumber against the file I'm editing
 
-    + C-c , s
+    + =C-c , s=
 
       Run rspec or cucumber against the single line of the spec or
       feature I'm editing.
@@ -687,6 +685,7 @@
   (add-hook 'ruby-mode-hook
             (lambda () (rvm-activate-corresponding-ruby)))
 #+end_src
+
 *** feature-mode
 
   I don't often write Gherkin at work, but I do try to use Cucumber
@@ -706,8 +705,8 @@
 #+end_src
 
   I also have been using ZSH, and when I was getting rspec-mode up and
-  running a few months ago, I'm pretty sure I found the following
-  advice somewhere (I know I didn't come up with this myself..)
+  running a few months ago, I ran into trouble. Thankfully, the author
+  of rspec mode had [[https://github.com/pezra/rspec-mode][a solution for using rspec mode with ZSH]].
 
 #+begin_src emacs-lisp
   (defadvice rspec-compile (around rspec-compile-around)
@@ -802,12 +801,11 @@
 
   (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 #+end_src
+
 ** yasnippet
 
-  I don't understand or use snippets as much as I should.
-
-  My favorite to use is 'dbg,' which I found in Jim Weirich's emacs
-  setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
+  My favorite snippet to use is =dbg=, which I found in Jim Weirich's
+  emacs setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
 
 #+begin_src emacs-lisp
   (sacha/package-install 'yasnippet)
@@ -815,8 +813,8 @@
   (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 #+end_src
 
-  I see the following in the official documentation, and my snippets
-  don't pop in ruby-mode without it:
+  When I was setting up yasnippet, I saw the following in the official
+  documentation:
 
 #+begin_src emacs-lisp
   (yas-global-mode 1)
@@ -824,7 +822,7 @@
 
 ** org-mode
 
-  OrgMode is a large thing.
+  OrgMode is a wonderful thing.
 
 *** Defaults
 
@@ -874,20 +872,6 @@
    '((emacs-lisp . t)
      (ruby . t)))
 #+end_src
-
-** Packages I used once, and may use again
-
-  + dired-details
-  + dired-details+
-  + web
-  + dash
-  + s
-  + projectile
-** Themes
-
-I have been goofing around with the following themes:
-
-cyberpunk-theme, tangotango-theme
 * Various and Sundry
 
 ** Jim Weirich's eval-buffer
@@ -905,8 +889,8 @@ cyberpunk-theme, tangotango-theme
    You can find the [[https://github.com/jimweirich/emacs-setup-esk/blob/master/eval-buffer.el][original code that he wrote right here]].
 
    The only thing I've changed is the variable
-   "jw-eval-buffer-commands" and instead I've created
-   "jedcn-eval-bufer-commands" just because I don't have xruby.
+   =jw-eval-buffer-commands= and instead I've created
+   =jedcn-eval-buffer-commands= just because I do not have xruby.
 
 #+begin_src emacs-lisp
   (defconst jedcn-eval-buffer-commands

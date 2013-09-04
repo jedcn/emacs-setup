@@ -1,23 +1,25 @@
-* Modes
+* Modes and Packages
 
-  Modes bring significant functionality into Emacs.
+  Modes bring significant functionality into Emacs. These are the
+  modes (and any associated configuration) that I use.
 
-  These are the modes that I use.
+  As I understand it, modes are delivered via packages. You can browse
+  available packages by typing =M-x package-list-packages=. As you
+  move around (just like a regular buffer), if you see something you
+  like you can press =i= and the package on the same line as your
+  cursor will be marked for an upcoming installation. When you are
+  ready, press 'x' to install each package that has been marked in
+  this way.
 
-  I've also added associated configuration.
-
-** Package Intallation
-
-  I get packages by typing M-x package-list-packages, then browsing
-  through what I see there, and then pressing an 'i' with my cursor on
-  the name and finally pressing an 'x' to make it so.
-
-  If I like the package, I'll revisit this file and formally add it to
+  If I like a package, I'll revisit this file and formally add it to
   the list of packages I use. In this file, my intent is to provide
-  notes about the package, why I'm using it, what I'm doing with it,
-  etc. My intent is also to set it up to be automatically installed in
-  the future if I need it to be. This automatic installation happens
-  with sacha/package-install, which was defined previously.
+  notes about a mode, why I am using it, what I am doing with it,
+  etc. Further, I want to hook the list of packages that I am using
+  into a system by which they are automatically installed. I am
+  looking to do this to make sure that I can recreate my emacs
+  installation if I move to a new computer. The means by which
+  packages are automatically installed is with a function named
+  =sacha/package-install=. This was defined previously.
 
 ** General Package Listing
 
@@ -53,7 +55,7 @@
   If you do start using the compilation aspect, you'll need a command
   line "markdown" to execute.
 
-  I got markdown with a `brew install markdown`.
+  I got markdown with =brew install markdown=.
 
   My notes indicate that:
 
@@ -62,7 +64,7 @@
 
     Also, Highlights:
 
-    + C-c C-c p: Run markdown on buffer contents. Open result in
+    + =C-c C-c p=: Run markdown on buffer contents. Open result in
       browser.
 
   I started using markdown-mode+ recently, and I did so after doing a
@@ -86,12 +88,14 @@
 #+begin_src emacs-lisp
   (sacha/package-install 'haml-mode)
 #+end_src
+
 *** yaml-mode
 
 #+begin_src emacs-lisp
   (sacha/package-install 'yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 #+end_src
+
 *** coffee-mode
 
 #+begin_src emacs-lisp
@@ -120,11 +124,11 @@
 
   The main key bindings I use are:
 
-    + C-c , v
+    + =C-c , v=
 
       Run rspec or cucumber against the file I'm editing
 
-    + C-c , s
+    + =C-c , s=
 
       Run rspec or cucumber against the single line of the spec or
       feature I'm editing.
@@ -151,6 +155,7 @@
   (add-hook 'ruby-mode-hook
             (lambda () (rvm-activate-corresponding-ruby)))
 #+end_src
+
 *** feature-mode
 
   I don't often write Gherkin at work, but I do try to use Cucumber
@@ -170,8 +175,8 @@
 #+end_src
 
   I also have been using ZSH, and when I was getting rspec-mode up and
-  running a few months ago, I'm pretty sure I found the following
-  advice somewhere (I know I didn't come up with this myself..)
+  running a few months ago, I ran into trouble. Thankfully, the author
+  of rspec mode had [[https://github.com/pezra/rspec-mode][a solution for using rspec mode with ZSH]].
 
 #+begin_src emacs-lisp
   (defadvice rspec-compile (around rspec-compile-around)
@@ -266,12 +271,11 @@
 
   (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 #+end_src
+
 ** yasnippet
 
-  I don't understand or use snippets as much as I should.
-
-  My favorite to use is 'dbg,' which I found in Jim Weirich's emacs
-  setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
+  My favorite snippet to use is =dbg=, which I found in Jim Weirich's
+  emacs setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
 
 #+begin_src emacs-lisp
   (sacha/package-install 'yasnippet)
@@ -279,8 +283,8 @@
   (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 #+end_src
 
-  I see the following in the official documentation, and my snippets
-  don't pop in ruby-mode without it:
+  When I was setting up yasnippet, I saw the following in the official
+  documentation:
 
 #+begin_src emacs-lisp
   (yas-global-mode 1)
@@ -288,7 +292,7 @@
 
 ** org-mode
 
-  OrgMode is a large thing.
+  OrgMode is a wonderful thing.
 
 *** Defaults
 
@@ -338,17 +342,3 @@
    '((emacs-lisp . t)
      (ruby . t)))
 #+end_src
-
-** Packages I used once, and may use again
-
-  + dired-details
-  + dired-details+
-  + web
-  + dash
-  + s
-  + projectile
-** Themes
-
-I have been goofing around with the following themes:
-
-cyberpunk-theme, tangotango-theme

@@ -5,9 +5,10 @@
    Extensions for emacs are known as "packages," and emacs has a built
    in package management system. Emacs lisp packages are stored in
    archives (elpas) and, initially, emacs knows about a single such
-   archive: elpa.gnu.org. This archive has approximately 50 packages.
-   However, there are additional elpas out there, and I have had good
-   luck finding up-to-date packages in http://melpa.milkbox.net/.
+   archive: http://elpa.gnu.org. This archive has approximately 50
+   packages.  However, there are additional elpas out there, and I
+   have had good luck finding up-to-date packages in
+   http://melpa.milkbox.net/.
 
    That said, each time I open up emacs I make sure that the package
    management system is initialized before I configure it to use
@@ -27,8 +28,7 @@
    The following elisp will run =package-list-packages= if
    =~/.emacs.d/elpa= does not exist, and is rooted in the belief that
    the first time you run =package-list-packages= the contents of the
-   archive are cached within =~/.emacs.d/elpa=, for example, here:
-   =~/.emacs.d/elpa/archives/gnu/archive-contents=.
+   archive are cached within =~/.emacs.d/elpa=.
 
 #+begin_src emacs-lisp
   (unless
@@ -104,8 +104,8 @@
    Emacs is often run for hours (or days, or weeks) at a time. One of
    the benefits of such a long-lived process is that you can build a
    small tool, like =emacsclient= that can connect to a running emacs
-   server and request that something be edited. For example, you can
-   tell git that it should use =emacsclient= whenever it needs to edit
+   and request that something be edited. For example, you can tell git
+   that it should use =emacsclient= whenever it needs to edit
    something:
 
 #+begin_src sh :tangle no

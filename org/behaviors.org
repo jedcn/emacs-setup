@@ -48,18 +48,18 @@
    Emacs often asks you to type "yes or no" to proceed. As an example,
    consider when you are in magit, and you press "k" to kill off a
    hunk. I am happy to have a confirmation before something is
-   deleted, but I prefer to just press "y" instead of "y-e-s-<RETURN"
+   deleted, but I prefer to just press "y" instead of "y-e-s-<RETURN>"
 
 #+begin_src emacs-lisp
   (defalias 'yes-or-no-p 'y-or-n-p)
 #+end_src
+
 ** Autofill
 
-   By observation alone, =auto-fill-mode= makes it so that things
-   "word wrap." If you go past a certain boundary, and you type a
-   space, then the text you are working with wraps to another line. I
-   want to auto-fill if I am working on text. When I am programming, I
-   only want to auto-fill if I am writing a comment.
+   By observation alone, =auto-fill-mode= makes it so that words wrap
+   around the screen by inserting a new line once you go past a
+   certain spot. I want to auto-fill if I am working on text. When I
+   am programming, I only want to auto-fill if I am writing a comment.
 
    Both of these come from technomancy in v2 of the [[https://github.com/technomancy/emacs-starter-kit][emacs-starter-kit]].
 

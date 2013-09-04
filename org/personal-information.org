@@ -1,9 +1,5 @@
 * Personal Information
 
-  I am not sure what these are used for, but I'm supplying values here
-  that are more accurate than the defaults, and I've seen famous Emacs
-  users do it, so here we go.
-
 #+begin_src emacs-lisp
   (setq user-full-name "Jed Northridge"
         user-mail-address "northridge@gmail.com")

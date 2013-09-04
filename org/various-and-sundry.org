@@ -15,8 +15,8 @@
    You can find the [[https://github.com/jimweirich/emacs-setup-esk/blob/master/eval-buffer.el][original code that he wrote right here]].
 
    The only thing I've changed is the variable
-   "jw-eval-buffer-commands" and instead I've created
-   "jedcn-eval-bufer-commands" just because I don't have xruby.
+   =jw-eval-buffer-commands= and instead I've created
+   =jedcn-eval-buffer-commands= just because I do not have xruby.
 
 #+begin_src emacs-lisp
   (defconst jedcn-eval-buffer-commands
