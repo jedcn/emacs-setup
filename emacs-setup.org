@@ -965,7 +965,7 @@
 #+end_src
 
    Now I can start emacs by selecting it graphically in the
-   Applications area or by running =/usr/local/bin/emacs=.
+   Applications area.
 
 ** Using =emacs-setup=
 
@@ -1015,7 +1015,7 @@
 
   mkdir /tmp/emacs-home
   HOME=/tmp/emacs-home source install.sh
-  HOME=/tmp/emacs-home /usr/local/bin/emacs
+  HOME=/tmp/emacs-home /Applications/Emacs.app/Contents/MacOS/Emacs &
 #+end_src
 * Appendix B: Babel and the Config
 
