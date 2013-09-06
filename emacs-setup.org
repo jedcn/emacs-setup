@@ -963,11 +963,11 @@
 
 ** Emacs Installation
 
-   On MacOS I install Emacs using [[http://brew.sh/][Homebrew]]. I run the following at my
-   shell prompt:
+   On MacOS I install Emacs using [[http://brew.sh/][Homebrew]]. I run the following,
+   inspired by this [[http://emacsredux.com/blog/2013/08/21/color-themes-redux/][Emacs Redux post on color themes]]:
 
 #+begin_src sh :tangle no
-  brew install emacs --cocoa
+  brew install emacs --cocoa --srgb
 #+end_src
 
    This takes some time to complete, and when finished I take another
