@@ -264,6 +264,10 @@ If REPOSITORY is specified, use that."
    (ruby . t)
    (sh . t)))
 
+(sacha/package-install 'expand-region)
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+
 (defconst jedcn-eval-buffer-commands
   '(("js" . "/usr/local/bin/node")
     ("rb" . "ruby")

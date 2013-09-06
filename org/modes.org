@@ -343,3 +343,15 @@
        (ruby . t)
        (sh . t)))
 #+end_src
+** expand-region
+
+   The functionality from =expand-region= is most easily described by
+   watching the excellent emacsrocks.com [[http://emacsrocks.com/e09.html][Introductory Video]]. The
+   project is hosted on [[https://github.com/magnars/expand-region.el][github]], and I use a standard setup for it,
+   which means that you get things started by pressing =C-==.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'expand-region)
+  (require 'expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region)
+#+end_src
