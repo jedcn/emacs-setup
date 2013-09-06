@@ -261,7 +261,8 @@ If REPOSITORY is specified, use that."
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((emacs-lisp . t)
-   (ruby . t)))
+   (ruby . t)
+   (sh . t)))
 
 (defconst jedcn-eval-buffer-commands
   '(("js" . "/usr/local/bin/node")

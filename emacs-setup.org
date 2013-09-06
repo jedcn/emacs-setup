@@ -861,16 +861,17 @@
   configured to be run, the block will be executed and the results
   printed nearby.
 
-  By default, only emacs-lisp is configured to be executed.
-  The following block makes it so that ruby is too.
+  By default, only emacs-lisp is configured to be executed.  The
+  following block makes it so that ruby and shell scripts are too.
 
   Here's the documentation for this: [[http://orgmode.org/worg/org-contrib/babel/languages.html][babel/languages]].
 
 #+begin_src emacs-lisp
-  (org-babel-do-load-languages
-   'org-babel-load-languages
-   '((emacs-lisp . t)
-     (ruby . t)))
+    (org-babel-do-load-languages
+     'org-babel-load-languages
+     '((emacs-lisp . t)
+       (ruby . t)
+       (sh . t)))
 #+end_src
 * Various and Sundry
 
