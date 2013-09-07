@@ -1,3 +1,12 @@
+# [Upcoming][upcoming]
+
+* Create snippets for `begin_src` in org-mode
+* Start using agenda within org-mode
+* Start using slim-mode for `.slim` templates
+* Start installing emacs with srgb
+* Start using expand region
+* Allow execution of sh scripts within active code blocks
+
 # [v0.0.1][v0.0.1]
 
 First version of a literately programmed emacs configuration.
@@ -16,3 +25,4 @@ their code throughout and inline.
 * `emacs-setup.org` can be exported to html via `org-export-as-html`
 
 [v0.0.1]: https://github.com/jedcn/emacs-setup/tree/v0.0.1
+[upcoming]: https://github.com/jedcn/emacs-setup/compare/v0.0.1...master
