@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: begin_src
+# condition: (= (current-column) 1)
+# key: b
+# --
+#+begin_src ${1:type}
+$0
+#+end_src
