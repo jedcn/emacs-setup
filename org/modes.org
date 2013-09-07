@@ -89,6 +89,12 @@
   (sacha/package-install 'haml-mode)
 #+end_src
 
+*** slim-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'slim-mode)
+#+end_src
+
 *** yaml-mode
 
 #+begin_src emacs-lisp

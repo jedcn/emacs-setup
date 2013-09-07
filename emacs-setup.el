@@ -174,6 +174,8 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'haml-mode)
 
+(sacha/package-install 'slim-mode)
+
 (sacha/package-install 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
