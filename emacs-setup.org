@@ -854,6 +854,15 @@
   (setq org-hide-leading-stars 'hidestars)
 #+end_src
 
+*** Diary
+
+    Including the "diary" makes it so that your agenda has official
+    holidays in it.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-include-diary t)
+#+end_src
+
 *** Code Blocks
 
   These emacs configuration files (.org, .el) use org's "code blocks"

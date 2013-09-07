@@ -1,5 +1,6 @@
 # [Upcoming][upcoming]
 
+* Configure the "diary" to be integrated with org-mode's agenda.
 * Start using suggested org-mode keybindings
 * Create snippets for `begin_src` in org-mode
 * Start using agenda within org-mode
