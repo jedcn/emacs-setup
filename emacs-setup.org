@@ -879,6 +879,14 @@
        (ruby . t)
        (sh . t)))
 #+end_src
+*** Agenda, Tasks, etc
+
+    I will plan on keeping .org files underneath =~/notes/org=.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-files '("~/notes/org"))
+#+end_src
+
 ** expand-region
 
    The functionality from =expand-region= is most easily described by

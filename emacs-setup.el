@@ -266,6 +266,8 @@ If REPOSITORY is specified, use that."
    (ruby . t)
    (sh . t)))
 
+(setq org-agenda-files '("~/notes/org"))
+
 (sacha/package-install 'expand-region)
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
