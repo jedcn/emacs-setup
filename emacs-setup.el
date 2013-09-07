@@ -73,8 +73,6 @@ If REPOSITORY is specified, use that."
         (goto-line (read-number "Goto line: ")))
     (linum-mode -1)))
 
-(global-set-key (kbd "C-x m") 'magit-status)
-
 (setq mac-command-modifier 'meta)
 
 (global-set-key (kbd "C-S-n")
@@ -211,6 +209,8 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'ruby-electric)
 
+(global-set-key (kbd "C-x m") 'magit-status)
+
 (sacha/package-install 'magit)
 
 (require 'magit)
@@ -253,6 +253,11 @@ If REPOSITORY is specified, use that."
 (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 
 (yas-global-mode 1)
+
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 (setq org-startup-folded 'content)
 

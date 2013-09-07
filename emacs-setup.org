@@ -252,9 +252,8 @@
   My main inspiration for keybindings have come from [[https://github.com/technomancy/emacs-starter-kit/blob/v2/modules/starter-kit-bindings.el][ESK]] and from
   [[https://github.com/magnars/.emacs.d/blob/master/key-bindings.el][Magnars]].
 
-  Documenting (and configuring) keybindings is somewhat strange. These
-  things appear out of no where, and do not always follow an obvious
-  order.
+  If a particular mode has a global keybinding, then they keybinding
+  will be with the mode in modes.org.
 
 ** See Occurrences while Searching
 
@@ -328,14 +327,6 @@
           (linum-mode 1)
           (goto-line (read-number "Goto line: ")))
       (linum-mode -1)))
-#+end_src
-
-** Magit
-
-  I like to think "C-x m"agit.
-
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-x m") 'magit-status)
 #+end_src
 
 ** MacOS's "Command"
@@ -751,7 +742,13 @@
 
 ** Magit
 
-   I *love* magit.
+   Everyone *loves* magit.
+
+   I like to think "C-x m"agit.
+
+#+begin_src emacs-lisp
+  (global-set-key (kbd "C-x m") 'magit-status)
+#+end_src
 
    Beyond cosmetics, here are two great blog posts about magit: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup
    Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].  The main points are:
@@ -829,6 +826,18 @@
 ** org-mode
 
   OrgMode is a wonderful thing.
+
+** Key Bindings
+
+   [[http://orgmode.org/manual/Activation.html#Activation][Org-mode documentation]] suggests that some functions be globally
+   bound, and I follow their defaults:
+
+#+begin_src emacs-lisp
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-cb" 'org-iswitchb)
+#+end_src
 
 *** Defaults
 

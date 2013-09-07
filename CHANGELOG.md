@@ -1,5 +1,6 @@
 # [Upcoming][upcoming]
 
+* Start using suggested org-mode keybindings
 * Create snippets for `begin_src` in org-mode
 * Start using agenda within org-mode
 * Start using slim-mode for `.slim` templates

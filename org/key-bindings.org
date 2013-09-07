@@ -3,9 +3,8 @@
   My main inspiration for keybindings have come from [[https://github.com/technomancy/emacs-starter-kit/blob/v2/modules/starter-kit-bindings.el][ESK]] and from
   [[https://github.com/magnars/.emacs.d/blob/master/key-bindings.el][Magnars]].
 
-  Documenting (and configuring) keybindings is somewhat strange. These
-  things appear out of no where, and do not always follow an obvious
-  order.
+  If a particular mode has a global keybinding, then they keybinding
+  will be with the mode in modes.org.
 
 ** See Occurrences while Searching
 
@@ -79,14 +78,6 @@
           (linum-mode 1)
           (goto-line (read-number "Goto line: ")))
       (linum-mode -1)))
-#+end_src
-
-** Magit
-
-  I like to think "C-x m"agit.
-
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-x m") 'magit-status)
 #+end_src
 
 ** MacOS's "Command"
