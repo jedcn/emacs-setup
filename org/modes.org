@@ -47,6 +47,14 @@
   (global-set-key (kbd "M-x") 'smex)
 #+end_src
 
+*** ace-jump-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'ace-jump-mode)
+  (require 'ace-jump-mode)
+  (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+#+end_src
+
 *** markdown-mode
 
   I write in Markdown all the time, and sometimes I use the

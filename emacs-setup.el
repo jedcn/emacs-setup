@@ -163,6 +163,10 @@ If REPOSITORY is specified, use that."
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 
+(sacha/package-install 'ace-jump-mode)
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
 (sacha/package-install 'markdown-mode)
 (sacha/package-install 'markdown-mode+)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
