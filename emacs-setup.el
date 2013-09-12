@@ -267,6 +267,9 @@ If REPOSITORY is specified, use that."
 
 (setq org-hide-leading-stars 'hidestars)
 
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+
 (setq org-agenda-include-diary t)
 
 (setq org-src-fontify-natively t)
