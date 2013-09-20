@@ -267,6 +267,8 @@ If REPOSITORY is specified, use that."
 
 (setq org-hide-leading-stars 'hidestars)
 
+(setq org-log-done 'time)
+
 (setq org-clock-persist 'history)
 (org-clock-persistence-insinuate)
 

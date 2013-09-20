@@ -341,6 +341,15 @@
   (setq org-hide-leading-stars 'hidestars)
 #+end_src
 
+*** Recording Timestamps
+
+    This setting makes it so that a timestamp is recorded whenever you
+    mark a task as done. [[http://orgmode.org/manual/Closing-items.html#Closing-items][Manual entry]].
+
+#+begin_src emacs-lisp
+  (setq org-log-done 'time)
+#+end_src
+
 *** Clock
 
     These settings are necessary to clock history across emacs
