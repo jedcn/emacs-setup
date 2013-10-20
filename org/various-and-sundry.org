@@ -22,7 +22,7 @@
   (defconst jedcn-eval-buffer-commands
     '(("js" . "/usr/local/bin/node")
       ("rb" . "ruby")
-      ("coffee" . "/usr/local/bin/coffee")
+      ("coffee" . "/usr/local/share/npm/bin/coffee")
       ("clj" . "/Users/jim/local/bin/clojure")
       ("py" . "/usr/bin/python")))
 #+end_src
