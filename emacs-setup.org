@@ -635,10 +635,10 @@
 *** coffee-mode
 
     I love CoffeeScript, and I love editing CoffeeScript, but I was
-    confused by =coffee-mode= at first. It brings a neat approach for
-    "what should happen when you press TAB," but I was thrown off by
-    the size of the indents. At first it was defaulting to 8 spaces
-    when I wanted 2.
+    confused by =coffee-mode=. It brings a neat approach for "what
+    should happen when you press TAB," but I was thrown off by the
+    size of the indents. At first it was defaulting to 8 spaces when I
+    wanted 2.
 
     I got my two space indent from the hook defined below. The same
     hook also sets it up so that pressing "Command C" *compiles* the
@@ -674,6 +674,26 @@
 
 #+BEGIN_SRC emacs-lisp
   (setq js-indent-level 2)
+#+END_SRC
+
+*** flycheck
+
+    I've just learned about flycheck, and am experimenting with it
+    now.
+
+    In some cases it relies on external tools to check for it. The
+    tools that I am presently making use of are:
+
+    - jshint :: I get this from npm via =npm install -g jshint=
+    - coffeelint :: I also get from npm via =npm install -g coffeelint=
+
+    I make sure these are available to emacs by making sure that the
+    location that npm puts stuff (=/usr/local/share/npm/bin=) is in my
+    =jedcn-env-path=.
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'flycheck)
+  (add-hook 'after-init-hook #'global-flycheck-mode)
 #+END_SRC
 
 ** Ruby Packages
