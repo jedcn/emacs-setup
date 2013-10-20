@@ -21,7 +21,7 @@ If REPOSITORY is specified, use that."
                               package-archives)))
     (package-install package))))
 
-(setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin")
+(setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/usr/local/share/npm/bin")
 
 (defun jedcn-sync-env-path-and-exec-path (desired-path)
   "Sets exec-path and env 'PATH' based on DESIRED-PATH"
@@ -43,6 +43,7 @@ If REPOSITORY is specified, use that."
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
 (sacha/package-install 'zenburn-theme)
+(sacha/package-install 'base16-theme)
 (load-theme 'zenburn t)
 
 (set-face-attribute 'default nil :font "Menlo-18")
@@ -183,6 +184,8 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'coffee-mode)
 
+(sacha/package-install 'scss-mode)
+
 (sacha/package-install 'rvm)
 
 (rvm-use-default)
@@ -291,7 +294,7 @@ If REPOSITORY is specified, use that."
 (defconst jedcn-eval-buffer-commands
   '(("js" . "/usr/local/bin/node")
     ("rb" . "ruby")
-    ("coffee" . "/usr/local/bin/coffee")
+    ("coffee" . "/usr/local/share/npm/bin/coffee")
     ("clj" . "/Users/jim/local/bin/clojure")
     ("py" . "/usr/bin/python")))
 

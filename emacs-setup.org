@@ -174,7 +174,7 @@
    a =$PATH= proper, I am explicit about setting both:
 
 #+begin_src emacs-lisp
-  (setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin")
+  (setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/usr/local/share/npm/bin")
 
   (defun jedcn-sync-env-path-and-exec-path (desired-path)
     "Sets exec-path and env 'PATH' based on DESIRED-PATH"
@@ -230,6 +230,7 @@
 
 #+begin_src emacs-lisp
   (sacha/package-install 'zenburn-theme)
+  (sacha/package-install 'base16-theme)
   (load-theme 'zenburn t)
 #+end_src
 
@@ -637,6 +638,12 @@
   (sacha/package-install 'coffee-mode)
 #+end_src
 
+*** scss-mode
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'scss-mode)
+#+END_SRC
+
 ** Ruby Packages
 
   I really enjoy writing ruby.
@@ -968,7 +975,7 @@
   (defconst jedcn-eval-buffer-commands
     '(("js" . "/usr/local/bin/node")
       ("rb" . "ruby")
-      ("coffee" . "/usr/local/bin/coffee")
+      ("coffee" . "/usr/local/share/npm/bin/coffee")
       ("clj" . "/Users/jim/local/bin/clojure")
       ("py" . "/usr/bin/python")))
 #+end_src
