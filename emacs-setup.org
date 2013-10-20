@@ -634,8 +634,32 @@
 
 *** coffee-mode
 
+    I love CoffeeScript, and I love editing CoffeeScript, but I was
+    confused by =coffee-mode= at first. It brings a neat approach for
+    "what should happen when you press TAB," but I was thrown off by
+    the size of the indents. At first it was defaulting to 8 spaces
+    when I wanted 2.
+
+    I got my two space indent from the hook defined below. The same
+    hook also sets it up so that pressing "Command C" *compiles* the
+    CoffeeScript and displays the resulting JavaScript in a new
+    window.
+
+    To get compilation going, I did an =npm install -g coffee=. This
+    meant the =coffee= executable is installed at
+    =/usr/share/local/npm/bin=. This directory is in my path via
+    =jedcn-env-path=.
+
 #+begin_src emacs-lisp
   (sacha/package-install 'coffee-mode)
+
+  (defun jedcn-coffee-custom ()
+    "jedcn's coffee-mode-hook"
+    (define-key coffee-mode-map [(meta c)] 'coffee-compile-buffer)
+    (make-local-variable 'tab-width)
+    (set 'tab-width 2))
+
+  (add-hook 'coffee-mode-hook '(lambda () (jedcn-coffee-custom)))
 #+end_src
 
 *** scss-mode

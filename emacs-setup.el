@@ -184,6 +184,14 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'coffee-mode)
 
+(defun jedcn-coffee-custom ()
+  "jedcn's coffee-mode-hook"
+  (define-key coffee-mode-map [(meta c)] 'coffee-compile-buffer)
+  (make-local-variable 'tab-width)
+  (set 'tab-width 2))
+
+(add-hook 'coffee-mode-hook '(lambda () (jedcn-coffee-custom)))
+
 (sacha/package-install 'scss-mode)
 
 (setq js-indent-level 2)
