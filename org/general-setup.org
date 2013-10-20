@@ -77,7 +77,7 @@
    a =$PATH= proper, I am explicit about setting both:
 
 #+begin_src emacs-lisp
-  (setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin")
+  (setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/usr/local/share/npm/bin")
 
   (defun jedcn-sync-env-path-and-exec-path (desired-path)
     "Sets exec-path and env 'PATH' based on DESIRED-PATH"
