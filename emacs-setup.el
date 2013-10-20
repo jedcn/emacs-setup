@@ -186,6 +186,8 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'scss-mode)
 
+(setq js-indent-level 2)
+
 (sacha/package-install 'rvm)
 
 (rvm-use-default)
