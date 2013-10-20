@@ -116,6 +116,12 @@
   (sacha/package-install 'coffee-mode)
 #+end_src
 
+*** scss-mode
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'scss-mode)
+#+END_SRC
+
 ** Ruby Packages
 
   I really enjoy writing ruby.
