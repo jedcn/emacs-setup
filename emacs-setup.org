@@ -479,17 +479,13 @@
   (add-hook 'text-mode-hook 'turn-on-auto-fill)
 #+end_src
 
-** Display Column Numbers when Programming
+** Display Line + Column Numbers
 
-   Show column numbers when programming. This comes from technomancy
-   in v2 of the [[https://github.com/technomancy/emacs-starter-kit][emacs-starter-kit]].
+   Show line and column numbers all the time.
 
 #+begin_src emacs-lisp
-  (defun esk-local-column-number-mode ()
-    (make-local-variable 'column-number-mode)
-    (column-number-mode t))
-
-  (add-hook 'prog-mode-hook 'esk-local-column-number-mode)
+  (setq line-number-mode t)
+  (setq column-number-mode t)
 #+end_src
 
 ** Highlight Current Line when Programming

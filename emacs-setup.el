@@ -136,11 +136,8 @@ If REPOSITORY is specified, use that."
 
 (add-hook 'text-mode-hook 'turn-on-auto-fill)
 
-(defun esk-local-column-number-mode ()
-  (make-local-variable 'column-number-mode)
-  (column-number-mode t))
-
-(add-hook 'prog-mode-hook 'esk-local-column-number-mode)
+(setq line-number-mode t)
+(setq column-number-mode t)
 
 (defun esk-turn-on-hl-line-mode ()
   (when (> (display-color-cells) 8)
