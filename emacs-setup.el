@@ -196,8 +196,8 @@ If REPOSITORY is specified, use that."
 
 (setq js-indent-level 2)
 
-(sacha/package-install 'flycheck)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+;;  (sacha/package-install 'flycheck)
+;;  (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (sacha/package-install 'rvm)
 

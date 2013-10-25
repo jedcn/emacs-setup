@@ -162,16 +162,20 @@
     In some cases it relies on external tools to check for it. The
     tools that I am presently making use of are:
 
-    - jshint :: I get this from npm via =npm install -g jshint=
-    - coffeelint :: I also get from npm via =npm install -g coffeelint=
+    - jshint :: via =npm install -g jshint=
+    - jsonlint :: via =npm install -g jsonlint=
+    - coffeelint :: via =npm install -g coffeelint=
 
     I make sure these are available to emacs by making sure that the
     location that npm puts stuff (=/usr/local/share/npm/bin=) is in my
     =jedcn-env-path=.
 
+    Nah. This isn't working for me. Too aggressive. Will come back
+    another time.
+
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'flycheck)
-  (add-hook 'after-init-hook #'global-flycheck-mode)
+;;  (sacha/package-install 'flycheck)
+;;  (add-hook 'after-init-hook #'global-flycheck-mode)
 #+END_SRC
 
 ** Ruby Packages
@@ -372,7 +376,7 @@
 
   OrgMode is a wonderful thing.
 
-** Key Bindings
+** Key Bindsings
 
    [[http://orgmode.org/manual/Activation.html#Activation][Org-mode documentation]] suggests that some functions be globally
    bound, and I follow their defaults:
