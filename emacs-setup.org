@@ -244,6 +244,18 @@
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil :font "Menlo-18")
 #+end_src
+
+** Memory
+
+   I believe that Emacs will initiate Garbage Collection every time
+   the =gc-cons-threshold= is allocated. That's less than 1MB. I've
+   got 16GB, so I'm flush with memory if it speeds up my Emacs.
+
+   This comes from Lewang's [[https://github.com/lewang/flx][documentation on flx]].
+
+#+BEGIN_SRC emacs-lisp
+  (setq gc-cons-threshold 20000000)
+#+END_SRC
 * Personal Information
 
 #+begin_src emacs-lisp
@@ -573,6 +585,26 @@
   (smex-initialize)
   (global-set-key (kbd "M-x") 'smex)
 #+end_src
+
+*** flx-ido
+
+    [[https://github.com/lewang/flx][flx-ido]] is a package written with the idea of bringing Sublime
+    Text's fuzzy search to Emacs.
+
+    It enhances =ido=, and so the configuration below turns on ido,
+    turns on flx-ido, uses ido for all buffer/file reading, and
+    finally disables ido's style of highlighting. In constrast to
+    Ido's highlighting, flx-ido provides insight into which actual
+    characters are causing the hits.
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'flx-ido)
+  (require 'flx-ido)
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  (setq ido-use-faces nil)
+#+END_SRC
 
 *** ace-jump-mode
 

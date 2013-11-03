@@ -147,3 +147,15 @@
 #+begin_src emacs-lisp
   (set-face-attribute 'default nil :font "Menlo-18")
 #+end_src
+
+** Memory
+
+   I believe that Emacs will initiate Garbage Collection every time
+   the =gc-cons-threshold= is allocated. That's less than 1MB. I've
+   got 16GB, so I'm flush with memory if it speeds up my Emacs.
+
+   This comes from Lewang's [[https://github.com/lewang/flx][documentation on flx]].
+
+#+BEGIN_SRC emacs-lisp
+  (setq gc-cons-threshold 20000000)
+#+END_SRC

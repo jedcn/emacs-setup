@@ -50,6 +50,8 @@ If REPOSITORY is specified, use that."
 
 (set-face-attribute 'default nil :font "Menlo-18")
 
+(setq gc-cons-threshold 20000000)
+
 (setq user-full-name "Jed Northridge"
       user-mail-address "northridge@gmail.com")
 
@@ -164,6 +166,13 @@ If REPOSITORY is specified, use that."
 (setq smex-save-file (concat user-emacs-directory ".smex-items"))
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
+
+(sacha/package-install 'flx-ido)
+(require 'flx-ido)
+(ido-mode 1)
+(ido-everywhere 1)
+(flx-ido-mode 1)
+(setq ido-use-faces nil)
 
 (sacha/package-install 'ace-jump-mode)
 (require 'ace-jump-mode)

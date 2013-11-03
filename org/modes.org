@@ -47,6 +47,26 @@
   (global-set-key (kbd "M-x") 'smex)
 #+end_src
 
+*** flx-ido
+
+    [[https://github.com/lewang/flx][flx-ido]] is a package written with the idea of bringing Sublime
+    Text's fuzzy search to Emacs.
+
+    It enhances =ido=, and so the configuration below turns on ido,
+    turns on flx-ido, uses ido for all buffer/file reading, and
+    finally disables ido's style of highlighting. In constrast to
+    Ido's highlighting, flx-ido provides insight into which actual
+    characters are causing the hits.
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'flx-ido)
+  (require 'flx-ido)
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  (setq ido-use-faces nil)
+#+END_SRC
+
 *** ace-jump-mode
 
 #+begin_src emacs-lisp
