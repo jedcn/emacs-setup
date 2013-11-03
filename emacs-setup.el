@@ -74,6 +74,8 @@ If REPOSITORY is specified, use that."
         (goto-line (read-number "Goto line: ")))
     (linum-mode -1)))
 
+(setq linum-format " %4d ")
+
 (setq mac-command-modifier 'meta)
 
 (global-set-key (kbd "C-S-n")

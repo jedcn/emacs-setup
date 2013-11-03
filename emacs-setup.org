@@ -330,6 +330,13 @@
       (linum-mode -1)))
 #+end_src
 
+  Finally, from rdallasgray's [[https://github.com/rdallasgray/graphene][Graphene]], sometimes the line numbers
+  look weird, so we give them some extra space.
+
+#+BEGIN_SRC emacs-lisp
+  (setq linum-format " %4d ")
+#+END_SRC
+
 ** MacOS's "Command"
 
    I think keys called 'super' and 'hyper' used to appear on the
