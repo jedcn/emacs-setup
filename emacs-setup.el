@@ -196,6 +196,10 @@ If REPOSITORY is specified, use that."
 ;;  (sacha/package-install 'flycheck)
 ;;  (add-hook 'after-init-hook #'global-flycheck-mode)
 
+(sacha/package-install 'diminish)
+(eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+(diminish 'auto-fill-function)
+
 (sacha/package-install 'rvm)
 
 (rvm-use-default)

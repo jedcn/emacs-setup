@@ -178,6 +178,26 @@
 ;;  (add-hook 'after-init-hook #'global-flycheck-mode)
 #+END_SRC
 
+*** diminish
+
+    In Emacs, the "mode line" shows you information about the active
+    major and any active minor modes. In some cases this is helpful
+    and in other cases this is just "noise." The diminish library
+    allows you to eliminate (or change) contributions that packages
+    make to the mode line.
+
+    I found out about it through this [[http://whattheemacsd.com/init.el-04.html][post]]. It lives [[http://www.eskimo.com/~seldon/diminish.el][here]].
+
+    You can see which modes have been diminished with
+    =diminished-modes=.
+
+    You
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'diminish)
+  (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+  (diminish 'auto-fill-function)
+#+END_SRC
+
 ** Ruby Packages
 
   I really enjoy writing ruby.
