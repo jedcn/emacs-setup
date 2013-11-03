@@ -756,6 +756,74 @@
   (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
   (diminish 'auto-fill-function)
 #+END_SRC
+** project-persist
+
+   [[https://github.com/rdallasgray/project-persist][project-persist]] is a lightweight means for keeping track of
+   projects. Projects have names and a location on your file
+   system. Optionally, they can have settings associated with them.
+
+   That said, you can use project-persist to find a project and close
+   a project, and project-persist provides hooks into these events.
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'project-persist)
+  (project-persist-mode t)
+#+END_SRC
+
+   I layout code on my computer in the following manner:
+
+   + ~/c/misc :: Miscellaneous projects live here.
+   + ~/c/personal :: Personal projects live here.
+   + ~/d :: Code that I don't author, but that I look at
+            semi-regularly lives here.
+
+   For example, if I checkout the source for rake on my computer and I
+   just scan through it, it lives at =~/d/rake/=. If I am actively
+   working on a project named reveal-ck, it lives at
+   =~/c/personal/reveal-ck/=.
+
+   I capture these locations in =jedcn/pp-project-roots=.
+
+   The following code scans through these directories and builds
+   project-persist projects for each directory that's found. The main
+   interactive entry point is =jedcn-pp/rebuild-projects=.
+
+#+BEGIN_SRC emacs-lisp
+
+  (require 'project-persist)
+
+  (setq jedcn/pp-project-roots
+        (list (concat (getenv "HOME") "/c/galileo")
+              (concat (getenv "HOME") "/c/misc")
+              (concat (getenv "HOME") "/c/personal")
+              (concat (getenv "HOME") "/d")))
+
+  (defun jedcn/pp-create-projects-under-root (root)
+    "Create project-persist projects for directories under root"
+    (let* ((dirs (directory-files root))
+           (dir (car dirs))
+           (ignore-dirs '("." ".." ".DS_Store")))
+      (while dirs
+        (unless (member dir ignore-dirs)
+          (unless (pp/project-exists dir)
+            (pp/project-setup (concat root "/" dir) dir)))
+        (setq dirs (cdr dirs))
+        (setq dir (car dirs)))))
+
+  (defun jedcn/pp-create-all-projects (project-roots)
+    "Create all project-persist projects based on PROJECT-ROOTS"
+    (let* ((project-root (car project-roots)))
+      (while project-roots
+        (jedcn/pp-create-projects-under-root project-root)
+        (setq project-roots (cdr project-roots))
+        (setq root (car project-roots)))))
+
+  (defun jedcn-pp/rebuild-projects ()
+    (interactive)
+    (jedcn/pp-create-all-projects jedcn/pp-project-roots))
+
+  (jedcn-pp/rebuild-projects)
+#+END_SRC
 
 ** Ruby Packages
 

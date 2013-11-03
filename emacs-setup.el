@@ -213,6 +213,43 @@ If REPOSITORY is specified, use that."
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
 (diminish 'auto-fill-function)
 
+(sacha/package-install 'project-persist)
+(project-persist-mode t)
+
+(require 'project-persist)
+
+(setq jedcn/pp-project-roots
+      (list (concat (getenv "HOME") "/c/galileo")
+            (concat (getenv "HOME") "/c/misc")
+            (concat (getenv "HOME") "/c/personal")
+            (concat (getenv "HOME") "/d")))
+
+(defun jedcn/pp-create-projects-under-root (root)
+  "Create project-persist projects for directories under root"
+  (let* ((dirs (directory-files root))
+         (dir (car dirs))
+         (ignore-dirs '("." ".." ".DS_Store")))
+    (while dirs
+      (unless (member dir ignore-dirs)
+        (unless (pp/project-exists dir)
+          (pp/project-setup (concat root "/" dir) dir)))
+      (setq dirs (cdr dirs))
+      (setq dir (car dirs)))))
+
+(defun jedcn/pp-create-all-projects (project-roots)
+  "Create all project-persist projects based on PROJECT-ROOTS"
+  (let* ((project-root (car project-roots)))
+    (while project-roots
+      (jedcn/pp-create-projects-under-root project-root)
+      (setq project-roots (cdr project-roots))
+      (setq root (car project-roots)))))
+
+(defun jedcn-pp/rebuild-projects ()
+  (interactive)
+  (jedcn/pp-create-all-projects jedcn/pp-project-roots))
+
+(jedcn-pp/rebuild-projects)
+
 (sacha/package-install 'rvm)
 
 (rvm-use-default)
