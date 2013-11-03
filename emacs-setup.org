@@ -818,6 +818,15 @@
   (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
 #+end_src
 
+  Also, when you press return in ruby, go to a new line and indent
+  rather than just going to a new line.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'ruby-mode-hook
+            (lambda ()
+              (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
+#+END_SRC
+
 *** ruby-electric
 
     This minor mode automatically inserts a right brace when you

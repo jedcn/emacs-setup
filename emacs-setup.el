@@ -228,6 +228,10 @@ If REPOSITORY is specified, use that."
 (add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
 
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
+
 (sacha/package-install 'ruby-electric)
 
 (global-set-key (kbd "C-x m") 'magit-status)
