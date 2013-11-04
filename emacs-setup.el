@@ -213,6 +213,9 @@ If REPOSITORY is specified, use that."
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
 (diminish 'auto-fill-function)
 
+(sacha/package-install 'projectile)
+(require 'projectile)
+
 (sacha/package-install 'project-persist)
 (project-persist-mode t)
 
@@ -242,13 +245,24 @@ If REPOSITORY is specified, use that."
     (while project-roots
       (jedcn/pp-create-projects-under-root project-root)
       (setq project-roots (cdr project-roots))
-      (setq root (car project-roots)))))
+      (setq project-root (car project-roots)))))
 
 (defun jedcn-pp/rebuild-projects ()
   (interactive)
   (jedcn/pp-create-all-projects jedcn/pp-project-roots))
 
 (jedcn-pp/rebuild-projects)
+
+(defun jedcn-set-project-root (dir)
+  "Change the default directory"
+  (setq default-directory dir))
+
+(add-hook 'project-persist-after-load-hook
+          (lambda ()
+            (jedcn-set-project-root project-persist-current-project-root-dir)))
+
+(global-set-key "\M-1" 'project-persist-find)
+(global-set-key "\M-2" 'projectile-find-file)
 
 (sacha/package-install 'rvm)
 

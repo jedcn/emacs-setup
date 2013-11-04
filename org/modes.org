@@ -217,37 +217,58 @@
   (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
   (diminish 'auto-fill-function)
 #+END_SRC
-** project-persist
+** Project Management
 
-   [[https://github.com/rdallasgray/project-persist][project-persist]] is a lightweight means for keeping track of
-   projects. Projects have names and a location on your file
-   system. Optionally, they can have settings associated with them.
+   I use a combination of project-persist and projectile for project
+   management in emacs. Persist lets me manage a "list of projects,"
+   and I can generate this list from the layout of my file
+   system.
 
-   That said, you can use project-persist to find a project and close
-   a project, and project-persist provides hooks into these events.
+   Once I've got that, Persist lets me open and close projects, and
+   Projectile gives me a helpful "find file in project."
+
+*** projectile
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'projectile)
+  (require 'projectile)
+#+END_SRC
+
+*** project-persist
+
+    [[https://github.com/rdallasgray/project-persist][project-persist]] is a lightweight means for keeping track of
+    projects. Projects have names and a location on your file
+    system. Optionally, they can have settings associated with them.
+
+    That said, you can use project-persist to find a project and close
+    a project, and project-persist provides hooks into these events.
+
+**** Basic Installation
 
 #+BEGIN_SRC emacs-lisp
   (sacha/package-install 'project-persist)
   (project-persist-mode t)
 #+END_SRC
 
-   I layout code on my computer in the following manner:
+**** File System Integration
 
-   + ~/c/misc :: Miscellaneous projects live here.
-   + ~/c/personal :: Personal projects live here.
-   + ~/d :: Code that I don't author, but that I look at
-            semi-regularly lives here.
+     I layout code on my computer in the following manner:
 
-   For example, if I checkout the source for rake on my computer and I
-   just scan through it, it lives at =~/d/rake/=. If I am actively
-   working on a project named reveal-ck, it lives at
-   =~/c/personal/reveal-ck/=.
+     + ~/c/misc :: Miscellaneous projects live here.
+     + ~/c/personal :: Personal projects live here.
+     + ~/d :: Code that I don't author, but that I look at
+              semi-regularly lives here.
 
-   I capture these locations in =jedcn/pp-project-roots=.
+     For example, if I checkout the source for rake on my computer and I
+     just scan through it, it lives at =~/d/rake/=. If I am actively
+     working on a project named reveal-ck, it lives at
+     =~/c/personal/reveal-ck/=.
 
-   The following code scans through these directories and builds
-   project-persist projects for each directory that's found. The main
-   interactive entry point is =jedcn-pp/rebuild-projects=.
+     I capture these locations in =jedcn/pp-project-roots=.
+
+     The following code scans through these directories and builds
+     project-persist entries for each directory that is found. The
+     main interactive entry point is =jedcn-pp/rebuild-projects=.
 
 #+BEGIN_SRC emacs-lisp
 
@@ -277,13 +298,37 @@
       (while project-roots
         (jedcn/pp-create-projects-under-root project-root)
         (setq project-roots (cdr project-roots))
-        (setq root (car project-roots)))))
+        (setq project-root (car project-roots)))))
 
   (defun jedcn-pp/rebuild-projects ()
     (interactive)
     (jedcn/pp-create-all-projects jedcn/pp-project-roots))
 
   (jedcn-pp/rebuild-projects)
+#+END_SRC
+
+**** Hooks
+
+     project-persist is intentionally minimal, so, to get something
+     out of it you need to register hooks into its main events. These
+     revolve around project management.
+
+     It can integrate with projectile via a shared global variable
+     named =default-directory=. If project-persist sets this
+     variable, then projectile will pick up on it and focus searches
+     underneath it.
+
+#+BEGIN_SRC emacs-lisp
+  (defun jedcn-set-project-root (dir)
+    "Change the default directory"
+    (setq default-directory dir))
+
+  (add-hook 'project-persist-after-load-hook
+            (lambda ()
+              (jedcn-set-project-root project-persist-current-project-root-dir)))
+
+  (global-set-key "\M-1" 'project-persist-find)
+  (global-set-key "\M-2" 'projectile-find-file)
 #+END_SRC
 
 ** Ruby Packages
