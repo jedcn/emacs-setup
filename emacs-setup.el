@@ -235,7 +235,7 @@ If REPOSITORY is specified, use that."
     (while dirs
       (unless (member dir ignore-dirs)
         (unless (pp/project-exists dir)
-          (pp/project-setup (concat root "/" dir) dir)))
+          (pp/project-setup (concat root "/" dir "/") dir)))
       (setq dirs (cdr dirs))
       (setq dir (car dirs)))))
 
@@ -247,22 +247,265 @@ If REPOSITORY is specified, use that."
       (setq project-roots (cdr project-roots))
       (setq project-root (car project-roots)))))
 
-(defun jedcn-pp/rebuild-projects ()
-  (interactive)
-  (jedcn/pp-create-all-projects jedcn/pp-project-roots))
-
-(jedcn-pp/rebuild-projects)
-
-(defun jedcn-set-project-root (dir)
-  "Change the default directory"
-  (setq default-directory dir))
-
-(add-hook 'project-persist-after-load-hook
-          (lambda ()
-            (jedcn-set-project-root project-persist-current-project-root-dir)))
-
 (global-set-key "\M-1" 'project-persist-find)
 (global-set-key "\M-2" 'projectile-find-file)
+
+(defun kill-default-buffer ()
+  "Kill the currently active buffer -- set to C-x k so that users are not asked which buffer they want to kill."
+  (interactive)
+  (let (kill-buffer-query-functions) (kill-buffer)))
+
+(defun kill-buffer-if-file (buf)
+  "Kill a buffer only if it is file-based."
+  (when (buffer-file-name buf)
+    (when (buffer-modified-p buf)
+        (when (y-or-n-p (format "Buffer %s is modified - save it?" (buffer-name buf)))
+            (save-some-buffers nil buf)))
+    (set-buffer-modified-p nil)
+    (kill-buffer buf)))
+
+(defun kill-all-buffers ()
+    "Kill all file-based buffers."
+    (interactive)
+    (mapc (lambda (buf) (kill-buffer-if-file buf))
+     (buffer-list)))
+
+(defun kill-buffer-and-window ()
+  "Close the current window and kill the buffer it's visiting."
+  (interactive)
+  (progn
+    (kill-buffer)
+    (delete-window)))
+
+(defun create-new-buffer ()
+  "Create a new buffer named *new*[num]."
+  (interactive)
+  (switch-to-buffer (generate-new-buffer-name "*new*")))
+
+(defun insert-semicolon-at-end-of-line ()
+  "Add a closing semicolon from anywhere in the line."
+  (interactive)
+  (save-excursion
+    (end-of-line)
+    (insert ";")))
+
+(defun comment-current-line-dwim ()
+  "Comment or uncomment the current line."
+  (interactive)
+  (save-excursion
+    (push-mark (beginning-of-line) t t)
+    (end-of-line)
+    (comment-dwim nil)))
+
+(defun newline-anywhere ()
+  "Add a newline from anywhere in the line."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
+(defun increase-window-height (&optional arg)
+  "Make the window taller by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window arg))
+
+(defun decrease-window-height (&optional arg)
+  "Make the window shorter by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window (- 0 arg)))
+
+(defun decrease-window-width (&optional arg)
+  "Make the window narrower by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window (- 0 arg) t))
+
+(defun increase-window-width (&optional arg)
+  "Make the window shorter by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window arg t))
+
+;; Create a new instance of emacs
+(when window-system
+  (defun new-emacs-instance ()
+    (interactive)
+    (let ((path-to-emacs
+           (locate-file invocation-name
+                        (list invocation-directory) exec-suffixes)))
+      (call-process path-to-emacs nil 0 nil))))
+
+(sacha/package-install 'sr-speedbar)
+(require 'sr-speedbar)
+
+(defvar graphene-speedbar-refresh-hooks '(after-save-hook)
+  "List of hooks which on being run will cause speedbar to refresh.")
+
+(global-set-key (kbd "M-s") 'sr-speedbar-toggle)
+
+(setq speedbar-hide-button-brackets-flag t
+      speedbar-show-unknown-files t
+      speedbar-smart-directory-expand-flag t
+      speedbar-directory-button-trim-method 'trim
+      speedbar-use-images nil
+      speedbar-indentation-width 2
+      speedbar-use-imenu-flag t
+      speedbar-file-unshown-regexp "flycheck-.*"
+      sr-speedbar-width 40
+      sr-speedbar-width-x 40
+      sr-speedbar-auto-refresh nil
+      sr-speedbar-skip-other-window-p t
+      sr-speedbar-right-side nil)
+
+;; Refresh the speedbar when relevant hooks are run.
+(defvar graphene-speedbar-refresh-hooks)
+(defvar graphene-speedbar-refresh-hooks-added nil
+  "Whether hooks have been added to refresh speedbar.")
+
+(add-hook 'speedbar-mode-hook
+          (when (not graphene-speedbar-refresh-hooks-added)
+            (lambda ()
+              (mapc (lambda (hook)
+                      (add-hook hook 'speedbar-refresh))
+                    graphene-speedbar-refresh-hooks)
+              (setq graphene-speedbar-refresh-hooks-added t))))
+
+;; More familiar keymap settings.
+(add-hook 'speedbar-reconfigure-keymaps-hook
+          '(lambda ()
+             (define-key speedbar-mode-map [S-up] 'speedbar-up-directory)
+             (define-key speedbar-mode-map [right] 'speedbar-flush-expand-line)
+             (define-key speedbar-mode-map [left] 'speedbar-contract-line)))
+
+;; Highlight the current line
+(add-hook 'speedbar-mode-hook '(lambda () (hl-line-mode 1)))
+
+;; Pin and unpin the speedbar
+(defvar graphene-speedbar-pinned-directory)
+
+(defadvice speedbar-update-directory-contents
+  (around graphene-speedbar-pin-directory activate disable)
+  "Pin the speedbar to the directory set in graphene-speedbar-pinned-directory."
+  (let ((default-directory graphene-speedbar-pinned-directory))
+    ad-do-it))
+
+(defadvice speedbar-dir-follow
+  (around graphene-speedbar-prevent-follow activate disable)
+  "Prevent speedbar changing directory on button clicks."
+  (speedbar-toggle-line-expansion))
+
+(defadvice speedbar-directory-buttons-follow
+  (around graphene-speedbar-prevent-root-follow activate disable)
+  "Prevent speedbar changing root directory on button clicks.")
+
+ (defvar graphene-speedbar-pin-advice
+   '((speedbar-update-directory-contents around graphene-speedbar-pin-directory)
+     (speedbar-dir-follow around graphene-speedbar-prevent-follow)
+     (speedbar-directory-buttons-follow around graphene-speedbar-prevent-root-follow))
+   "Advice to be enabled and disabled on graphene-[un]-pin-speedbar.")
+
+(defun graphene-speedbar-pin-advice-activate ()
+  "Activate the advice applied to speedbar functions in order to pin it to a directory."
+  (mapc 'ad-activate (mapcar 'car graphene-speedbar-pin-advice)))
+
+(defun graphene-pin-speedbar (directory)
+  "Prevent the speedbar from changing the displayed root directory."
+  (setq graphene-speedbar-pinned-directory directory)
+  (mapc (lambda (ls) (apply 'ad-enable-advice ls)) graphene-speedbar-pin-advice)
+  (graphene-speedbar-pin-advice-activate))
+
+(defun graphene-unpin-speedbar ()
+  "Allow the speedbar to change the displayed root directory."
+  (mapc (lambda (ls) (apply 'ad-disable-advice ls)) graphene-speedbar-pin-advice)
+  (graphene-speedbar-pin-advice-activate))
+
+;; Always use the last selected window for loading files from speedbar.
+(defvar last-selected-window
+  (if (not (eq (selected-window) sr-speedbar-window))
+      (selected-window)
+    (other-window 1)))
+
+(defadvice select-window (after remember-selected-window activate)
+  "Remember the last selected window."
+  (unless (or (eq (selected-window) sr-speedbar-window) (not (window-live-p (selected-window))))
+    (setq last-selected-window (selected-window))))
+
+(defun sr-speedbar-before-visiting-file-hook ()
+  "Function that hooks `speedbar-before-visiting-file-hook'."
+  (select-window last-selected-window))
+
+(defun sr-speedbar-before-visiting-tag-hook ()
+  "Function that hooks `speedbar-before-visiting-tag-hook'."
+  (select-window last-selected-window))
+
+(defun sr-speedbar-visiting-file-hook ()
+  "Function that hooks `speedbar-visiting-file-hook'."
+  (select-window last-selected-window))
+
+(defun sr-speedbar-visiting-tag-hook ()
+  "Function that hooks `speedbar-visiting-tag-hook'."
+  (select-window last-selected-window))
+
+(defvar graphene-speedbar-auto t
+  "Whether graphene should open sr-speedbar when a project is loaded.")
+
+(defvar graphene-project-pin-speedbar t
+  "Pin the speedbar directory when opening a project.")
+
+(defun graphene-set-project-root (dir)
+  "Change the default directory and update speedbar if used."
+  (setq default-directory dir)
+  (when graphene-speedbar-auto
+    (sr-speedbar-open)
+    (speedbar-update-contents)
+    (when graphene-project-pin-speedbar
+      (graphene-pin-speedbar dir))))
+
+(defun graphene-load-project-desktop ()
+  "Load the project's desktop if available."
+  (ignore-errors
+    (setq default-directory project-persist-current-project-settings-dir)
+    (message (format "Loading project desktop from %s" default-directory))
+    (desktop-read project-persist-current-project-settings-dir)))
+
+ ;; Kill all file-based buffers and unpin the speedbar before opening a project.
+(add-hook 'project-persist-before-load-hook
+          (lambda ()
+            (graphene-unpin-speedbar)
+            (kill-all-buffers)))
+
+ ;; Kill all file-based buffers and unpin the speedbar after closing a project.
+(add-hook 'project-persist-after-close-hook
+          (lambda ()
+            (kill-all-buffers)
+            (graphene-unpin-speedbar)))
+
+;; Set the project root directory, load the project desktop and update speedbar.
+(add-hook 'project-persist-after-load-hook
+          (lambda ()
+            (graphene-load-project-desktop)
+            (graphene-set-project-root project-persist-current-project-root-dir)))
+
+;; Save the project desktop.
+(add-hook 'project-persist-after-save-hook
+          (lambda ()
+            (message (format "Saving project desktop in %s" project-persist-current-project-settings-dir))
+            (desktop-save project-persist-current-project-settings-dir)))
+
+;; http://www.emacswiki.org/DeskTop#toc4: Overriding stale desktop locks
+;;; desktop-override-stale-locks.el begins here
+(defun emacs-process-p (pid)
+  "If pid is the process ID of an emacs process, return t, else nil.
+Also returns nil if pid is nil."
+  (when pid
+    (let ((attributes (process-attributes pid)) (cmd))
+      (dolist (attr attributes)
+        (if (string= "comm" (car attr))
+            (setq cmd (cdr attr))))
+      (if (and cmd (or (string= "emacs" cmd) (string= "emacs.exe" cmd))) t))))
+
+(defadvice desktop-owner (after pry-from-cold-dead-hands activate)
+  "Don't allow dead emacsen to own the desktop file."
+  (when (not (emacs-process-p ad-return-value))
+    (setq ad-return-value nil)))
+;;; desktop-override-stale-locks.el ends here
 
 (sacha/package-install 'rvm)
 
