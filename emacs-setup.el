@@ -250,6 +250,12 @@ If REPOSITORY is specified, use that."
 (global-set-key "\M-1" 'project-persist-find)
 (global-set-key "\M-2" 'projectile-find-file)
 
+(defun jedcn-pp/rebuild-projects ()
+  (interactive)
+  (jedcn/pp-create-all-projects jedcn/pp-project-roots))
+
+(jedcn-pp/rebuild-projects)
+
 (defun kill-default-buffer ()
   "Kill the currently active buffer -- set to C-x k so that users are not asked which buffer they want to kill."
   (interactive)

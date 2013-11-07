@@ -839,6 +839,11 @@
         (setq project-roots (cdr project-roots))
         (setq project-root (car project-roots)))))
 
+  (defun jedcn-pp/rebuild-projects ()
+    (interactive)
+    (jedcn/pp-create-all-projects jedcn/pp-project-roots))
+
+  (jedcn-pp/rebuild-projects)
 #+END_SRC
 
 **** Hooks
