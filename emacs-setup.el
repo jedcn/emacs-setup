@@ -50,6 +50,10 @@ If REPOSITORY is specified, use that."
 
 (set-face-attribute 'default nil :font "Menlo-18")
 
+(sacha/package-install 'powerline)
+(require 'powerline)
+(powerline-center-theme)
+
 (setq gc-cons-threshold 20000000)
 
 (setq user-full-name "Jed Northridge"

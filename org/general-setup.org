@@ -148,6 +148,14 @@
   (set-face-attribute 'default nil :font "Menlo-18")
 #+end_src
 
+*** Mode Line
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'powerline)
+  (require 'powerline)
+  (powerline-center-theme)
+#+END_SRC
+
 ** Memory
 
    I believe that Emacs will initiate Garbage Collection every time

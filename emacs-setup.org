@@ -245,6 +245,14 @@
   (set-face-attribute 'default nil :font "Menlo-18")
 #+end_src
 
+*** Mode Line
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'powerline)
+  (require 'powerline)
+  (powerline-center-theme)
+#+END_SRC
+
 ** Memory
 
    I believe that Emacs will initiate Garbage Collection every time
@@ -867,11 +875,13 @@
                   'projectile-find-file)
 
   (add-hook 'magit-mode-hook
-                 (lambda ()
-                   (define-key magit-mode-map "\M-1"
-                               'project-persist-find)
-                   (define-key magit-mode-map "\M-2"
-                     'projectile-find-file)))
+            (lambda ()
+              (define-key magit-mode-map "\M-1"
+                'project-persist-find)
+              (define-key magit-mode-map "\M-2"
+                'projectile-find-file)
+              (define-key magit-mode-map "\M-s"
+                'sr-speedbar-toggle)))
 
   (global-set-key (kbd "C->")
                   'increase-window-height)
