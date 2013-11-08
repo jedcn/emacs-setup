@@ -264,11 +264,13 @@ If REPOSITORY is specified, use that."
                 'projectile-find-file)
 
 (add-hook 'magit-mode-hook
-               (lambda ()
-                 (define-key magit-mode-map "\M-1"
-                             'project-persist-find)
-                 (define-key magit-mode-map "\M-2"
-                   'projectile-find-file)))
+          (lambda ()
+            (define-key magit-mode-map "\M-1"
+              'project-persist-find)
+            (define-key magit-mode-map "\M-2"
+              'projectile-find-file)
+            (define-key magit-mode-map "\M-s"
+              'sr-speedbar-toggle)))
 
 (global-set-key (kbd "C->")
                 'increase-window-height)
