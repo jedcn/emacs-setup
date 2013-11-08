@@ -217,6 +217,15 @@
   (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
   (diminish 'auto-fill-function)
 #+END_SRC
+*** smartparens
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'smartparens)
+  (require 'smartparens-config)
+  (smartparens-global-mode)
+  (show-smartparens-global-mode +1)
+#+END_SRC
+
 ** Project Management
 
    I use a combination of project-persist and projectile for project
@@ -750,15 +759,6 @@
             (lambda ()
               (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
 #+END_SRC
-
-*** ruby-electric
-
-    This minor mode automatically inserts a right brace when you
-    enter a left brace, or an "end" when you define a def.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'ruby-electric)
-#+end_src
 
 ** Magit
 

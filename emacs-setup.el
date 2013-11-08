@@ -217,6 +217,11 @@ If REPOSITORY is specified, use that."
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
 (diminish 'auto-fill-function)
 
+(sacha/package-install 'smartparens)
+(require 'smartparens-config)
+(smartparens-global-mode)
+(show-smartparens-global-mode +1)
+
 (sacha/package-install 'projectile)
 (require 'projectile)
 
@@ -575,8 +580,6 @@ Also returns nil if pid is nil."
 (add-hook 'ruby-mode-hook
           (lambda ()
             (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
-
-(sacha/package-install 'ruby-electric)
 
 (global-set-key (kbd "C-x m") 'magit-status)
 
