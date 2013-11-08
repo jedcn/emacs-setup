@@ -372,8 +372,8 @@ If REPOSITORY is specified, use that."
       speedbar-indentation-width 2
       speedbar-use-imenu-flag t
       speedbar-file-unshown-regexp "flycheck-.*"
-      sr-speedbar-width 40
-      sr-speedbar-width-x 40
+      sr-speedbar-width 20
+      sr-speedbar-width-x 24
       sr-speedbar-auto-refresh nil
       sr-speedbar-skip-other-window-p t
       sr-speedbar-right-side nil)
