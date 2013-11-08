@@ -247,14 +247,32 @@ If REPOSITORY is specified, use that."
       (setq project-roots (cdr project-roots))
       (setq project-root (car project-roots)))))
 
-(global-set-key "\M-1" 'project-persist-find)
-(global-set-key "\M-2" 'projectile-find-file)
-
 (defun jedcn-pp/rebuild-projects ()
   (interactive)
   (jedcn/pp-create-all-projects jedcn/pp-project-roots))
 
 (jedcn-pp/rebuild-projects)
+
+(global-set-key "\M-1"
+                'project-persist-find)
+
+(global-set-key "\M-2"
+                'projectile-find-file)
+
+(global-set-key (kbd "C->")
+                'increase-window-height)
+
+(global-set-key (kbd "C-<")
+                'decrease-window-height)
+
+(global-set-key (kbd "C-,")
+                'decrease-window-width)
+
+(global-set-key (kbd "C-.")
+                'increase-window-width)
+
+(global-set-key (kbd "C-c s")
+                'sr-speedbar-select-window)
 
 (defun kill-default-buffer ()
   "Kill the currently active buffer -- set to C-x k so that users are not asked which buffer they want to kill."
