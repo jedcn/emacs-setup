@@ -838,7 +838,7 @@
 
   OrgMode is a wonderful thing.
 
-** Key Bindsings
+*** Key Bindings
 
    [[http://orgmode.org/manual/Activation.html#Activation][Org-mode documentation]] suggests that some functions be globally
    bound, and I follow their defaults:
@@ -850,7 +850,7 @@
   (global-set-key "\C-cb" 'org-iswitchb)
 #+end_src
 
-*** Defaults
+**** Defaults
 
   When I open a .org file, I like to see all of the headlines but
   none of the text:
@@ -865,7 +865,7 @@
   (setq org-hide-leading-stars 'hidestars)
 #+end_src
 
-*** Recording Timestamps
+**** Recording Timestamps
 
     This setting makes it so that a timestamp is recorded whenever you
     mark a task as done. [[http://orgmode.org/manual/Closing-items.html#Closing-items][Manual entry]].
@@ -874,7 +874,7 @@
   (setq org-log-done 'time)
 #+end_src
 
-*** Clock
+**** Clock
 
     These settings are necessary to clock history across emacs
     sessions according to [[http://orgmode.org/manual/Clocking-work-time.html][this documentation]].
@@ -884,7 +884,7 @@
   (org-clock-persistence-insinuate)
 #+end_src
 
-*** Diary
+**** Diary
 
     Including the "diary" makes it so that your agenda has official
     holidays in it.
@@ -893,7 +893,7 @@
   (setq org-agenda-include-diary t)
 #+end_src
 
-*** Code Blocks
+**** Code Blocks
 
   These emacs configuration files (.org, .el) use org's "code blocks"
   extensively, and the following has Emacs pay attention to the type
@@ -903,12 +903,12 @@
   (setq org-src-fontify-natively t)
 #+end_src
 
-**** Editing Code Blocks
+***** Editing Code Blocks
 
-  With your cursor over one of these code blocks you can type C-c '
-  and a new buffer will open for editing just that content.
+   With your cursor over one of these code blocks you can type C-c '
+   and a new buffer will open for editing just that content.
 
-**** Executing Code Blocks
+***** Executing Code Blocks
 
   With your cursor over one of these code blocks you can type C-c C-c
   and, if the code block is one of the languages that has been
@@ -927,7 +927,7 @@
        (ruby . t)
        (sh . t)))
 #+end_src
-*** Agenda, Tasks
+**** Agenda, Tasks
 
     I will plan on keeping .org files underneath =~/notes/org=.
 
