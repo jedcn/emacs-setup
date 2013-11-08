@@ -860,26 +860,33 @@
 **** Key Bindings
 
 #+BEGIN_SRC emacs-lisp
-   (global-set-key "\M-1"
-                   'project-persist-find)
+  (global-set-key "\M-1"
+                  'project-persist-find)
 
-   (global-set-key "\M-2"
-                   'projectile-find-file)
+  (global-set-key "\M-2"
+                  'projectile-find-file)
 
-   (global-set-key (kbd "C->")
-                   'increase-window-height)
+  (add-hook 'magit-mode-hook
+                 (lambda ()
+                   (define-key magit-mode-map "\M-1"
+                               'project-persist-find)
+                   (define-key magit-mode-map "\M-2"
+                     'projectile-find-file)))
 
-   (global-set-key (kbd "C-<")
-                   'decrease-window-height)
+  (global-set-key (kbd "C->")
+                  'increase-window-height)
 
-   (global-set-key (kbd "C-,")
-                   'decrease-window-width)
+  (global-set-key (kbd "C-<")
+                  'decrease-window-height)
 
-   (global-set-key (kbd "C-.")
-                   'increase-window-width)
+  (global-set-key (kbd "C-,")
+                  'decrease-window-width)
 
-   (global-set-key (kbd "C-c s")
-                   'sr-speedbar-select-window)
+  (global-set-key (kbd "C-.")
+                  'increase-window-width)
+
+  (global-set-key (kbd "C-c s")
+                  'sr-speedbar-select-window)
 #+END_SRC
 *** graphene
 
