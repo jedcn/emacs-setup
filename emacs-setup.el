@@ -46,7 +46,7 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'zenburn-theme)
 (sacha/package-install 'base16-theme)
-(load-theme 'zenburn t)
+(load-theme 'base16-default t)
 
 (set-face-attribute 'default nil :font "Menlo-18")
 
