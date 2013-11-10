@@ -86,6 +86,15 @@
 
   (jedcn-sync-env-path-and-exec-path jedcn-env-path)
 #+end_src
+** Shell
+
+   The following gives us a "login" shell. Without being quite sure
+   what that means, I know that when this is in place my shell init
+   files are run, my prompt looks normal, etc.
+
+#+BEGIN_SRC emacs-lisp
+  (setq explicit-bash-args '("--noediting" "--login"))
+#+END_SRC
 
 ** UTF-8
 

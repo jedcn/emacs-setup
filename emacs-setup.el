@@ -30,6 +30,8 @@ If REPOSITORY is specified, use that."
 
 (jedcn-sync-env-path-and-exec-path jedcn-env-path)
 
+(setq explicit-bash-args '("--noediting" "--login"))
+
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
