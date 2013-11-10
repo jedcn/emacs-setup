@@ -136,7 +136,7 @@
 #+begin_src emacs-lisp
   (sacha/package-install 'zenburn-theme)
   (sacha/package-install 'base16-theme)
-  (load-theme 'base16-default t)
+  (load-theme 'zenburn t)
 #+end_src
 
 *** Font
