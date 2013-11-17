@@ -220,10 +220,16 @@
   git config --global core.editor /usr/local/bin/emacsclient
 #+end_src
 
-   That said, here's the elisp that starts up an emacs server:
+   That said, here's the elisp that starts up an emacs server if it
+   is needed:
 
 #+begin_src emacs-lisp
-  (server-start)
+  (require 'server)
+  (if (server-running-p)
+      (message "Server is running")
+    (progn
+      (message "Starting server")
+      (server-start)))
 #+end_src
 
 ** Save Place

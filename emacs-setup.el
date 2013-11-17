@@ -40,7 +40,12 @@ If REPOSITORY is specified, use that."
 (set-language-environment 'utf-8)
 (set-default-coding-systems 'utf-8)
 
-(server-start)
+(require 'server)
+(if (server-running-p)
+    (message "Server is running")
+  (progn
+    (message "Starting server")
+    (server-start)))
 
 (require 'saveplace)
 (setq-default save-place t)
