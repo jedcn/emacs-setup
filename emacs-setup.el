@@ -171,6 +171,147 @@ If REPOSITORY is specified, use that."
 
 (add-hook 'prog-mode-hook 'esk-pretty-lambdas)
 
+(global-set-key (kbd "C-x m") 'magit-status)
+
+(sacha/package-install 'magit)
+
+(require 'magit)
+
+(defadvice magit-status (around magit-fullscreen activate)
+  (window-configuration-to-register :magit-fullscreen)
+  ad-do-it
+  (delete-other-windows))
+
+(defun magit-quit-session ()
+  "Restores the previous window configuration and kills the magit buffer"
+  (interactive)
+  (kill-buffer)
+  (jump-to-register :magit-fullscreen))
+
+(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+
+(defun magit-toggle-whitespace ()
+  (interactive)
+  (if (member "-w" magit-diff-options)
+      (magit-dont-ignore-whitespace)
+    (magit-ignore-whitespace)))
+
+(defun magit-ignore-whitespace ()
+  (interactive)
+  (add-to-list 'magit-diff-options "-w")
+  (magit-refresh))
+
+(defun magit-dont-ignore-whitespace ()
+  (interactive)
+  (setq magit-diff-options (remove "-w" magit-diff-options))
+  (magit-refresh))
+
+(define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+
+(setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
+
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-iswitchb)
+
+(setq org-startup-folded 'content)
+
+(setq org-hide-leading-stars 'hidestars)
+
+(setq org-log-done 'time)
+
+(setq org-clock-persist 'history)
+(org-clock-persistence-insinuate)
+
+(setq org-agenda-include-diary t)
+
+(setq org-src-fontify-natively t)
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((emacs-lisp . t)
+   (ruby . t)
+   (sh . t)))
+
+(setq org-agenda-files '("~/notes/org"))
+
+(sacha/package-install 'markdown-mode)
+(sacha/package-install 'markdown-mode+)
+(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
+
+(sacha/package-install 'coffee-mode)
+
+(defun jedcn-coffee-custom ()
+  "jedcn's coffee-mode-hook"
+  (define-key coffee-mode-map [(meta c)] 'coffee-compile-buffer)
+  (make-local-variable 'tab-width)
+  (set 'tab-width 2))
+
+(add-hook 'coffee-mode-hook '(lambda () (jedcn-coffee-custom)))
+
+(sacha/package-install 'haml-mode)
+
+(sacha/package-install 'puppet-mode)
+(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+
+(sacha/package-install 'slim-mode)
+
+(sacha/package-install 'yaml-mode)
+(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+
+(sacha/package-install 'scss-mode)
+
+(setq js-indent-level 2)
+
+(sacha/package-install 'feature-mode)
+
+(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
+
+(add-hook 'ruby-mode-hook
+          (lambda ()
+            (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
+
+(sacha/package-install 'yasnippet)
+(require 'yasnippet)
+(setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
+
+(yas-global-mode 1)
+
+(sacha/package-install 'smartparens)
+(require 'smartparens-config)
+(smartparens-global-mode)
+(show-smartparens-global-mode +1)
+
+(sacha/package-install 'auto-complete)
+(sacha/package-install 'ac-dabbrev)
+(require 'auto-complete-config)
+(ac-config-default)
+
+(sacha/package-install 'ace-jump-mode)
+(require 'ace-jump-mode)
+(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+
+;;  (sacha/package-install 'flycheck)
+;;  (add-hook 'after-init-hook #'global-flycheck-mode)
+
+(sacha/package-install 'rspec-mode)
+
+(defadvice rspec-compile (around rspec-compile-around)
+  "Use BASH shell for running the specs because of ZSH issues."
+  (let ((shell-file-name "/bin/bash"))
+    ad-do-it))
+(ad-activate 'rspec-compile)
+
 (sacha/package-install 'better-defaults)
 
 (sacha/package-install 'smex)
@@ -185,54 +326,20 @@ If REPOSITORY is specified, use that."
 (flx-ido-mode 1)
 (setq ido-use-faces nil)
 
-(sacha/package-install 'ace-jump-mode)
-(require 'ace-jump-mode)
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
-
-(sacha/package-install 'markdown-mode)
-(sacha/package-install 'markdown-mode+)
-(add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-
-(sacha/package-install 'puppet-mode)
-(add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
-
-(sacha/package-install 'haml-mode)
-
-(sacha/package-install 'slim-mode)
-
-(sacha/package-install 'yaml-mode)
-(add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
-
-(sacha/package-install 'coffee-mode)
-
-(defun jedcn-coffee-custom ()
-  "jedcn's coffee-mode-hook"
-  (define-key coffee-mode-map [(meta c)] 'coffee-compile-buffer)
-  (make-local-variable 'tab-width)
-  (set 'tab-width 2))
-
-(add-hook 'coffee-mode-hook '(lambda () (jedcn-coffee-custom)))
-
-(sacha/package-install 'scss-mode)
-
-(setq js-indent-level 2)
-
-;;  (sacha/package-install 'flycheck)
-;;  (add-hook 'after-init-hook #'global-flycheck-mode)
-
 (sacha/package-install 'diminish)
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
 (diminish 'auto-fill-function)
 
-(sacha/package-install 'smartparens)
-(require 'smartparens-config)
-(smartparens-global-mode)
-(show-smartparens-global-mode +1)
+(sacha/package-install 'rvm)
 
-(sacha/package-install 'auto-complete)
-(sacha/package-install 'ac-dabbrev)
-(require 'auto-complete-config)
-(ac-config-default)
+(rvm-use-default)
+
+(add-hook 'ruby-mode-hook
+          (lambda () (rvm-activate-corresponding-ruby)))
+
+(sacha/package-install 'expand-region)
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
 
 (sacha/package-install 'projectile)
 (require 'projectile)
@@ -559,113 +666,6 @@ Also returns nil if pid is nil."
   (when (not (emacs-process-p ad-return-value))
     (setq ad-return-value nil)))
 ;;; desktop-override-stale-locks.el ends here
-
-(sacha/package-install 'rvm)
-
-(rvm-use-default)
-
-(add-hook 'ruby-mode-hook
-          (lambda () (rvm-activate-corresponding-ruby)))
-
-(sacha/package-install 'feature-mode)
-
-(sacha/package-install 'rspec-mode)
-
-(defadvice rspec-compile (around rspec-compile-around)
-  "Use BASH shell for running the specs because of ZSH issues."
-  (let ((shell-file-name "/bin/bash"))
-    ad-do-it))
-(ad-activate 'rspec-compile)
-
-(add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
-
-(add-hook 'ruby-mode-hook
-          (lambda ()
-            (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
-
-(global-set-key (kbd "C-x m") 'magit-status)
-
-(sacha/package-install 'magit)
-
-(require 'magit)
-
-(defadvice magit-status (around magit-fullscreen activate)
-  (window-configuration-to-register :magit-fullscreen)
-  ad-do-it
-  (delete-other-windows))
-
-(defun magit-quit-session ()
-  "Restores the previous window configuration and kills the magit buffer"
-  (interactive)
-  (kill-buffer)
-  (jump-to-register :magit-fullscreen))
-
-(define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
-
-(defun magit-toggle-whitespace ()
-  (interactive)
-  (if (member "-w" magit-diff-options)
-      (magit-dont-ignore-whitespace)
-    (magit-ignore-whitespace)))
-
-(defun magit-ignore-whitespace ()
-  (interactive)
-  (add-to-list 'magit-diff-options "-w")
-  (magit-refresh))
-
-(defun magit-dont-ignore-whitespace ()
-  (interactive)
-  (setq magit-diff-options (remove "-w" magit-diff-options))
-  (magit-refresh))
-
-(define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
-
-(setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
-
-(sacha/package-install 'yasnippet)
-(require 'yasnippet)
-(setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
-
-(yas-global-mode 1)
-
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-iswitchb)
-
-(setq org-startup-folded 'content)
-
-(setq org-hide-leading-stars 'hidestars)
-
-(setq org-log-done 'time)
-
-(setq org-clock-persist 'history)
-(org-clock-persistence-insinuate)
-
-(setq org-agenda-include-diary t)
-
-(setq org-src-fontify-natively t)
-
-(org-babel-do-load-languages
- 'org-babel-load-languages
- '((emacs-lisp . t)
-   (ruby . t)
-   (sh . t)))
-
-(setq org-agenda-files '("~/notes/org"))
-
-(sacha/package-install 'expand-region)
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
 
 (defconst jedcn-eval-buffer-commands
   '(("js" . "/usr/local/bin/node")

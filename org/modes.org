@@ -1,91 +1,225 @@
-* Modes and Packages
+* Major Modes, Minor Modes, and Packages
 
-  Modes bring significant functionality into Emacs. These are the
-  modes (and any associated configuration) that I use.
+  Major and Minor Modes are one avenue that bring significant
+  functionality into Emacs.
 
-  As I understand it, modes are delivered via packages. You can browse
-  available packages by typing =M-x package-list-packages=. As you
-  move around (just like a regular buffer), if you see something you
-  like you can press =i= and the package on the same line as your
-  cursor will be marked for an upcoming installation. When you are
-  ready, press 'x' to install each package that has been marked in
-  this way.
+  The difference between Major and Minor Mode is that only a single
+  Major mode may be in use at a time. A Major Mode typically defines
+  the type of document that you are creating, while a Minor Mode
+  provides conveniences that may be helpful with many types of files.
 
-  If I like a package, I'll revisit this file and formally add it to
-  the list of packages I use. In this file, my intent is to provide
-  notes about a mode, why I am using it, what I am doing with it,
-  etc. Further, I want to hook the list of packages that I am using
-  into a system by which they are automatically installed. I am
-  looking to do this to make sure that I can recreate my emacs
-  installation if I move to a new computer. The means by which
-  packages are automatically installed is with a function named
-  =sacha/package-install=. This was defined previously.
+  =org-mode=, =text-mode=, and =ruby-mode= are all major modes. They
+  are used to create files of a certain type (org, text, and
+  ruby). They define keybindings. They define how documents should be
+  displayed and interacted with.
 
-** General Package Listing
+  =auto-fill= is a minor mode. It helps you "toggle automatic line
+  breaking," which is helpful in =org-mode=, but also in =text-mode=
+  and =ruby-mode=.
 
-*** better-defaults
+  Finally, functionality can be delivered independently from a
+  mode. For example, a library like =better-defaults= can provide
+  elisp code that configures emacs regardless of whether or not you
+  ever make use of =org-mode= (a major mode) or =auto-fill-mode= (a
+  minor mode).
 
-    I started with Emacs Starter Kit, and am following its progression
-    from v1 to v2 and, now, v3. In v3 the esk becomes prose only, and
-    identifies =better-defaults= as a single package with "universal
-    appeal."
+  This section describes the core modes that I use, and how they are
+  configured.
+
+** Getting Code
+
+   My main method for retrieving and installing source code is via the
+   bare package management system. When I'd like to try something out,
+   I type =M-x package-list-packages= and look around. As you move
+   throughout the resulting buffer, if you see something you like you
+   can press =i= and the package on the same line as your cursor will
+   be marked for an upcoming installation. When you are ready, press
+   'x' to install each package that has been marked in this way.
+
+   If I like a package, I'll revisit this file (=modes.org=) and
+   formally add the new package so that it's downloaded when I next
+   rebuild from scratch. I'll also add mode configuration elisp and
+   notes about what it helps me achieve.
+
+** Major Modes
+*** Magit
+
+    Everyone *loves* magit.
+
+    I like to think "C-x m"agit.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'better-defaults)
+  (global-set-key (kbd "C-x m") 'magit-status)
 #+end_src
 
-*** smex
+    Here are two great blog posts about magit: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup Magit #1]] and
+    [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].  The main points are:
 
-    When you want to run a command (say, via M-x) [[https://github.com/nonsequitur/smex][smex]] provides
-    instant feedback by displaying available commands and remembering
-    ones you have recently invoked.
+    + Give Magit full screen when you start it.
+
+    + Setup Magit so that pressing "q" gets rid of full screen.
+
+    + Setup Magit so that pressing "W" toggles paying attention to
+      whitespace.
+
+    I happen to have =emacsclient= installed in two places, one at
+    =/usr/bin= and another at =/usr/local/bin=. The one at =/usr/bin=
+    cannot find my emacs server and this causes Magit to freeze
+    whenever I try to commit. This is why I explicitly set
+    =magit-emacsclient-executable=.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'smex)
-  (setq smex-save-file (concat user-emacs-directory ".smex-items"))
-  (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
+  (sacha/package-install 'magit)
+
+  (require 'magit)
+
+  (defadvice magit-status (around magit-fullscreen activate)
+    (window-configuration-to-register :magit-fullscreen)
+    ad-do-it
+    (delete-other-windows))
+
+  (defun magit-quit-session ()
+    "Restores the previous window configuration and kills the magit buffer"
+    (interactive)
+    (kill-buffer)
+    (jump-to-register :magit-fullscreen))
+
+  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
+
+  (defun magit-toggle-whitespace ()
+    (interactive)
+    (if (member "-w" magit-diff-options)
+        (magit-dont-ignore-whitespace)
+      (magit-ignore-whitespace)))
+
+  (defun magit-ignore-whitespace ()
+    (interactive)
+    (add-to-list 'magit-diff-options "-w")
+    (magit-refresh))
+
+  (defun magit-dont-ignore-whitespace ()
+    (interactive)
+    (setq magit-diff-options (remove "-w" magit-diff-options))
+    (magit-refresh))
+
+  (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
+
+  (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 #+end_src
 
-*** flx-ido
+*** org-mode
 
-    [[https://github.com/lewang/flx][flx-ido]] is a package written with the idea of bringing Sublime
-    Text's fuzzy search to Emacs.
+    OrgMode is a wonderful thing.
 
-    It enhances =ido=, and so the configuration below turns on ido,
-    turns on flx-ido, uses ido for all buffer/file reading, and
-    finally disables ido's style of highlighting. In constrast to
-    Ido's highlighting, flx-ido provides insight into which actual
-    characters are causing the hits.
+**** Key Bindings
 
-#+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'flx-ido)
-  (require 'flx-ido)
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (flx-ido-mode 1)
-  (setq ido-use-faces nil)
-#+END_SRC
-
-*** ace-jump-mode
+     [[http://orgmode.org/manual/Activation.html#Activation][Org-mode documentation]] suggests that some functions be globally
+     bound, and I follow their defaults:
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'ace-jump-mode)
-  (require 'ace-jump-mode)
-  (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+  (global-set-key "\C-ca" 'org-agenda)
+  (global-set-key "\C-cl" 'org-store-link)
+  (global-set-key "\C-cc" 'org-capture)
+  (global-set-key "\C-cb" 'org-iswitchb)
+#+end_src
+
+**** Defaults
+
+     When I open a .org file, I like to see all of the headlines but
+     none of the text:
+
+#+begin_src emacs-lisp
+  (setq org-startup-folded 'content)
+#+end_src
+
+     Hiding the stars looks cleaner to me:
+
+#+begin_src emacs-lisp
+  (setq org-hide-leading-stars 'hidestars)
+#+end_src
+
+**** Recording Timestamps
+
+     This setting makes it so that a timestamp is recorded whenever
+     you mark a task as done. [[http://orgmode.org/manual/Closing-items.html#Closing-items][Manual entry]].
+
+#+begin_src emacs-lisp
+  (setq org-log-done 'time)
+#+end_src
+
+**** Clock
+
+     These settings are necessary to clock history across emacs
+     sessions according to [[http://orgmode.org/manual/Clocking-work-time.html][this documentation]].
+
+#+begin_src emacs-lisp
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+#+end_src
+
+**** Diary
+
+     Including the "diary" makes it so that your agenda has official
+     holidays in it.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-include-diary t)
+#+end_src
+
+**** Code Blocks
+
+     These emacs configuration files (.org, .el) use org's "code
+     blocks" extensively, and the following has Emacs pay attention to
+     the type of code within the blocks.
+
+#+begin_src emacs-lisp
+  (setq org-src-fontify-natively t)
+#+end_src
+
+***** Editing Code Blocks
+
+      With your cursor over one of these code blocks you can type C-c '
+      and a new buffer will open for editing just that content.
+
+***** Executing Code Blocks
+
+      With your cursor over one of these code blocks you can type C-c
+      C-c and, if the code block is one of the languages that has been
+      configured to be run, the block will be executed and the results
+      printed nearby.
+
+      By default, only emacs-lisp is configured to be executed.  The
+      following block makes it so that ruby and shell scripts are too.
+
+      Here's the documentation for this: [[http://orgmode.org/worg/org-contrib/babel/languages.html][babel/languages]].
+
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (ruby . t)
+     (sh . t)))
+#+end_src
+
+**** Agenda, Tasks
+
+     I will plan on keeping .org files underneath =~/notes/org=.
+
+#+begin_src emacs-lisp
+  (setq org-agenda-files '("~/notes/org"))
 #+end_src
 
 *** markdown-mode
 
-  I write in Markdown all the time, and sometimes I use the
-  "compilation" facility of this mode.
+    I write in Markdown all the time, and sometimes I use the
+    "compilation" facility of this mode.
 
-  If you do start using the compilation aspect, you'll need a command
-  line "markdown" to execute.
+    If you do start using the compilation aspect, you'll need a
+    command line "markdown" to execute.
 
-  I got markdown with =brew install markdown=.
+    I got markdown with =brew install markdown=.
 
-  My notes indicate that:
+    My notes indicate that:
 
     You can change the markdown executable, or read more about the
     mode, here: http://jblevins.org/projects/markdown-mode/
@@ -95,39 +229,13 @@
     + =C-c C-c p=: Run markdown on buffer contents. Open result in
       browser.
 
-  I started using markdown-mode+ recently, and I did so after doing a
-  bunch of work to get pandoc installed and working with Emacs.
+    I started using markdown-mode+ recently, and I did so after doing
+    a bunch of work to get pandoc installed and working with Emacs.
 
 #+begin_src emacs-lisp
   (sacha/package-install 'markdown-mode)
   (sacha/package-install 'markdown-mode+)
   (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-#+end_src
-
-*** puppet-mode
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'puppet-mode)
-  (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
-#+end_src
-
-*** haml-mode
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'haml-mode)
-#+end_src
-
-*** slim-mode
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'slim-mode)
-#+end_src
-
-*** yaml-mode
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'yaml-mode)
-  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 #+end_src
 
 *** coffee-mode
@@ -160,6 +268,32 @@
   (add-hook 'coffee-mode-hook '(lambda () (jedcn-coffee-custom)))
 #+end_src
 
+*** haml-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'haml-mode)
+#+end_src
+
+*** puppet-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'puppet-mode)
+  (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
+#+end_src
+
+*** slim-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'slim-mode)
+#+end_src
+
+*** yaml-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'yaml-mode)
+  (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
+#+end_src
+
 *** scss-mode
 
 #+BEGIN_SRC emacs-lisp
@@ -173,6 +307,119 @@
 #+BEGIN_SRC emacs-lisp
   (setq js-indent-level 2)
 #+END_SRC
+
+*** feature-mode
+
+  I don't often write Gherkin at work, but I do try to use Cucumber
+  whenever I get the chance on side projects. So far I've been using
+  this mode mainly for syntax highlighting.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'feature-mode)
+#+end_src
+
+*** ruby-mode
+
+    I really enjoy writing ruby.
+
+    At a high level, my MacOS has RVM installed from http://rvm.io.
+
+    Then, my emacs uses a package named rvm that understands how
+    http://rvm.io works, and can direct emacs to use any of the
+    various rubies that rvm provides.
+
+    I explicitly use the default ruby from RVM, but Emacs also updates
+    the ruby I'm using each time I start editing a file in
+    ruby-mode. I think this works by looking at the location of the
+    file I'm editing, looking "up" to find the associated .rvmrc or
+    .ruby-version, and then activating it.
+
+    With all of that said, my main flow is to run rspec and cucumber
+    from within emacs. This capability is provided by feature-mode and
+    rspec-mode.
+
+    The main key bindings I use are:
+
+    + =C-c , v=
+
+      Run rspec or cucumber against the file I'm editing
+
+    + =C-c , s=
+
+      Run rspec or cucumber against the single line of the spec or
+      feature I'm editing.
+
+    For now, the main thing I do is turn on ruby-mode when I'm
+    editing well known file types:
+
+#+begin_src emacs-lisp
+  (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
+  (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
+#+end_src
+
+    Also, when you press return in ruby, go to a new line and indent
+    rather than just going to a new line.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'ruby-mode-hook
+            (lambda ()
+              (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
+#+END_SRC
+
+** Minor Modes
+*** yasnippet
+
+    My favorite snippet to use is =dbg=, which I found in Jim Weirich's
+    emacs setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'yasnippet)
+  (require 'yasnippet)
+  (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
+#+end_src
+
+    When I was setting up yasnippet, I saw the following in the official
+    documentation:
+
+#+begin_src emacs-lisp
+  (yas-global-mode 1)
+#+end_src
+
+*** smartparens
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'smartparens)
+  (require 'smartparens-config)
+  (smartparens-global-mode)
+  (show-smartparens-global-mode +1)
+#+END_SRC
+
+*** auto-complete
+
+    [[http://cx4a.org/software/auto-complete/][auto-complete]].
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'auto-complete)
+  (sacha/package-install 'ac-dabbrev)
+  (require 'auto-complete-config)
+  (ac-config-default)
+#+END_SRC
+
+*** ace-jump-mode
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'ace-jump-mode)
+  (require 'ace-jump-mode)
+  (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+#+end_src
 
 *** flycheck
 
@@ -198,6 +445,73 @@
 ;;  (add-hook 'after-init-hook #'global-flycheck-mode)
 #+END_SRC
 
+*** rspec-mode
+
+    I *love* rspec.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'rspec-mode)
+#+end_src
+
+    I also have been using ZSH, and when I was getting rspec-mode up
+    and running a few months ago, I ran into trouble. Thankfully, the
+    author of rspec mode had [[https://github.com/pezra/rspec-mode][a solution for using rspec mode with ZSH]].
+
+#+begin_src emacs-lisp
+  (defadvice rspec-compile (around rspec-compile-around)
+    "Use BASH shell for running the specs because of ZSH issues."
+    (let ((shell-file-name "/bin/bash"))
+      ad-do-it))
+  (ad-activate 'rspec-compile)
+#+end_src
+
+** General Package Listing
+*** better-defaults
+
+    I started with Emacs Starter Kit, and am following its progression
+    from v1 to v2 and, now, v3. In v3 the esk becomes prose only, and
+    identifies =better-defaults= as a single package with "universal
+    appeal."
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'better-defaults)
+#+end_src
+
+*** smex
+
+    When you want to run a command (say, via M-x) [[https://github.com/nonsequitur/smex][smex]] provides
+    instant feedback by displaying available commands and remembering
+    ones you have recently invoked.
+
+    I am using it as the front-end for Ido.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'smex)
+  (setq smex-save-file (concat user-emacs-directory ".smex-items"))
+  (smex-initialize)
+  (global-set-key (kbd "M-x") 'smex)
+#+end_src
+
+*** flx-ido
+
+    [[https://github.com/lewang/flx][flx-ido]] is a package written with the idea of bringing the fuzzy
+    search of Sublime Text to Emacs.
+
+    It enhances =ido=, and so the configuration below turns on ido,
+    turns on flx-ido, uses ido for all buffer/file reading, and
+    finally disables ido's style of highlighting. In constrast to
+    Ido's highlighting, flx-ido provides insight into which actual
+    characters are causing the hits.
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'flx-ido)
+  (require 'flx-ido)
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  (setq ido-use-faces nil)
+#+END_SRC
+
 *** diminish
 
     In Emacs, the "mode line" shows you information about the active
@@ -211,38 +525,54 @@
     You can see which modes have been diminished with
     =diminished-modes=.
 
-    You
 #+BEGIN_SRC emacs-lisp
   (sacha/package-install 'diminish)
   (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
   (diminish 'auto-fill-function)
 #+END_SRC
-*** smartparens
 
-#+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'smartparens)
-  (require 'smartparens-config)
-  (smartparens-global-mode)
-  (show-smartparens-global-mode +1)
-#+END_SRC
+*** rvm
 
-*** auto-complete
+#+begin_src emacs-lisp
+  (sacha/package-install 'rvm)
+#+end_src
 
-    [[http://cx4a.org/software/auto-complete/][auto-complete]].
+    For emacs, on a MacOS, I believe the following configures my setup
+    so that I'll use the default ruby provided by RVM when I need
+    ruby.
 
-#+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'auto-complete)
-  (sacha/package-install 'ac-dabbrev)
-  (require 'auto-complete-config)
-  (ac-config-default)
-#+END_SRC
+#+begin_src emacs-lisp
+  (rvm-use-default)
+#+end_src
+
+    I was reading a [[http://devblog.avdi.org/2011/10/11/rvm-el-and-inf-ruby-emacs-reboot-14/][blog post by Avdi Grimm about how he was using RVM]]
+    the other day, and that's where I picked up the following helpful
+    snippet that works with the emacs rvm subsystem to activate the
+    correct version of ruby each time you open a ruby-based file:
+
+#+begin_src emacs-lisp
+  (add-hook 'ruby-mode-hook
+            (lambda () (rvm-activate-corresponding-ruby)))
+#+end_src
+
+*** expand-region
+
+    The functionality from =expand-region= is most easily described by
+    watching the excellent emacsrocks.com [[http://emacsrocks.com/e09.html][Introductory Video]]. The
+    project is hosted on [[https://github.com/magnars/expand-region.el][github]], and I use a standard setup for it,
+    which means that you get things started by pressing =C-==.
+
+#+begin_src emacs-lisp
+  (sacha/package-install 'expand-region)
+  (require 'expand-region)
+  (global-set-key (kbd "C-=") 'er/expand-region)
+#+end_src
 
 ** Project Management
 
    I use a combination of project-persist and projectile for project
    management in emacs. Persist lets me manage a "list of projects,"
-   and I can generate this list from the layout of my file
-   system.
+   and I can generate this list from the layout of my file system.
 
    Once I've got that, Persist lets me open and close projects, and
    Projectile gives me a helpful "find file in project."
@@ -658,311 +988,3 @@
       (setq ad-return-value nil)))
   ;;; desktop-override-stale-locks.el ends here
 #+END_SRC
-
-** Ruby Packages
-
-  I really enjoy writing ruby.
-
-  At a high level, my MacOS has RVM installed from http://rvm.io.
-
-  Then, my emacs uses a package named rvm that understands how
-  http://rvm.io works, and can direct emacs to use any of the various
-  rubies that rvm provides.
-
-  I explicitly use the default ruby from RVM, but Emacs also updates
-  the ruby I'm using each time I start editing a file in ruby-mode. I
-  think this works by looking at the location of the file I'm editing,
-  looking "up" to find the associated .rvmrc or .ruby-version, and
-  then activating it.
-
-  With all of that said, my main flow is to run rspec and cucumber
-  from within emacs. This capability is provided by feature-mode and
-  rspec-mode.
-
-  The main key bindings I use are:
-
-    + =C-c , v=
-
-      Run rspec or cucumber against the file I'm editing
-
-    + =C-c , s=
-
-      Run rspec or cucumber against the single line of the spec or
-      feature I'm editing.
-
-*** rvm
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'rvm)
-#+end_src
-
-  For emacs, on a MacOS, I believe the following configures my setup
-  so that I'll use the default ruby provided by RVM when I need ruby.
-
-#+begin_src emacs-lisp
-  (rvm-use-default)
-#+end_src
-
-  I was reading a [[http://devblog.avdi.org/2011/10/11/rvm-el-and-inf-ruby-emacs-reboot-14/][blog post by Avdi Grimm about how he was using RVM]]
-  the other day, and that's where I picked up the following helpful
-  snippet that works with the emacs rvm subsystem to activate the
-  correct version of ruby each time you open a ruby-based file:
-
-#+begin_src emacs-lisp
-  (add-hook 'ruby-mode-hook
-            (lambda () (rvm-activate-corresponding-ruby)))
-#+end_src
-
-*** feature-mode
-
-  I don't often write Gherkin at work, but I do try to use Cucumber
-  whenever I get the chance on side projects. So far I've been using
-  this mode mainly for syntax highlighting.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'feature-mode)
-#+end_src
-
-*** rspec-mode
-
-  I *love* rspec.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'rspec-mode)
-#+end_src
-
-  I also have been using ZSH, and when I was getting rspec-mode up and
-  running a few months ago, I ran into trouble. Thankfully, the author
-  of rspec mode had [[https://github.com/pezra/rspec-mode][a solution for using rspec mode with ZSH]].
-
-#+begin_src emacs-lisp
-  (defadvice rspec-compile (around rspec-compile-around)
-    "Use BASH shell for running the specs because of ZSH issues."
-    (let ((shell-file-name "/bin/bash"))
-      ad-do-it))
-  (ad-activate 'rspec-compile)
-#+end_src
-
-*** ruby-mode
-
-  For now, the main thing I do is turn on ruby-mode when I'm
-  editing well known file types:
-
-#+begin_src emacs-lisp
-  (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.ru$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Rakefile$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Gemfile$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Capfile$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Vagrantfile$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
-  (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
-#+end_src
-
-  Also, when you press return in ruby, go to a new line and indent
-  rather than just going to a new line.
-
-#+BEGIN_SRC emacs-lisp
-  (add-hook 'ruby-mode-hook
-            (lambda ()
-              (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
-#+END_SRC
-
-** Magit
-
-   Everyone *loves* magit.
-
-   I like to think "C-x m"agit.
-
-#+begin_src emacs-lisp
-  (global-set-key (kbd "C-x m") 'magit-status)
-#+end_src
-
-   Beyond cosmetics, here are two great blog posts about magit: [[http://whattheemacsd.com/setup-magit.el-01.html][Setup
-   Magit #1]] and [[http://whattheemacsd.com/setup-magit.el-02.html][Setup Magit #2]].  The main points are:
-
-   + Give Magit full screen when you start it.
-
-   + Setup Magit so that pressing "q" gets rid of full screen.
-
-   + Setup Magit so that pressing "W" toggles paying attention to
-     whitespace.
-
-   I happen to have =emacsclient= installed in two places, one at
-   =/usr/bin= and another at =/usr/local/bin=. The one at =/usr/bin=
-   cannot find my emacs server and this causes Magit to freeze
-   whenever I try to commit. This is why I explicitly set
-   =magit-emacsclient-executable=.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'magit)
-
-  (require 'magit)
-
-  (defadvice magit-status (around magit-fullscreen activate)
-    (window-configuration-to-register :magit-fullscreen)
-    ad-do-it
-    (delete-other-windows))
-
-  (defun magit-quit-session ()
-    "Restores the previous window configuration and kills the magit buffer"
-    (interactive)
-    (kill-buffer)
-    (jump-to-register :magit-fullscreen))
-
-  (define-key magit-status-mode-map (kbd "q") 'magit-quit-session)
-
-  (defun magit-toggle-whitespace ()
-    (interactive)
-    (if (member "-w" magit-diff-options)
-        (magit-dont-ignore-whitespace)
-      (magit-ignore-whitespace)))
-
-  (defun magit-ignore-whitespace ()
-    (interactive)
-    (add-to-list 'magit-diff-options "-w")
-    (magit-refresh))
-
-  (defun magit-dont-ignore-whitespace ()
-    (interactive)
-    (setq magit-diff-options (remove "-w" magit-diff-options))
-    (magit-refresh))
-
-  (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
-
-  (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
-#+end_src
-
-** yasnippet
-
-  My favorite snippet to use is =dbg=, which I found in Jim Weirich's
-  emacs setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'yasnippet)
-  (require 'yasnippet)
-  (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
-#+end_src
-
-  When I was setting up yasnippet, I saw the following in the official
-  documentation:
-
-#+begin_src emacs-lisp
-  (yas-global-mode 1)
-#+end_src
-
-** org-mode
-
-  OrgMode is a wonderful thing.
-
-*** Key Bindings
-
-   [[http://orgmode.org/manual/Activation.html#Activation][Org-mode documentation]] suggests that some functions be globally
-   bound, and I follow their defaults:
-
-#+begin_src emacs-lisp
-  (global-set-key "\C-ca" 'org-agenda)
-  (global-set-key "\C-cl" 'org-store-link)
-  (global-set-key "\C-cc" 'org-capture)
-  (global-set-key "\C-cb" 'org-iswitchb)
-#+end_src
-
-**** Defaults
-
-  When I open a .org file, I like to see all of the headlines but
-  none of the text:
-
-#+begin_src emacs-lisp
-  (setq org-startup-folded 'content)
-#+end_src
-
-  Hiding the stars looks cleaner to me:
-
-#+begin_src emacs-lisp
-  (setq org-hide-leading-stars 'hidestars)
-#+end_src
-
-**** Recording Timestamps
-
-    This setting makes it so that a timestamp is recorded whenever you
-    mark a task as done. [[http://orgmode.org/manual/Closing-items.html#Closing-items][Manual entry]].
-
-#+begin_src emacs-lisp
-  (setq org-log-done 'time)
-#+end_src
-
-**** Clock
-
-    These settings are necessary to clock history across emacs
-    sessions according to [[http://orgmode.org/manual/Clocking-work-time.html][this documentation]].
-
-#+begin_src emacs-lisp
-  (setq org-clock-persist 'history)
-  (org-clock-persistence-insinuate)
-#+end_src
-
-**** Diary
-
-    Including the "diary" makes it so that your agenda has official
-    holidays in it.
-
-#+begin_src emacs-lisp
-  (setq org-agenda-include-diary t)
-#+end_src
-
-**** Code Blocks
-
-  These emacs configuration files (.org, .el) use org's "code blocks"
-  extensively, and the following has Emacs pay attention to the type
-  of code within the blocks.
-
-#+begin_src emacs-lisp
-  (setq org-src-fontify-natively t)
-#+end_src
-
-***** Editing Code Blocks
-
-   With your cursor over one of these code blocks you can type C-c '
-   and a new buffer will open for editing just that content.
-
-***** Executing Code Blocks
-
-  With your cursor over one of these code blocks you can type C-c C-c
-  and, if the code block is one of the languages that has been
-  configured to be run, the block will be executed and the results
-  printed nearby.
-
-  By default, only emacs-lisp is configured to be executed.  The
-  following block makes it so that ruby and shell scripts are too.
-
-  Here's the documentation for this: [[http://orgmode.org/worg/org-contrib/babel/languages.html][babel/languages]].
-
-#+begin_src emacs-lisp
-    (org-babel-do-load-languages
-     'org-babel-load-languages
-     '((emacs-lisp . t)
-       (ruby . t)
-       (sh . t)))
-#+end_src
-**** Agenda, Tasks
-
-    I will plan on keeping .org files underneath =~/notes/org=.
-
-#+begin_src emacs-lisp
-  (setq org-agenda-files '("~/notes/org"))
-#+end_src
-
-** expand-region
-
-   The functionality from =expand-region= is most easily described by
-   watching the excellent emacsrocks.com [[http://emacsrocks.com/e09.html][Introductory Video]]. The
-   project is hosted on [[https://github.com/magnars/expand-region.el][github]], and I use a standard setup for it,
-   which means that you get things started by pressing =C-==.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'expand-region)
-  (require 'expand-region)
-  (global-set-key (kbd "C-=") 'er/expand-region)
-#+end_src
