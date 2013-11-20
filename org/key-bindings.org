@@ -13,12 +13,12 @@
    that *Occur* window comes up, you can press =e= to start
    editing. You can press =C-c C-c= to get out of it.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (define-key isearch-mode-map (kbd "C-o")
     (lambda () (interactive)
       (let ((case-fold-search isearch-case-fold-search))
         (occur (if isearch-regexp isearch-string (regexp-quote isearch-string))))))
-#+end_src
+#+END_SRC
 
 ** Running Methods
 
@@ -26,9 +26,9 @@
    I picked this up from Steve Yegge's [[https://sites.google.com/site/steveyegge2/effective-emacs][Effective Emacs]]. He says use
    =execute-extended-command=, but I always use smex.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (global-set-key "\C-x\C-m" 'smex)
-#+end_src
+#+END_SRC
 
 ** Text Size
 
@@ -38,19 +38,19 @@
    meeting), but also when I am at home and do not have my glasses.
    These particular keybindings are all about the =+= and the =-=.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (define-key global-map (kbd "C-+") 'text-scale-increase)
   (define-key global-map (kbd "C--") 'text-scale-decrease)
-#+end_src
+#+END_SRC
 
 ** Goto Line
 
   The following makes it so that when I press =C-x g= I can expect to
   be prompted to enter a line number to jump to it.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x g") 'goto-line)
-#+end_src
+#+END_SRC
 
   And the elisp below makes it so that whatever goto-line was bound to
   is now bound to a new function: goto-line-with-feedback.
@@ -67,7 +67,7 @@
 
   This comes from [[http://whattheemacsd.com/key-bindings.el-01.html][this post]] within "what the emacs.d."
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (global-set-key [remap goto-line] 'goto-line-with-feedback)
 
   (defun goto-line-with-feedback ()
@@ -78,7 +78,7 @@
           (linum-mode 1)
           (goto-line (read-number "Goto line: ")))
       (linum-mode -1)))
-#+end_src
+#+END_SRC
 
   Finally, from rdallasgray's [[https://github.com/rdallasgray/graphene][Graphene]], sometimes the line numbers
   look weird, so we give them some extra space.
@@ -102,9 +102,9 @@
    myself to consider the following variables: mac-option-modifier,
    mac-command-modifier, and ns-function-modifer.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (setq mac-command-modifier 'meta)
-#+end_src
+#+END_SRC
 
 ** Movement
 
@@ -115,7 +115,7 @@
 
     This comes from Magnars in this [[http://whattheemacsd.com/key-bindings.el-02.html][post of whattheemacsd.com]].
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-S-n")
                   (lambda ()
                     (interactive)
@@ -135,14 +135,14 @@
                   (lambda ()
                     (interactive)
                     (ignore-errors (backward-char 5))))
-#+end_src
+#+END_SRC
 
 *** Move current line up or down
 
     This matches what Magnars says in [[http://whattheemacsd.com/editing-defuns.el-02.html][this post]], except I also use
     META.
 
-#+begin_src emacs-lisp
+#+BEGIN_SRC emacs-lisp
   (defun move-line-down ()
     (interactive)
     (let ((col (current-column)))
@@ -161,7 +161,7 @@
       (move-to-column col)))
   (global-set-key (kbd "<C-M-S-down>") 'move-line-down)
   (global-set-key (kbd "<C-M-S-up>") 'move-line-up)
-#+end_src
+#+END_SRC
 
 ** Window Management
 
@@ -228,6 +228,4 @@
             (lambda ()
               (define-key org-mode-map [(ctrl \,)]
                 'decrease-window-width)))
-#+END_SRC
-
 #+END_SRC
