@@ -336,7 +336,12 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'ace-jump-mode)
 (require 'ace-jump-mode)
-(define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+(define-key global-map
+  (kbd "C-c SPC") 'ace-jump-mode)
+(add-hook 'org-mode-hook
+          (lambda ()
+            (define-key org-mode-map
+              (kbd "C-c SPC") 'ace-jump-mode)))
 
 ;;  (sacha/package-install 'flycheck)
 ;;  (add-hook 'after-init-hook #'global-flycheck-mode)

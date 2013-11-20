@@ -1044,10 +1044,21 @@
 
 *** ace-jump-mode
 
+    I'm giving ace-jump-mode a try. I often search forward and
+    backward to jump around, but maybe there's room for improvement.
+
+    =C-c SPC= is recommended with the basic setup, and I hook into the
+    org-mode-map so I can have a consistent binding there.
+
 #+begin_src emacs-lisp
   (sacha/package-install 'ace-jump-mode)
   (require 'ace-jump-mode)
-  (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
+  (define-key global-map
+    (kbd "C-c SPC") 'ace-jump-mode)
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (define-key org-mode-map
+                (kbd "C-c SPC") 'ace-jump-mode)))
 #+end_src
 
 *** flycheck
