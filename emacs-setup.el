@@ -132,6 +132,43 @@ If REPOSITORY is specified, use that."
 (global-set-key (kbd "<C-M-S-down>") 'move-line-down)
 (global-set-key (kbd "<C-M-S-up>") 'move-line-up)
 
+(defun increase-window-height (&optional arg)
+  "Make the window taller by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window arg))
+
+(defun decrease-window-height (&optional arg)
+  "Make the window shorter by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window (- 0 arg)))
+
+(defun decrease-window-width (&optional arg)
+  "Make the window narrower by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window (- 0 arg) t))
+
+(defun increase-window-width (&optional arg)
+  "Make the window shorter by one line. Useful when bound to a repeatable key combination."
+  (interactive "p")
+  (enlarge-window arg t))
+
+(global-set-key (kbd "C->")
+                'increase-window-height)
+
+(global-set-key (kbd "C-<")
+                'decrease-window-height)
+
+(global-set-key (kbd "C-,")
+                'decrease-window-width)
+
+(global-set-key (kbd "C-.")
+                'increase-window-width)
+
+(add-hook 'org-mode-hook
+          (lambda ()
+            (define-key org-mode-map [(ctrl \,)]
+              'decrease-window-width)))
+
 (setq visible-bell t
       inhibit-startup-message t)
 
@@ -396,18 +433,6 @@ If REPOSITORY is specified, use that."
             (define-key magit-mode-map "\M-s"
               'sr-speedbar-toggle)))
 
-(global-set-key (kbd "C->")
-                'increase-window-height)
-
-(global-set-key (kbd "C-<")
-                'decrease-window-height)
-
-(global-set-key (kbd "C-,")
-                'decrease-window-width)
-
-(global-set-key (kbd "C-.")
-                'increase-window-width)
-
 (global-set-key (kbd "C-c s")
                 'sr-speedbar-select-window)
 
@@ -463,26 +488,6 @@ If REPOSITORY is specified, use that."
   (interactive)
   (end-of-line)
   (newline-and-indent))
-
-(defun increase-window-height (&optional arg)
-  "Make the window taller by one line. Useful when bound to a repeatable key combination."
-  (interactive "p")
-  (enlarge-window arg))
-
-(defun decrease-window-height (&optional arg)
-  "Make the window shorter by one line. Useful when bound to a repeatable key combination."
-  (interactive "p")
-  (enlarge-window (- 0 arg)))
-
-(defun decrease-window-width (&optional arg)
-  "Make the window narrower by one line. Useful when bound to a repeatable key combination."
-  (interactive "p")
-  (enlarge-window (- 0 arg) t))
-
-(defun increase-window-width (&optional arg)
-  "Make the window shorter by one line. Useful when bound to a repeatable key combination."
-  (interactive "p")
-  (enlarge-window arg t))
 
 ;; Create a new instance of emacs
 (when window-system

@@ -449,6 +449,73 @@
   (global-set-key (kbd "<C-M-S-down>") 'move-line-down)
   (global-set-key (kbd "<C-M-S-up>") 'move-line-up)
 #+end_src
+
+** Window Management
+
+   I usually focus on a single buffer at a time, but sometimes I
+   split vertically or horizontally (and possibly split again..) and
+   when I do I like to control the size of the buffer I am presently
+   typing in with the following key bindings:
+
+   |-------------------+--------|
+   | Vertical Expand   | CTRL-> |
+   | Vertical Shrink   | CTRL-< |
+   |-------------------+--------|
+   | Horizontal Expand | CTRL-. |
+   | Horizontal Shrink | CTRL-, |
+   |-------------------+--------|
+
+   These keybindings (and the elisp that makes them possible) come
+   from rdallasgray's graphene package.
+
+   See [[https://github.com/rdallasgray/graphene/blob/master/graphene-helper-functions.el#L89][graphene-helper-functions.el]].
+
+   Graphene is awesome. On my (North American) keyboard these keys are
+   right next to each other in a similar fashion as are the + and -
+   which are used above in conjunction with CTRL to increase and
+   decrease text scale.
+
+   CTRL- collides with =org-cycle-agenda-files= when in org-mode, and
+   I'd like decrease-window-width to take precedence.
+
+#+BEGIN_SRC emacs-lisp
+  (defun increase-window-height (&optional arg)
+    "Make the window taller by one line. Useful when bound to a repeatable key combination."
+    (interactive "p")
+    (enlarge-window arg))
+
+  (defun decrease-window-height (&optional arg)
+    "Make the window shorter by one line. Useful when bound to a repeatable key combination."
+    (interactive "p")
+    (enlarge-window (- 0 arg)))
+
+  (defun decrease-window-width (&optional arg)
+    "Make the window narrower by one line. Useful when bound to a repeatable key combination."
+    (interactive "p")
+    (enlarge-window (- 0 arg) t))
+
+  (defun increase-window-width (&optional arg)
+    "Make the window shorter by one line. Useful when bound to a repeatable key combination."
+    (interactive "p")
+    (enlarge-window arg t))
+
+  (global-set-key (kbd "C->")
+                  'increase-window-height)
+
+  (global-set-key (kbd "C-<")
+                  'decrease-window-height)
+
+  (global-set-key (kbd "C-,")
+                  'decrease-window-width)
+
+  (global-set-key (kbd "C-.")
+                  'increase-window-width)
+
+  (add-hook 'org-mode-hook
+            (lambda ()
+              (define-key org-mode-map [(ctrl \,)]
+                'decrease-window-width)))
+#+END_SRC
 * Behaviors
 
   ...
@@ -1248,18 +1315,6 @@
               (define-key magit-mode-map "\M-s"
                 'sr-speedbar-toggle)))
 
-  (global-set-key (kbd "C->")
-                  'increase-window-height)
-
-  (global-set-key (kbd "C-<")
-                  'decrease-window-height)
-
-  (global-set-key (kbd "C-,")
-                  'decrease-window-width)
-
-  (global-set-key (kbd "C-.")
-                  'increase-window-width)
-
   (global-set-key (kbd "C-c s")
                   'sr-speedbar-select-window)
 #+END_SRC
@@ -1324,26 +1379,6 @@
     (interactive)
     (end-of-line)
     (newline-and-indent))
-
-  (defun increase-window-height (&optional arg)
-    "Make the window taller by one line. Useful when bound to a repeatable key combination."
-    (interactive "p")
-    (enlarge-window arg))
-
-  (defun decrease-window-height (&optional arg)
-    "Make the window shorter by one line. Useful when bound to a repeatable key combination."
-    (interactive "p")
-    (enlarge-window (- 0 arg)))
-
-  (defun decrease-window-width (&optional arg)
-    "Make the window narrower by one line. Useful when bound to a repeatable key combination."
-    (interactive "p")
-    (enlarge-window (- 0 arg) t))
-
-  (defun increase-window-width (&optional arg)
-    "Make the window shorter by one line. Useful when bound to a repeatable key combination."
-    (interactive "p")
-    (enlarge-window arg t))
 
   ;; Create a new instance of emacs
   (when window-system
