@@ -53,7 +53,24 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'zenburn-theme)
 (sacha/package-install 'base16-theme)
-(load-theme 'zenburn t)
+(sacha/package-install 'color-theme-solarized)
+
+(setq jedcn-themes '(base16-chalk
+                     base16-default
+                     base16-eighties
+                     base16-monokai
+                     base16-railscasts
+                     base16-tomorrow
+                     solarized-dark
+                     solarized-light
+                     zenburn
+                     ))
+
+(if window-system
+    (load-theme
+     (nth (random (length jedcn-themes))
+          jedcn-themes)
+     t))
 
 (set-face-attribute 'default nil :font "Menlo-18")
 

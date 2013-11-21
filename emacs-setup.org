@@ -245,11 +245,36 @@
 
 *** Color Theme
 
-#+begin_src emacs-lisp
+    Zenburn and Base16 are great. I'm trying out color-theme-solarized
+    because of Graphene and [[https://github.com/rdallasgray/.emacs.d/blob/master/init.el#L300][rdallasgray]].
+
+    Regardless, bring in some categories of themes and load a random
+    one each time we start up. This happens every time I start emacs
+    but also every time I invoke =new-emacs-instance=.
+
+#+BEGIN_SRC emacs-lisp
   (sacha/package-install 'zenburn-theme)
   (sacha/package-install 'base16-theme)
-  (load-theme 'zenburn t)
-#+end_src
+  (sacha/package-install 'color-theme-solarized)
+
+  (setq jedcn-themes '(base16-chalk
+                       base16-default
+                       base16-eighties
+                       base16-monokai
+                       base16-railscasts
+                       base16-tomorrow
+                       solarized-dark
+                       solarized-light
+                       zenburn
+                       ))
+
+  (if window-system
+      (load-theme
+       (nth (random (length jedcn-themes))
+            jedcn-themes)
+       t))
+
+#+END_SRC
 
 *** Font
 
