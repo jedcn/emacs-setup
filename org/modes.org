@@ -107,6 +107,15 @@
   (setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
 #+end_src
 
+    In Magit, the variable =magit-diff-refine-hunk= controls the
+    granularity that is displayed when it comes to diff-hunks. If you
+    set it to "all" you get better insight into what's changed within
+    a line.
+
+#+BEGIN_SRC emacs-lisp
+  (setq magit-diff-refine-hunk 'all)
+#+END_SRC
+
 *** org-mode
 
     OrgMode is a wonderful thing.
