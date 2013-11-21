@@ -24,7 +24,16 @@
   minor mode).
 
   This section describes the core modes that I use, and how they are
-  configured.
+  configured. It breaks down into Major Modes, Minor Modes, and
+  Packages.
+
+  Another way to organize this section is by functional topic. So, for
+  example, put everything I do associated with setting up a Ruby
+  environment into a general section regardless of whether it's
+  achieved through using a major mode, minor mode, or package.
+
+  The only topic organized in this manner is Project Management, which
+  is in its own section.
 
 ** Getting Code
 
@@ -485,7 +494,7 @@
   (ad-activate 'rspec-compile)
 #+end_src
 
-** General Package Listing
+** Packages
 *** better-defaults
 
     I started with Emacs Starter Kit, and am following its progression
@@ -588,39 +597,53 @@
   (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
 
-** Project Management
+** Functional Areas
+*** Project Management
 
-   I use a combination of project-persist and projectile for project
-   management in emacs. Persist lets me manage a "list of projects,"
-   and I can generate this list from the layout of my file system.
+    This setup allows me to have a single active project at a time. I
+    can find files "within" this project with a fuzzy search. I can
+    get a "sidebar" that shows me the directory structure of the
+    project. I can have an "instance" of emacs for each project. Emacs
+    discovers which projects exist by looking through known places on
+    my file system, so, from a project creation point of view, I just
+    clone projects into one of several directories and re-run a
+    function in emacs (or restart it).
 
-   Once I've got that, Persist lets me open and close projects, and
-   Projectile gives me a helpful "find file in project."
+    All of this is achieved, primarily, by software written by
+    [[https://github.com/rdallasgray][rdallasgray]] and [[https://github.com/bbatsov][bbatsov]].
 
-*** projectile
+    [[https://github.com/rdallasgray/project-persist][Project-persist]] defines what a project is, and provides hooks
+    around creating, opening and closing them. [[https://github.com/rdallasgray/graphene][Graphene]] has a bunch of
+    tweaks to the sidebar (and some other neat stuff).
+
+    [[https://github.com/bbatsov/projectile][Projectile]] helps me find files within a project.
+
+**** projectile
+
+     It's presence is enough to get going. We'll setup the fuzzy-find later.
 
 #+BEGIN_SRC emacs-lisp
   (sacha/package-install 'projectile)
   (require 'projectile)
 #+END_SRC
 
-*** project-persist
+**** project-persist
 
-    [[https://github.com/rdallasgray/project-persist][project-persist]] is a lightweight means for keeping track of
-    projects. Projects have names and a location on your file
-    system. Optionally, they can have settings associated with them.
+     [[https://github.com/rdallasgray/project-persist][project-persist]] is a lightweight means for keeping track of
+     projects. Projects have names and a location on your file
+     system. Optionally, they can have settings associated with them.
 
-    That said, you can use project-persist to find a project and close
-    a project, and project-persist provides hooks into these events.
+     That said, you can use project-persist to find a project and close
+     a project, and project-persist provides hooks into these events.
 
-**** Basic Installation
+***** Basic Installation
 
 #+BEGIN_SRC emacs-lisp
   (sacha/package-install 'project-persist)
   (project-persist-mode t)
 #+END_SRC
 
-**** File System Integration
+***** File System Integration
 
      I layout code on my computer in the following manner:
 
@@ -641,7 +664,6 @@
      main interactive entry point is =jedcn-pp/rebuild-projects=.
 
 #+BEGIN_SRC emacs-lisp
-
   (require 'project-persist)
 
   (setq jedcn/pp-project-roots
@@ -677,18 +699,35 @@
   (jedcn-pp/rebuild-projects)
 #+END_SRC
 
-**** Hooks
+***** Hooks
 
-     project-persist is intentionally minimal, so, to get something
-     out of it you need to register hooks into its main events. These
-     revolve around project management.
+      project-persist is intentionally minimal, so, to get something
+      out of it you need to register hooks into its main events. These
+      revolve around project management.
 
-     It can integrate with projectile via a shared global variable
-     named =default-directory=. If project-persist sets this
-     variable, then projectile will pick up on it and focus searches
-     underneath it.
+      The hooks are:
 
-**** Key Bindings
+      + project-persist-before-load-hook
+      + project-persist-after-close-hook
+      + project-persist-after-load-hook
+      + project-persist-after-save-hook
+
+      These are setup in the section graphene-projects.el below.
+
+***** Project-persist and Projectile Integration
+
+      These two projects integrate using a well-known global variable
+      named =default-directory=. If project-persist sets this variable
+      in hooks mentioned above (and below), then projectile will pick
+      up on it and focus searches underneath it.
+
+***** Key Bindings
+
+      The goal is to have a single binding to open a project, and a
+      another binding to find a file within a project.
+
+      The sidebar is ignored when switching between windows, but you
+      can explicitly jump into it or toggle its presence.
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key "\M-1"
@@ -709,13 +748,20 @@
   (global-set-key (kbd "C-c s")
                   'sr-speedbar-select-window)
 #+END_SRC
-*** graphene
+**** graphene
 
-    Graphene is a great package, but there are parts of it I'm not yet
-    ready for just yet (autocomplete, smartparens). Consequently, I've
-    inlined copies of it here.
+     Graphene is a great package, but, like many packages, I like to
+     split it up and choose the parts I'm most interested in. It's too
+     large for me to subsume at once. Consequently, the following
+     section contains parts of the code that I'm using. I reference
+     the original file names to keep stuff clear(er). I am going
+     through this code and pruning out stuff I don't use, or moving
+     stuff I do use to its appropriate home in my emacs-setup.
 
-**** graphene-helper-functions.el
+     For now, the following three sections are the heart of my project
+     management solution.
+
+***** graphene-helper-functions.el
 
 #+BEGIN_SRC emacs-lisp
   (defun kill-default-buffer ()
@@ -781,7 +827,7 @@
         (call-process path-to-emacs nil 0 nil))))
 #+END_SRC
 
-**** graphene-speedbar.el
+***** graphene-speedbar.el
 
      Some setup is necessary to use graphene-speedbar.el. I make sure
      I've got sr-speedbar installed and I define
@@ -902,7 +948,7 @@
     (select-window last-selected-window))
 #+END_SRC
 
-**** graphene-projects.el
+***** graphene-projects.el
 
      Some setup is necessary to use graphene-projects.el. I've
      previously required in project-persist, and then I define
