@@ -1862,9 +1862,9 @@
 
 ** Component Files
 
-   The list of files that will be included in the is stored in
-   =files=. Order is significant. These files are presumed to be
-   within =files-dir=.
+   The list of files that will be included in the composite file is
+   stored in =files=. Order is significant. These files are presumed
+   to be within =files-dir=.
 
 #+begin_src emacs-lisp
   (setq jedcn-es/files-dir (concat
