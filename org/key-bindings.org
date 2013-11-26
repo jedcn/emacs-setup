@@ -266,3 +266,21 @@
     (global-set-key (kbd "C-c N")
                     'new-emacs-instance))
 #+END_SRC
+** Newline Anywhere
+
+   Press "M-RET" and get a new line that's indented. The intent is
+   that can press it when you are at the beginning of a line, in the
+   middle of a line, or at the end of a line.
+
+   This is from Graphene.
+
+#+BEGIN_SRC emacs-lisp
+  (defun newline-anywhere ()
+    "Add a newline from anywhere in the line."
+    (interactive)
+    (end-of-line)
+    (newline-and-indent))
+
+  (global-set-key (kbd "M-RET")
+                  'newline-anywhere)
+#+END_SRC

@@ -805,12 +805,6 @@
       (push-mark (beginning-of-line) t t)
       (end-of-line)
       (comment-dwim nil)))
-
-  (defun newline-anywhere ()
-    "Add a newline from anywhere in the line."
-    (interactive)
-    (end-of-line)
-    (newline-and-indent))
 #+END_SRC
 
 ***** graphene-speedbar.el

@@ -205,6 +205,15 @@ If REPOSITORY is specified, use that."
   (global-set-key (kbd "C-c N")
                   'new-emacs-instance))
 
+(defun newline-anywhere ()
+  "Add a newline from anywhere in the line."
+  (interactive)
+  (end-of-line)
+  (newline-and-indent))
+
+(global-set-key (kbd "M-RET")
+                'newline-anywhere)
+
 (setq visible-bell t
       inhibit-startup-message t)
 
@@ -520,12 +529,6 @@ If REPOSITORY is specified, use that."
     (push-mark (beginning-of-line) t t)
     (end-of-line)
     (comment-dwim nil)))
-
-(defun newline-anywhere ()
-  "Add a newline from anywhere in the line."
-  (interactive)
-  (end-of-line)
-  (newline-and-indent))
 
 (sacha/package-install 'sr-speedbar)
 (require 'sr-speedbar)
