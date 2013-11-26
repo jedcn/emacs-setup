@@ -597,6 +597,22 @@
   (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
 
+*** multiple-cursors
+
+    This video, http://emacsrocks.com/e13.html, blew my
+    mind. Especially the writeable dired. Hah!
+
+    I'm not sure how to use this mode yet, or what the right bindings
+    are, but I think the main functions are:
+
+    + mc/mark-next-like-this
+    + mc/mark-all-like-this
+    + mc/edit-lines
+
+#+BEGIN_SRC emacs-lisp
+  (sacha/package-install 'multiple-cursors)
+#+END_SRC
+
 ** Functional Areas
 *** Project Management
 

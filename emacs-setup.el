@@ -430,6 +430,8 @@ If REPOSITORY is specified, use that."
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+(sacha/package-install 'multiple-cursors)
+
 (sacha/package-install 'projectile)
 (require 'projectile)
 
