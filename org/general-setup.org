@@ -175,8 +175,8 @@
       (load-theme
        (nth (random (length jedcn-themes))
             jedcn-themes)
-       t))
-
+       t)
+    (load-theme 'zenburn t))
 #+END_SRC
 
 *** Font
@@ -185,7 +185,8 @@
     "Menlo-18".
 
 #+begin_src emacs-lisp
-  (set-face-attribute 'default nil :font "Menlo-18")
+  (if window-system
+      (set-face-attribute 'default nil :font "Menlo-18"))
 #+end_src
 
 *** Mode Line

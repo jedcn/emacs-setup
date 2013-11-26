@@ -70,9 +70,11 @@ If REPOSITORY is specified, use that."
     (load-theme
      (nth (random (length jedcn-themes))
           jedcn-themes)
-     t))
+     t)
+  (load-theme 'zenburn t))
 
-(set-face-attribute 'default nil :font "Menlo-18")
+(if window-system
+    (set-face-attribute 'default nil :font "Menlo-18"))
 
 (sacha/package-install 'powerline)
 (require 'powerline)
