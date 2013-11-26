@@ -791,11 +791,6 @@
       (kill-buffer)
       (delete-window)))
 
-  (defun create-new-buffer ()
-    "Create a new buffer named *new*[num]."
-    (interactive)
-    (switch-to-buffer (generate-new-buffer-name "*new*")))
-
   (defun insert-semicolon-at-end-of-line ()
     "Add a closing semicolon from anywhere in the line."
     (interactive)
@@ -816,15 +811,6 @@
     (interactive)
     (end-of-line)
     (newline-and-indent))
-
-  ;; Create a new instance of emacs
-  (when window-system
-    (defun new-emacs-instance ()
-      (interactive)
-      (let ((path-to-emacs
-             (locate-file invocation-name
-                          (list invocation-directory) exec-suffixes)))
-        (call-process path-to-emacs nil 0 nil))))
 #+END_SRC
 
 ***** graphene-speedbar.el

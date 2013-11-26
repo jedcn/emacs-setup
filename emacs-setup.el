@@ -186,6 +186,25 @@ If REPOSITORY is specified, use that."
             (define-key org-mode-map [(ctrl \,)]
               'decrease-window-width)))
 
+(defun create-new-buffer ()
+  "Create a new buffer named *new*[num]."
+  (interactive)
+  (switch-to-buffer (generate-new-buffer-name "*new*")))
+
+(global-set-key (kbd "C-c n")
+                'create-new-buffer)
+
+(when window-system
+  (defun new-emacs-instance ()
+    (interactive)
+    (let ((path-to-emacs
+           (locate-file invocation-name
+                        (list invocation-directory) exec-suffixes)))
+      (call-process path-to-emacs nil 0 nil)))
+
+  (global-set-key (kbd "C-c N")
+                  'new-emacs-instance))
+
 (setq visible-bell t
       inhibit-startup-message t)
 
@@ -487,11 +506,6 @@ If REPOSITORY is specified, use that."
     (kill-buffer)
     (delete-window)))
 
-(defun create-new-buffer ()
-  "Create a new buffer named *new*[num]."
-  (interactive)
-  (switch-to-buffer (generate-new-buffer-name "*new*")))
-
 (defun insert-semicolon-at-end-of-line ()
   "Add a closing semicolon from anywhere in the line."
   (interactive)
@@ -512,15 +526,6 @@ If REPOSITORY is specified, use that."
   (interactive)
   (end-of-line)
   (newline-and-indent))
-
-;; Create a new instance of emacs
-(when window-system
-  (defun new-emacs-instance ()
-    (interactive)
-    (let ((path-to-emacs
-           (locate-file invocation-name
-                        (list invocation-directory) exec-suffixes)))
-      (call-process path-to-emacs nil 0 nil))))
 
 (sacha/package-install 'sr-speedbar)
 (require 'sr-speedbar)

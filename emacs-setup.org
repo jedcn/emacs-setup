@@ -541,6 +541,43 @@
               (define-key org-mode-map [(ctrl \,)]
                 'decrease-window-width)))
 #+END_SRC
+
+** New Buffers
+
+   Create a new buffer.
+
+   This comes from Graphene.
+
+#+BEGIN_SRC emacs-lisp
+  (defun create-new-buffer ()
+    "Create a new buffer named *new*[num]."
+    (interactive)
+    (switch-to-buffer (generate-new-buffer-name "*new*")))
+
+  (global-set-key (kbd "C-c n")
+                  'create-new-buffer)
+#+END_SRC
+
+** New Instances of Emacs
+
+   It is usually the case that a single instance of emacs is dedicated
+   to a single project. Before I did project management this way, I
+   only had a single instance of emacs, ever.
+
+   This comes from Graphene.
+
+#+BEGIN_SRC emacs-lisp
+  (when window-system
+    (defun new-emacs-instance ()
+      (interactive)
+      (let ((path-to-emacs
+             (locate-file invocation-name
+                          (list invocation-directory) exec-suffixes)))
+        (call-process path-to-emacs nil 0 nil)))
+
+    (global-set-key (kbd "C-c N")
+                    'new-emacs-instance))
+#+END_SRC
 * Behaviors
 
   ...
@@ -1445,11 +1482,6 @@
       (kill-buffer)
       (delete-window)))
 
-  (defun create-new-buffer ()
-    "Create a new buffer named *new*[num]."
-    (interactive)
-    (switch-to-buffer (generate-new-buffer-name "*new*")))
-
   (defun insert-semicolon-at-end-of-line ()
     "Add a closing semicolon from anywhere in the line."
     (interactive)
@@ -1470,15 +1502,6 @@
     (interactive)
     (end-of-line)
     (newline-and-indent))
-
-  ;; Create a new instance of emacs
-  (when window-system
-    (defun new-emacs-instance ()
-      (interactive)
-      (let ((path-to-emacs
-             (locate-file invocation-name
-                          (list invocation-directory) exec-suffixes)))
-        (call-process path-to-emacs nil 0 nil))))
 #+END_SRC
 
 ***** graphene-speedbar.el
