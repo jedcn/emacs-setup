@@ -54,6 +54,7 @@ If REPOSITORY is specified, use that."
 (sacha/package-install 'zenburn-theme)
 (sacha/package-install 'base16-theme)
 (sacha/package-install 'color-theme-solarized)
+(sacha/package-install 'monokai-theme)
 
 (setq jedcn-themes '(base16-chalk
                      base16-default
@@ -61,8 +62,11 @@ If REPOSITORY is specified, use that."
                      base16-monokai
                      base16-railscasts
                      base16-tomorrow
+                     monokai
                      solarized-dark
                      solarized-light
+                     tango-dark
+                     wombat
                      zenburn
                      ))
 
