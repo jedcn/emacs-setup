@@ -1136,13 +1136,16 @@
 
 *** auto-complete
 
-    [[http://cx4a.org/software/auto-complete/][auto-complete]].
+    [[http://cx4a.org/software/auto-complete/][auto-complete]]. This looks really interesting, but it's bringing me
+    down and I don't have time to figure it out right now so I'm
+    disabling it (as opposed to removing it) with the thinking that
+    I'll be back someday.
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'auto-complete)
-  (sacha/package-install 'ac-dabbrev)
-  (require 'auto-complete-config)
-  (ac-config-default)
+  ;; (sacha/package-install 'auto-complete)
+  ;; (sacha/package-install 'ac-dabbrev)
+  ;; (require 'auto-complete-config)
+  ;; (ac-config-default)
 #+END_SRC
 
 *** ace-jump-mode

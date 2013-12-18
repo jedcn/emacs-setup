@@ -382,10 +382,10 @@ If REPOSITORY is specified, use that."
 (smartparens-global-mode)
 (show-smartparens-global-mode +1)
 
-(sacha/package-install 'auto-complete)
-(sacha/package-install 'ac-dabbrev)
-(require 'auto-complete-config)
-(ac-config-default)
+;; (sacha/package-install 'auto-complete)
+;; (sacha/package-install 'ac-dabbrev)
+;; (require 'auto-complete-config)
+;; (ac-config-default)
 
 (sacha/package-install 'ace-jump-mode)
 (require 'ace-jump-mode)
