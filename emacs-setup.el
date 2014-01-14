@@ -423,7 +423,9 @@ If REPOSITORY is specified, use that."
 
 (sacha/package-install 'diminish)
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+(eval-after-load "project-persist" '(diminish 'project-persist-mode))
 (diminish 'auto-fill-function)
+(diminish 'smartparens-mode)
 
 (sacha/package-install 'rvm)
 

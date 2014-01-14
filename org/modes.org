@@ -560,7 +560,9 @@
 #+BEGIN_SRC emacs-lisp
   (sacha/package-install 'diminish)
   (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
+  (eval-after-load "project-persist" '(diminish 'project-persist-mode))
   (diminish 'auto-fill-function)
+  (diminish 'smartparens-mode)
 #+END_SRC
 
 *** rvm
