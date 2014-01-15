@@ -160,6 +160,7 @@
   (sacha/package-install 'base16-theme)
   (sacha/package-install 'color-theme-solarized)
   (sacha/package-install 'monokai-theme)
+  (sacha/package-install 'bubbleberry-theme)
 
   (setq jedcn-themes '(base16-chalk
                        base16-default
@@ -167,6 +168,7 @@
                        base16-monokai
                        base16-railscasts
                        base16-tomorrow
+                       bubbleberry
                        monokai
                        solarized-dark
                        solarized-light
