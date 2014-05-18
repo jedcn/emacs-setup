@@ -50,6 +50,10 @@
    additional configuration changes I'd like to make, I add a section
    in this file with those changes.
 
+   Because of the way I'm using =emacs-setup=, I'll copy the
+   ~/.emacs.d/Cask into wherever I've checked out =emacs-setup= as I
+   make changes.
+
 ** Major Modes
 *** Magit
 
