@@ -3,24 +3,6 @@
                     user-emacs-directory
                     "emacs-setup"))
 
-(package-initialize)
-
-(add-to-list 'package-archives
-             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-
-(unless
-    (file-directory-p "~/.emacs.d/elpa")
-  (package-list-packages))
-
-(defun sacha/package-install (package &optional repository)
-  "Install PACKAGE if it has not yet been installed.
-If REPOSITORY is specified, use that."
-  (unless (package-installed-p package)
-    (let ((package-archives (if repository
-                                (list (assoc repository package-archives))
-                              package-archives)))
-    (package-install package))))
-
 (setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/usr/local/share/npm/bin")
 
 (defun jedcn-sync-env-path-and-exec-path (desired-path)
@@ -51,36 +33,11 @@ If REPOSITORY is specified, use that."
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
-(sacha/package-install 'zenburn-theme)
-(sacha/package-install 'base16-theme)
-(sacha/package-install 'color-theme-solarized)
-(sacha/package-install 'monokai-theme)
-
-(setq jedcn-themes '(base16-chalk
-                     base16-default
-                     base16-eighties
-                     base16-monokai
-                     base16-railscasts
-                     base16-tomorrow
-                     monokai
-                     solarized-dark
-                     solarized-light
-                     tango-dark
-                     wombat
-                     zenburn
-                     ))
-
-(if window-system
-    (load-theme
-     (nth (random (length jedcn-themes))
-          jedcn-themes)
-     t)
-  (load-theme 'zenburn t))
+(load-theme 'zenburn t)
 
 (if window-system
     (set-face-attribute 'default nil :font "Menlo-18"))
 
-(sacha/package-install 'powerline)
 (require 'powerline)
 (powerline-center-theme)
 
@@ -261,8 +218,6 @@ If REPOSITORY is specified, use that."
 
 (global-set-key (kbd "C-x m") 'magit-status)
 
-(sacha/package-install 'magit)
-
 (require 'magit)
 
 (defadvice magit-status (around magit-fullscreen activate)
@@ -326,11 +281,7 @@ If REPOSITORY is specified, use that."
 
 (setq org-agenda-files '("~/notes/org"))
 
-(sacha/package-install 'markdown-mode)
-(sacha/package-install 'markdown-mode+)
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
-
-(sacha/package-install 'coffee-mode)
 
 (defun jedcn-coffee-custom ()
   "jedcn's coffee-mode-hook"
@@ -340,21 +291,11 @@ If REPOSITORY is specified, use that."
 
 (add-hook 'coffee-mode-hook '(lambda () (jedcn-coffee-custom)))
 
-(sacha/package-install 'haml-mode)
-
-(sacha/package-install 'puppet-mode)
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
-(sacha/package-install 'slim-mode)
-
-(sacha/package-install 'yaml-mode)
 (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 
-(sacha/package-install 'scss-mode)
-
 (setq js-indent-level 2)
-
-(sacha/package-install 'feature-mode)
 
 (add-to-list 'auto-mode-alist '("\\.rake$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.gemspec$" . ruby-mode))
@@ -371,23 +312,18 @@ If REPOSITORY is specified, use that."
           (lambda ()
             (define-key (current-local-map) [remap newline] 'reindent-then-newline-and-indent)))
 
-(sacha/package-install 'yasnippet)
 (require 'yasnippet)
 (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 
 (yas-global-mode 1)
 
-(sacha/package-install 'smartparens)
 (require 'smartparens-config)
 (smartparens-global-mode)
 (show-smartparens-global-mode +1)
 
-;; (sacha/package-install 'auto-complete)
-;; (sacha/package-install 'ac-dabbrev)
 ;; (require 'auto-complete-config)
 ;; (ac-config-default)
 
-(sacha/package-install 'ace-jump-mode)
 (require 'ace-jump-mode)
 (define-key global-map
   (kbd "C-c SPC") 'ace-jump-mode)
@@ -396,10 +332,7 @@ If REPOSITORY is specified, use that."
             (define-key org-mode-map
               (kbd "C-c SPC") 'ace-jump-mode)))
 
-;;  (sacha/package-install 'flycheck)
 ;;  (add-hook 'after-init-hook #'global-flycheck-mode)
-
-(sacha/package-install 'rspec-mode)
 
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
@@ -407,43 +340,31 @@ If REPOSITORY is specified, use that."
     ad-do-it))
 (ad-activate 'rspec-compile)
 
-(sacha/package-install 'better-defaults)
-
-(sacha/package-install 'smex)
 (setq smex-save-file (concat user-emacs-directory ".smex-items"))
 (smex-initialize)
 (global-set-key (kbd "M-x") 'smex)
 
-(sacha/package-install 'flx-ido)
 (require 'flx-ido)
 (ido-mode 1)
 (ido-everywhere 1)
 (flx-ido-mode 1)
 (setq ido-use-faces nil)
 
-(sacha/package-install 'diminish)
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
 (eval-after-load "project-persist" '(diminish 'project-persist-mode))
 (diminish 'auto-fill-function)
 (diminish 'smartparens-mode)
-
-(sacha/package-install 'rvm)
 
 (rvm-use-default)
 
 (add-hook 'ruby-mode-hook
           (lambda () (rvm-activate-corresponding-ruby)))
 
-(sacha/package-install 'expand-region)
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-(sacha/package-install 'multiple-cursors)
-
-(sacha/package-install 'projectile)
 (require 'projectile)
 
-(sacha/package-install 'project-persist)
 (project-persist-mode t)
 
 (require 'project-persist)
@@ -540,7 +461,6 @@ If REPOSITORY is specified, use that."
     (end-of-line)
     (comment-dwim nil)))
 
-(sacha/package-install 'sr-speedbar)
 (require 'sr-speedbar)
 
 (defvar graphene-speedbar-refresh-hooks '(after-save-hook)

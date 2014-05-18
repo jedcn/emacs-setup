@@ -1,0 +1,5 @@
+(setq jedcn-cask-dir "/usr/local/Cellar/cask/0.6.0/")
+(require 'cask (concat jedcn-cask-dir "cask.el"))
+(cask-initialize)
+(require 'pallet)
+(load (concat user-emacs-directory "emacs-setup/emacs-setup.el"))

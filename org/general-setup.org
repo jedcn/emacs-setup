@@ -10,57 +10,13 @@
    have had good luck finding up-to-date packages in
    http://melpa.milkbox.net/.
 
-   That said, each time I open up emacs I make sure that the package
-   management system is initialized before I configure it to use
-   melpa:
+   That said, before I open up emacs for the first time on a new
+   machine, I ensure that there's a =~/.emacs.d/Cask= file present and
+   I've run =cask install= from a termianl when I am in my
+   =~/.emacs.d= directory.
 
-#+begin_src emacs-lisp
-  (package-initialize)
-
-  (add-to-list 'package-archives
-               '("melpa" . "http://melpa.milkbox.net/packages/") t)
-#+end_src
-
-   My observation is that packages cannot be installed until a
-   repository is contacted, at least once, and an overview of the
-   contents are downloaded and cached locally.
-
-   The following elisp will run =package-list-packages= if
-   =~/.emacs.d/elpa= does not exist, and is rooted in the belief that
-   the first time you run =package-list-packages= the contents of the
-   archive are cached within =~/.emacs.d/elpa=.
-
-#+begin_src emacs-lisp
-  (unless
-      (file-directory-p "~/.emacs.d/elpa")
-    (package-list-packages))
-#+end_src
-
-   I am interested in ensuring that the elpa cache has been created so
-   that I can programatically install packages. I first read about
-   this in Sacha Chua's excellent blog post on her configuration:
-   [[http://sachachua.com/blog/2012/06/literate-programming-emacs-configuration-file/][Literate programming and my Emacs configuration file]]. She defines a
-   function (copied below) that will install the package if it is not
-   present:
-
-#+begin_src emacs-lisp
-  (defun sacha/package-install (package &optional repository)
-    "Install PACKAGE if it has not yet been installed.
-  If REPOSITORY is specified, use that."
-    (unless (package-installed-p package)
-      (let ((package-archives (if repository
-                                  (list (assoc repository package-archives))
-                                package-archives)))
-      (package-install package))))
-#+end_src
-
-   In combination, these facilities are the foundation of my package
-   management strategy: initialize the subsystem, configure the
-   repositories, and then define a means to programatically install
-   missing packages. Doing this early on in my initialization process
-   means that code which follows can state, "I expect to have package
-   XYZ," by saying, =(sacha/package-install "XYZ")= and then presume
-   that XYZ is present.
+   My Cask file determines where I get packages from, and it calls out
+   which packages I want installed.
 
 ** PATH
 
@@ -156,33 +112,7 @@
     but also every time I invoke =new-emacs-instance=.
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'zenburn-theme)
-  (sacha/package-install 'base16-theme)
-  (sacha/package-install 'color-theme-solarized)
-  (sacha/package-install 'monokai-theme)
-  (sacha/package-install 'bubbleberry-theme)
-
-  (setq jedcn-themes '(base16-chalk
-                       base16-default
-                       base16-eighties
-                       base16-monokai
-                       base16-railscasts
-                       base16-tomorrow
-                       bubbleberry
-                       monokai
-                       solarized-dark
-                       solarized-light
-                       tango-dark
-                       wombat
-                       zenburn
-                       ))
-
-  (if window-system
-      (load-theme
-       (nth (random (length jedcn-themes))
-            jedcn-themes)
-       t)
-    (load-theme 'zenburn t))
+  (load-theme 'zenburn t)
 #+END_SRC
 
 *** Font
@@ -198,7 +128,6 @@
 *** Mode Line
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'powerline)
   (require 'powerline)
   (powerline-center-theme)
 #+END_SRC

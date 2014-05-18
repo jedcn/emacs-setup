@@ -14,11 +14,16 @@ My first steps in this journey begin with a
 
 Warm Regards,
 
-Jed Northridge  
-Cambridge, MA  
-August, 24th, 2013  
+```
+Jed Northridge
+Cambridge, MA
+August, 24th, 2013
+```
 
 ## Inventory
+
+* The idea is that I clone this repository to a machine where I don't
+  have a ~/.emacs.d. Then I run [install.sh][install.sh].
 
 * The configuration is spread across `.org` files in the `org/`
   directory.
@@ -38,3 +43,4 @@ August, 24th, 2013
 [emacs-setup.el]: https://github.com/jedcn/emacs-setup/blob/master/emacs-setup.el
 [emacs-setup.org]: https://github.com/jedcn/emacs-setup/blob/master/emacs-setup.org
 [lp]: http://en.wikipedia.org/wiki/Literate_programming
+[install.sh]: install.sh
