@@ -227,26 +227,9 @@
 
 *** markdown-mode
 
-    I write in Markdown all the time, and sometimes I use the
-    "compilation" facility of this mode.
-
-    If you do start using the compilation aspect, you'll need a
-    command line "markdown" to execute.
-
-    I got markdown with =brew install markdown=.
-
-    My notes indicate that:
-
-    You can change the markdown executable, or read more about the
-    mode, here: http://jblevins.org/projects/markdown-mode/
-
-    Also, Highlights:
-
-    + =C-c C-c p=: Run markdown on buffer contents. Open result in
-      browser.
-
-    I started using markdown-mode+ recently, and I did so after doing
-    a bunch of work to get pandoc installed and working with Emacs.
+    I write in Markdown all the time. I used to have emacs compile
+    markdown in HTML, but I stopped. I prefer to use other tools to do
+    this for me.
 
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
