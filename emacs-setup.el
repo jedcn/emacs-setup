@@ -321,9 +321,6 @@
 (smartparens-global-mode)
 (show-smartparens-global-mode +1)
 
-;; (require 'auto-complete-config)
-;; (ac-config-default)
-
 (require 'ace-jump-mode)
 (define-key global-map
   (kbd "C-c SPC") 'ace-jump-mode)

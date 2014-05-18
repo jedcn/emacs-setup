@@ -131,6 +131,9 @@
 
     OrgMode is a wonderful thing.
 
+    I used to use it to track all of my time. That's stopped
+    recently.
+
 **** Key Bindings
 
      [[http://orgmode.org/manual/Activation.html#Activation][Org-mode documentation]] suggests that some functions be globally
@@ -213,6 +216,8 @@
 
       Here's the documentation for this: [[http://orgmode.org/worg/org-contrib/babel/languages.html][babel/languages]].
 
+      I've stopped doing this as much as I did in the past.
+
 #+begin_src emacs-lisp
   (org-babel-do-load-languages
    'org-babel-load-languages
@@ -269,6 +274,9 @@
 
 *** haml-mode
 
+    I use this often, but I don't tweak it. It's in the Cask file as
+    "haml-mode".
+
 *** puppet-mode
 
 #+begin_src emacs-lisp
@@ -276,13 +284,15 @@
 #+end_src
 
 *** slim-mode
+
+    I use this rarely, but I don't tweak it. It's in the Cask file as
+    "slim-mode".
+
 *** yaml-mode
 
 #+begin_src emacs-lisp
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 #+end_src
-
-*** scss-mode
 
 *** js-mode
 
@@ -378,18 +388,6 @@
   (require 'smartparens-config)
   (smartparens-global-mode)
   (show-smartparens-global-mode +1)
-#+END_SRC
-
-*** auto-complete
-
-    [[http://cx4a.org/software/auto-complete/][auto-complete]]. This looks really interesting, but it's bringing me
-    down and I don't have time to figure it out right now so I'm
-    disabling it (as opposed to removing it) with the thinking that
-    I'll be back someday.
-
-#+BEGIN_SRC emacs-lisp
-  ;; (require 'auto-complete-config)
-  ;; (ac-config-default)
 #+END_SRC
 
 *** ace-jump-mode

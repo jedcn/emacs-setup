@@ -21,7 +21,6 @@
 (depends-on "puppet-mode")
 (depends-on "rspec-mode")
 (depends-on "rvm")
-(depends-on "scss-mode")
 (depends-on "slim-mode")
 (depends-on "smartparens")
 (depends-on "smex")
