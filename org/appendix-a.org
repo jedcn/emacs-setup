@@ -22,9 +22,18 @@
    Now I can start emacs by selecting it graphically in the
    Applications area.
 
+** Cask Installation
+
+   I then use brew to get cask. Cask handles the fetching and
+   installation of packages that I use:
+
+#+begin_src sh :tangle no
+  brew install cask
+#+end_src
+
 ** Using =emacs-setup=
 
-   Once I have Emacs 24+ running, I use git to clone my =emacs-setup=
+   Once I have Emacs 24+ and cask, I use git to clone my =emacs-setup=
    to my machine, cd into the cloned directory, and source the file
    =install.sh=:
 
@@ -37,13 +46,16 @@
    The contents of the =install.sh= file achieve the following:
 
    + They allow you to supply a =HOME= and will create an =.emacs.d=
-     if needed.
+     underneath =HOME= if needed.
 
    + They create a link within this =.emacs.d= back to the cloned
      =emacs-setup=.
 
-   + They create a single line of elisp that loads up the composite
-     =emacs-setup.el=.
+   + They create a Cask file, run a =cask install=. This contacts
+     melpa and installs all dependent packages.
+
+   + Finally, they copy a =init.el= into HOME so that the next startup
+     of Emacs will load the composite =emacs-setup.el=.
 
 #+begin_src sh :tangle install.sh
   emacs_setup_dir=`pwd`
@@ -55,7 +67,15 @@
   ln -s $emacs_setup_dir $HOME/.emacs.d/emacs-setup
 
   echo "Creating $HOME/.emacs.d/init.el"
-  echo '(load (concat user-emacs-directory "emacs-setup/emacs-setup.el"))' >> $HOME/.emacs.d/init.el
+  cp init.el $HOME/.emacs.d
+
+  echo "Creating $HOME/.emacs.d/Cask"
+  cp Cask $HOME/.emacs.d
+
+  pushd $HOME/.emacs.d
+  echo "Installing Packages with Cask"
+  cask install
+  popd
 #+end_src
 
    It is important to note that =HOME= can be given a temporary value

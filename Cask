@@ -26,7 +26,6 @@
 (depends-on "slim-mode")
 (depends-on "smartparens")
 (depends-on "smex")
-(depends-on "sr-speedbar")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
 (depends-on "zenburn-theme")

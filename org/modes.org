@@ -570,27 +570,18 @@
 ** Functional Areas
 *** Project Management
 
-    This setup allows me to have a single active project at a time. I
-    can find files "within" this project with a fuzzy search. I can
-    get a "sidebar" that shows me the directory structure of the
-    project. I can have an "instance" of emacs for each project. Emacs
-    discovers which projects exist by looking through known places on
-    my file system, so, from a project creation point of view, I just
-    clone projects into one of several directories and re-run a
-    function in emacs (or restart it).
+    My typical setup has dozens of projects all underneath two or
+    three common directories. The setup I am using here gives me fuzzy
+    search across all projects, and once I pick a project, I can get
+    fuzzy search across all files within.
 
-    All of this is achieved, primarily, by software written by
-    [[https://github.com/rdallasgray][rdallasgray]] and [[https://github.com/bbatsov][bbatsov]].
+    This is achieved, primarily, by software written by [[https://github.com/rdallasgray][rdallasgray]]
+    and [[https://github.com/bbatsov][bbatsov]].
 
-    [[https://github.com/rdallasgray/project-persist][Project-persist]] defines what a project is, and provides hooks
-    around creating, opening and closing them. [[https://github.com/rdallasgray/graphene][Graphene]] has a bunch of
-    tweaks to the sidebar (and some other neat stuff).
-
-    [[https://github.com/bbatsov/projectile][Projectile]] helps me find files within a project.
+    I can switch between projects with [[https://github.com/rdallasgray/project-persist][project-persist]]. Once I'm in a
+    project, [[https://github.com/bbatsov/projectile][projectile]] helps me find files.
 
 **** projectile
-
-     It's presence is enough to get going. We'll setup the fuzzy-find later.
 
 #+BEGIN_SRC emacs-lisp
   (require 'projectile)
@@ -602,8 +593,9 @@
      projects. Projects have names and a location on your file
      system. Optionally, they can have settings associated with them.
 
-     That said, you can use project-persist to find a project and close
-     a project, and project-persist provides hooks into these events.
+     That said, you can use project-persist to find a project and
+     close a project, and project-persist provides hooks into these
+     events.
 
 ***** Basic Installation
 
@@ -613,23 +605,23 @@
 
 ***** File System Integration
 
-     I layout code on my computer in the following manner:
+      I layout code on my computer in the following manner:
 
-     + ~/c/misc :: Miscellaneous projects live here.
-     + ~/c/personal :: Personal projects live here.
-     + ~/d :: Code that I don't author, but that I look at
-              semi-regularly lives here.
+       + ~/c/misc :: Miscellaneous projects live here.
+       + ~/c/personal :: Personal projects live here.
+       + ~/d :: Code that I don't author, but that I look at
+                semi-regularly lives here.
 
-     For example, if I checkout the source for rake on my computer and I
-     just scan through it, it lives at =~/d/rake/=. If I am actively
-     working on a project named reveal-ck, it lives at
-     =~/c/personal/reveal-ck/=.
+      For example, if I checkout the source for rake on my computer
+      and I just scan through it, it lives at =~/d/rake/=. If I am
+      actively working on a project named reveal-ck, it lives at
+      =~/c/personal/reveal-ck/=.
 
-     I capture these locations in =jedcn/pp-project-roots=.
+      I capture these locations in =jedcn/pp-project-roots=.
 
-     The following code scans through these directories and builds
-     project-persist entries for each directory that is found. The
-     main interactive entry point is =jedcn-pp/rebuild-projects=.
+      The following code scans through these directories and builds
+      project-persist entries for each directory that is found. The
+      main interactive entry point is =jedcn-pp/rebuild-projects=.
 
 #+BEGIN_SRC emacs-lisp
   (require 'project-persist)
@@ -680,14 +672,17 @@
       + project-persist-after-load-hook
       + project-persist-after-save-hook
 
-      These are setup in the section graphene-projects.el below.
+      The hook my setup uses is defined below.
 
-***** Project-persist and Projectile Integration
+#+BEGIN_SRC emacs-lisp
+  (defun jedcn-after-open-project (dir)
+    "Open up a dired for that project."
+    (dired dir))
 
-      These two projects integrate using a well-known global variable
-      named =default-directory=. If project-persist sets this variable
-      in hooks mentioned above (and below), then projectile will pick
-      up on it and focus searches underneath it.
+  (add-hook 'project-persist-after-load-hook
+            (lambda ()
+              (jedcn-after-open-project project-persist-current-project-root-dir)))
+#+END_SRC
 
 ***** Key Bindings
 
@@ -709,263 +704,5 @@
               (define-key magit-mode-map "\M-1"
                 'project-persist-find)
               (define-key magit-mode-map "\M-2"
-                'projectile-find-file)
-              (define-key magit-mode-map "\M-s"
-                'sr-speedbar-toggle)))
-
-  (global-set-key (kbd "C-c s")
-                  'sr-speedbar-select-window)
-#+END_SRC
-**** graphene
-
-     Graphene is a great package, but, like many packages, I like to
-     split it up and choose the parts I'm most interested in. It's too
-     large for me to subsume at once. Consequently, the following
-     section contains parts of the code that I'm using. I reference
-     the original file names to keep stuff clear(er). I am going
-     through this code and pruning out stuff I don't use, or moving
-     stuff I do use to its appropriate home in my emacs-setup.
-
-     For now, the following three sections are the heart of my project
-     management solution.
-
-***** graphene-helper-functions.el
-
-#+BEGIN_SRC emacs-lisp
-  (defun kill-default-buffer ()
-    "Kill the currently active buffer -- set to C-x k so that users are not asked which buffer they want to kill."
-    (interactive)
-    (let (kill-buffer-query-functions) (kill-buffer)))
-
-  (defun kill-buffer-if-file (buf)
-    "Kill a buffer only if it is file-based."
-    (when (buffer-file-name buf)
-      (when (buffer-modified-p buf)
-          (when (y-or-n-p (format "Buffer %s is modified - save it?" (buffer-name buf)))
-              (save-some-buffers nil buf)))
-      (set-buffer-modified-p nil)
-      (kill-buffer buf)))
-
-  (defun kill-all-buffers ()
-      "Kill all file-based buffers."
-      (interactive)
-      (mapc (lambda (buf) (kill-buffer-if-file buf))
-       (buffer-list)))
-
-  (defun kill-buffer-and-window ()
-    "Close the current window and kill the buffer it's visiting."
-    (interactive)
-    (progn
-      (kill-buffer)
-      (delete-window)))
-
-  (defun insert-semicolon-at-end-of-line ()
-    "Add a closing semicolon from anywhere in the line."
-    (interactive)
-    (save-excursion
-      (end-of-line)
-      (insert ";")))
-
-  (defun comment-current-line-dwim ()
-    "Comment or uncomment the current line."
-    (interactive)
-    (save-excursion
-      (push-mark (beginning-of-line) t t)
-      (end-of-line)
-      (comment-dwim nil)))
-#+END_SRC
-
-***** graphene-speedbar.el
-
-     Some setup is necessary to use graphene-speedbar.el. I make sure
-     I've got sr-speedbar installed and I define
-     =graphene-speedbar-refresh-hooks= (which is normally defined in
-     graphene.el).
-
-#+BEGIN_SRC emacs-lisp
-  (require 'sr-speedbar)
-
-  (defvar graphene-speedbar-refresh-hooks '(after-save-hook)
-    "List of hooks which on being run will cause speedbar to refresh.")
-
-  (global-set-key (kbd "M-s") 'sr-speedbar-toggle)
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (setq speedbar-hide-button-brackets-flag t
-        speedbar-show-unknown-files t
-        speedbar-smart-directory-expand-flag t
-        speedbar-directory-button-trim-method 'trim
-        speedbar-use-images nil
-        speedbar-indentation-width 2
-        speedbar-use-imenu-flag t
-        sr-speedbar-width 20
-        sr-speedbar-width-x 24
-        sr-speedbar-auto-refresh nil
-        sr-speedbar-skip-other-window-p t
-        sr-speedbar-right-side nil)
-
-  ;; Refresh the speedbar when relevant hooks are run.
-  (defvar graphene-speedbar-refresh-hooks)
-  (defvar graphene-speedbar-refresh-hooks-added nil
-    "Whether hooks have been added to refresh speedbar.")
-
-  (add-hook 'speedbar-mode-hook
-            (when (not graphene-speedbar-refresh-hooks-added)
-              (lambda ()
-                (mapc (lambda (hook)
-                        (add-hook hook 'speedbar-refresh))
-                      graphene-speedbar-refresh-hooks)
-                (setq graphene-speedbar-refresh-hooks-added t))))
-
-  ;; More familiar keymap settings.
-  (add-hook 'speedbar-reconfigure-keymaps-hook
-            '(lambda ()
-               (define-key speedbar-mode-map [S-up] 'speedbar-up-directory)
-               (define-key speedbar-mode-map [right] 'speedbar-flush-expand-line)
-               (define-key speedbar-mode-map [left] 'speedbar-contract-line)))
-
-  ;; Highlight the current line
-  (add-hook 'speedbar-mode-hook '(lambda () (hl-line-mode 1)))
-
-  ;; Pin and unpin the speedbar
-  (defvar graphene-speedbar-pinned-directory)
-
-  (defadvice speedbar-update-directory-contents
-    (around graphene-speedbar-pin-directory activate disable)
-    "Pin the speedbar to the directory set in graphene-speedbar-pinned-directory."
-    (let ((default-directory graphene-speedbar-pinned-directory))
-      ad-do-it))
-
-  (defadvice speedbar-dir-follow
-    (around graphene-speedbar-prevent-follow activate disable)
-    "Prevent speedbar changing directory on button clicks."
-    (speedbar-toggle-line-expansion))
-
-  (defadvice speedbar-directory-buttons-follow
-    (around graphene-speedbar-prevent-root-follow activate disable)
-    "Prevent speedbar changing root directory on button clicks.")
-
-   (defvar graphene-speedbar-pin-advice
-     '((speedbar-update-directory-contents around graphene-speedbar-pin-directory)
-       (speedbar-dir-follow around graphene-speedbar-prevent-follow)
-       (speedbar-directory-buttons-follow around graphene-speedbar-prevent-root-follow))
-     "Advice to be enabled and disabled on graphene-[un]-pin-speedbar.")
-
-  (defun graphene-speedbar-pin-advice-activate ()
-    "Activate the advice applied to speedbar functions in order to pin it to a directory."
-    (mapc 'ad-activate (mapcar 'car graphene-speedbar-pin-advice)))
-
-  (defun graphene-pin-speedbar (directory)
-    "Prevent the speedbar from changing the displayed root directory."
-    (setq graphene-speedbar-pinned-directory directory)
-    (mapc (lambda (ls) (apply 'ad-enable-advice ls)) graphene-speedbar-pin-advice)
-    (graphene-speedbar-pin-advice-activate))
-
-  (defun graphene-unpin-speedbar ()
-    "Allow the speedbar to change the displayed root directory."
-    (mapc (lambda (ls) (apply 'ad-disable-advice ls)) graphene-speedbar-pin-advice)
-    (graphene-speedbar-pin-advice-activate))
-
-  ;; Always use the last selected window for loading files from speedbar.
-  (defvar last-selected-window
-    (if (not (eq (selected-window) sr-speedbar-window))
-        (selected-window)
-      (other-window 1)))
-
-  (defadvice select-window (after remember-selected-window activate)
-    "Remember the last selected window."
-    (unless (or (eq (selected-window) sr-speedbar-window) (not (window-live-p (selected-window))))
-      (setq last-selected-window (selected-window))))
-
-  (defun sr-speedbar-before-visiting-file-hook ()
-    "Function that hooks `speedbar-before-visiting-file-hook'."
-    (select-window last-selected-window))
-
-  (defun sr-speedbar-before-visiting-tag-hook ()
-    "Function that hooks `speedbar-before-visiting-tag-hook'."
-    (select-window last-selected-window))
-
-  (defun sr-speedbar-visiting-file-hook ()
-    "Function that hooks `speedbar-visiting-file-hook'."
-    (select-window last-selected-window))
-
-  (defun sr-speedbar-visiting-tag-hook ()
-    "Function that hooks `speedbar-visiting-tag-hook'."
-    (select-window last-selected-window))
-#+END_SRC
-
-***** graphene-projects.el
-
-     Some setup is necessary to use graphene-projects.el. I've
-     previously required in project-persist, and then I define
-     =graphene-speedbar-auto= and =graphene-project-pin-speedbar=
-     (which are normally defined in graphene.el).
-
-#+BEGIN_SRC emacs-lisp
-  (defvar graphene-speedbar-auto t
-    "Whether graphene should open sr-speedbar when a project is loaded.")
-
-  (defvar graphene-project-pin-speedbar t
-    "Pin the speedbar directory when opening a project.")
-#+END_SRC
-
-#+BEGIN_SRC emacs-lisp
-  (defun graphene-set-project-root (dir)
-    "Change the default directory and update speedbar if used."
-    (setq default-directory dir)
-    (when graphene-speedbar-auto
-      (sr-speedbar-open)
-      (speedbar-update-contents)
-      (when graphene-project-pin-speedbar
-        (graphene-pin-speedbar dir))))
-
-  (defun graphene-load-project-desktop ()
-    "Load the project's desktop if available."
-    (ignore-errors
-      (setq default-directory project-persist-current-project-settings-dir)
-      (message (format "Loading project desktop from %s" default-directory))
-      (desktop-read project-persist-current-project-settings-dir)))
-
-   ;; Kill all file-based buffers and unpin the speedbar before opening a project.
-  (add-hook 'project-persist-before-load-hook
-            (lambda ()
-              (graphene-unpin-speedbar)
-              (kill-all-buffers)))
-
-   ;; Kill all file-based buffers and unpin the speedbar after closing a project.
-  (add-hook 'project-persist-after-close-hook
-            (lambda ()
-              (kill-all-buffers)
-              (graphene-unpin-speedbar)))
-
-  ;; Set the project root directory, load the project desktop and update speedbar.
-  (add-hook 'project-persist-after-load-hook
-            (lambda ()
-              (graphene-load-project-desktop)
-              (graphene-set-project-root project-persist-current-project-root-dir)))
-
-  ;; Save the project desktop.
-  (add-hook 'project-persist-after-save-hook
-            (lambda ()
-              (message (format "Saving project desktop in %s" project-persist-current-project-settings-dir))
-              (desktop-save project-persist-current-project-settings-dir)))
-
-  ;; http://www.emacswiki.org/DeskTop#toc4: Overriding stale desktop locks
-  ;;; desktop-override-stale-locks.el begins here
-  (defun emacs-process-p (pid)
-    "If pid is the process ID of an emacs process, return t, else nil.
-  Also returns nil if pid is nil."
-    (when pid
-      (let ((attributes (process-attributes pid)) (cmd))
-        (dolist (attr attributes)
-          (if (string= "comm" (car attr))
-              (setq cmd (cdr attr))))
-        (if (and cmd (or (string= "emacs" cmd) (string= "emacs.exe" cmd))) t))))
-
-  (defadvice desktop-owner (after pry-from-cold-dead-hands activate)
-    "Don't allow dead emacsen to own the desktop file."
-    (when (not (emacs-process-p ad-return-value))
-      (setq ad-return-value nil)))
-  ;;; desktop-override-stale-locks.el ends here
+                'projectile-find-file)))
 #+END_SRC
