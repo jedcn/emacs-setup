@@ -45,10 +45,10 @@
    be marked for an upcoming installation. When you are ready, press
    'x' to install each package that has been marked in this way.
 
-   If I like a package, I'll revisit this file (=modes.org=) and
-   formally add the new package so that it's downloaded when I next
-   rebuild from scratch. I'll also add mode configuration elisp and
-   notes about what it helps me achieve.
+   I'm using =pallet= and this means that changes made through this
+   system will be written to my =~/.emacs.d/Cask= file. If I have
+   additional configuration changes I'd like to make, I add a section
+   in this file with those changes.
 
 ** Major Modes
 *** Magit
@@ -78,8 +78,6 @@
     =magit-emacsclient-executable=.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'magit)
-
   (require 'magit)
 
   (defadvice magit-status (around magit-fullscreen activate)
@@ -251,8 +249,6 @@
     a bunch of work to get pandoc installed and working with Emacs.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'markdown-mode)
-  (sacha/package-install 'markdown-mode+)
   (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 #+end_src
 
@@ -275,8 +271,6 @@
     =jedcn-env-path=.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'coffee-mode)
-
   (defun jedcn-coffee-custom ()
     "jedcn's coffee-mode-hook"
     (define-key coffee-mode-map [(meta c)] 'coffee-compile-buffer)
@@ -288,35 +282,20 @@
 
 *** haml-mode
 
-#+begin_src emacs-lisp
-  (sacha/package-install 'haml-mode)
-#+end_src
-
 *** puppet-mode
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'puppet-mode)
   (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 #+end_src
 
 *** slim-mode
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'slim-mode)
-#+end_src
-
 *** yaml-mode
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'yaml-mode)
   (add-to-list 'auto-mode-alist '("\\.yml$" . yaml-mode))
 #+end_src
 
 *** scss-mode
-
-#+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'scss-mode)
-#+END_SRC
 
 *** js-mode
 
@@ -331,10 +310,6 @@
   I don't often write Gherkin at work, but I do try to use Cucumber
   whenever I get the chance on side projects. So far I've been using
   this mode mainly for syntax highlighting.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'feature-mode)
-#+end_src
 
 *** ruby-mode
 
@@ -399,7 +374,6 @@
     emacs setup [[https://github.com/jimweirich/emacs-setup/blob/master/snippets/text-mode/ruby-mode/dbg][here]].
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'yasnippet)
   (require 'yasnippet)
   (setq yas-snippet-dirs (concat jedcn-es/dir "/snippets"))
 #+end_src
@@ -414,7 +388,6 @@
 *** smartparens
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'smartparens)
   (require 'smartparens-config)
   (smartparens-global-mode)
   (show-smartparens-global-mode +1)
@@ -428,8 +401,6 @@
     I'll be back someday.
 
 #+BEGIN_SRC emacs-lisp
-  ;; (sacha/package-install 'auto-complete)
-  ;; (sacha/package-install 'ac-dabbrev)
   ;; (require 'auto-complete-config)
   ;; (ac-config-default)
 #+END_SRC
@@ -443,7 +414,6 @@
     org-mode-map so I can have a consistent binding there.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'ace-jump-mode)
   (require 'ace-jump-mode)
   (define-key global-map
     (kbd "C-c SPC") 'ace-jump-mode)
@@ -473,17 +443,12 @@
     another time.
 
 #+BEGIN_SRC emacs-lisp
-;;  (sacha/package-install 'flycheck)
 ;;  (add-hook 'after-init-hook #'global-flycheck-mode)
 #+END_SRC
 
 *** rspec-mode
 
     I *love* rspec.
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'rspec-mode)
-#+end_src
 
     I also have been using ZSH, and when I was getting rspec-mode up
     and running a few months ago, I ran into trouble. Thankfully, the
@@ -505,10 +470,6 @@
     identifies =better-defaults= as a single package with "universal
     appeal."
 
-#+begin_src emacs-lisp
-  (sacha/package-install 'better-defaults)
-#+end_src
-
 *** smex
 
     When you want to run a command (say, via M-x) [[https://github.com/nonsequitur/smex][smex]] provides
@@ -518,7 +479,6 @@
     I am using it as the front-end for Ido.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'smex)
   (setq smex-save-file (concat user-emacs-directory ".smex-items"))
   (smex-initialize)
   (global-set-key (kbd "M-x") 'smex)
@@ -536,7 +496,6 @@
     characters are causing the hits.
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'flx-ido)
   (require 'flx-ido)
   (ido-mode 1)
   (ido-everywhere 1)
@@ -558,7 +517,6 @@
     =diminished-modes=.
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'diminish)
   (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
   (eval-after-load "project-persist" '(diminish 'project-persist-mode))
   (diminish 'auto-fill-function)
@@ -566,10 +524,6 @@
 #+END_SRC
 
 *** rvm
-
-#+begin_src emacs-lisp
-  (sacha/package-install 'rvm)
-#+end_src
 
     For emacs, on a MacOS, I believe the following configures my setup
     so that I'll use the default ruby provided by RVM when I need
@@ -597,7 +551,6 @@
     which means that you get things started by pressing =C-==.
 
 #+begin_src emacs-lisp
-  (sacha/package-install 'expand-region)
   (require 'expand-region)
   (global-set-key (kbd "C-=") 'er/expand-region)
 #+end_src
@@ -613,10 +566,6 @@
     + mc/mark-next-like-this
     + mc/mark-all-like-this
     + mc/edit-lines
-
-#+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'multiple-cursors)
-#+END_SRC
 
 ** Functional Areas
 *** Project Management
@@ -644,7 +593,6 @@
      It's presence is enough to get going. We'll setup the fuzzy-find later.
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'projectile)
   (require 'projectile)
 #+END_SRC
 
@@ -660,7 +608,6 @@
 ***** Basic Installation
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'project-persist)
   (project-persist-mode t)
 #+END_SRC
 
@@ -836,7 +783,6 @@
      graphene.el).
 
 #+BEGIN_SRC emacs-lisp
-  (sacha/package-install 'sr-speedbar)
   (require 'sr-speedbar)
 
   (defvar graphene-speedbar-refresh-hooks '(after-save-hook)
