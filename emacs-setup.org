@@ -559,6 +559,18 @@
         inhibit-startup-message t)
 #+end_src
 
+   Whenever a new buffer is created, look at the name of the buffer
+   and activate the major-mode that corresponds to it. I learned this
+   from a [[http://www.reddit.com/r/emacs/comments/2188jl/my_lovehate_relationship_with_emacs/cgawngs][comment on Reddit]].
+
+#+BEGIN_SRC emacs-lisp
+  (defun major-mode-from-name ()
+    "Choose proper mode for buffers created by switch-to-buffer."
+    (let ((buffer-file-name (or buffer-file-name (buffer-name))))
+      (set-auto-mode)))
+  (setq-default major-mode 'major-mode-from-name)
+#+END_SRC
+
 ** Whitespace Cleanup
 
    The following creates a function that cleans up whitespace, and

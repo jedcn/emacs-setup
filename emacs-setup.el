@@ -180,6 +180,12 @@
 (setq visible-bell t
       inhibit-startup-message t)
 
+(defun major-mode-from-name ()
+  "Choose proper mode for buffers created by switch-to-buffer."
+  (let ((buffer-file-name (or buffer-file-name (buffer-name))))
+    (set-auto-mode)))
+(setq-default major-mode 'major-mode-from-name)
+
 (defun cleanup-buffer-safe ()
   "Perform a bunch of safe operations on the whitespace content of a buffer."
   (interactive)
