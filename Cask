@@ -11,6 +11,7 @@
 (depends-on "flx-ido")
 (depends-on "haml-mode")
 (depends-on "helm")
+(depends-on "helm-ag")
 (depends-on "helm-project-persist")
 (depends-on "helm-projectile")
 (depends-on "helm-spotify")
