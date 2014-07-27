@@ -1067,8 +1067,11 @@
 
 *** flycheck
 
-    In some cases it relies on external tools to check for it. The
-    tools that I am presently making use of are:
+    This is pretty cool. I never got flymake working right, and this
+    seems to "just do the right thing." Plus-- the documentation is
+    quite good: http://flycheck.readthedocs.org/en/latest/
+
+    The tools that I am powering flycheck with are:
 
     - jshint :: via =npm install -g jshint=
     - jsonlint :: via =npm install -g jsonlint=
@@ -1088,9 +1091,15 @@
     before I had json-mode, I'd use js-mode when dealing with a .json
     file, and this would load jshint, and jshint would puke on JSON.
 
+    This directive causes it to be used everywhere:
+
 #+BEGIN_SRC emacs-lisp
   (add-hook 'after-init-hook #'global-flycheck-mode)
 #+END_SRC
+
+    If things don't work, I'll see an error message briefly
+    flash. This is annoying enough that I track down the problem even
+    if I don't really care to have flycheck.
 
 *** rspec-mode
 
