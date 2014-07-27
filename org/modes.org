@@ -455,39 +455,6 @@
     identifies =better-defaults= as a single package with "universal
     appeal."
 
-*** smex
-
-    When you want to run a command (say, via M-x) [[https://github.com/nonsequitur/smex][smex]] provides
-    instant feedback by displaying available commands and remembering
-    ones you have recently invoked.
-
-    I am using it as the front-end for Ido.
-
-#+begin_src emacs-lisp
-  (setq smex-save-file (concat user-emacs-directory ".smex-items"))
-  (smex-initialize)
-  (global-set-key (kbd "M-x") 'smex)
-#+end_src
-
-*** flx-ido
-
-    [[https://github.com/lewang/flx][flx-ido]] is a package written with the idea of bringing the fuzzy
-    search of Sublime Text to Emacs.
-
-    It enhances =ido=, and so the configuration below turns on ido,
-    turns on flx-ido, uses ido for all buffer/file reading, and
-    finally disables ido's style of highlighting. In constrast to
-    Ido's highlighting, flx-ido provides insight into which actual
-    characters are causing the hits.
-
-#+BEGIN_SRC emacs-lisp
-  (require 'flx-ido)
-  (ido-mode 1)
-  (ido-everywhere 1)
-  (flx-ido-mode 1)
-  (setq ido-use-faces nil)
-#+END_SRC
-
 *** diminish
 
     In Emacs, the "mode line" shows you information about the active
@@ -551,6 +518,63 @@
     + mc/mark-next-like-this
     + mc/mark-all-like-this
     + mc/edit-lines
+
+*** helm
+
+    I've recently switched from a combination of smex and ido to
+    [[https://github.com/emacs-helm/helm][helm]]. My central motivation was to get toward "a single vertical
+    line" per choice, and to gain access to the number of plugins.
+
+    Here's my basic helm setup:
+
+    Use helm for command completion:
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-x") 'helm-M-x)
+#+END_SRC
+
+    Use helm for buffer selection:
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x b") 'helm-mini)
+#+END_SRC
+
+    Use helm for viewing and selecting the contents in the kill ring:
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+#+END_SRC
+
+    I'm not sure about these- they come from [[https://tuhdo.github.io/helm-intro.html][this introduction]].
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "C-c h s") 'helm-semantic-or-imenu)
+
+  ;; Don't use marks or mark-ring. Start?
+  (global-set-key (kbd "C-c m") 'helm-all-mark-rings)
+  (global-set-key (kbd "C-c h o") 'helm-occur)
+
+  ;; Don't use eshell. Start?
+  (add-hook 'eshell-mode-hook
+            #'(lambda ()
+                (define-key eshell-mode-map (kbd "M-l")  'helm-eshell-history)))
+#+END_SRC
+
+    Make it so that pressing TAB while using helm will visit the
+    buffer / file / whatever. The default key binding for this is
+    C-z, and so we swap that out with what TAB used to do.
+
+#+BEGIN_SRC emacs-lisp
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+  (define-key helm-map (kbd "C-z")  'helm-select-action)
+#+END_SRC
+
+    Activate helm everywhere.
+
+#+BEGIN_SRC emacs-lisp
+  (helm-mode 1)
+#+END_SRC
 
 ** Functional Areas
 *** Project Management
@@ -682,7 +706,7 @@
                   'project-persist-find)
 
   (global-set-key "\M-2"
-                  'projectile-find-file)
+                  'helm-projectile)
 
   (add-hook 'magit-mode-hook
             (lambda ()
