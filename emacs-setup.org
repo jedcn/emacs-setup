@@ -109,7 +109,7 @@
 
    That said, before I open up emacs for the first time on a new
    machine, I ensure that there's a =~/.emacs.d/Cask= file present and
-   I've run =cask install= from a terminal when I am in my
+   I've run =cask install= from a termianl when I am in my
    =~/.emacs.d= directory.
 
    My Cask file determines where I get packages from, and it calls out
@@ -1182,7 +1182,12 @@
     [[https://github.com/emacs-helm/helm][helm]]. My central motivation was to get toward "a single vertical
     line" per choice, and to gain access to the number of plugins.
 
-    Here's my basic helm setup:
+    Here's my basic helm setup. We begin with initialization:
+
+#+BEGIN_SRC emacs-lisp
+  (require 'helm)
+  (require 'helm-config)
+#+END_SRC
 
     Use helm for command completion:
 
@@ -1207,8 +1212,24 @@
 #+BEGIN_SRC emacs-lisp
   (global-set-key (kbd "C-x C-f") 'helm-find-files)
   (global-set-key (kbd "C-c h s") 'helm-semantic-or-imenu)
+
+  ;; Don't use marks or mark-ring. Start?
   (global-set-key (kbd "C-c m") 'helm-all-mark-rings)
   (global-set-key (kbd "C-c h o") 'helm-occur)
+
+  ;; Don't use eshell. Start?
+  (add-hook 'eshell-mode-hook
+            #'(lambda ()
+                (define-key eshell-mode-map (kbd "M-l")  'helm-eshell-history)))
+#+END_SRC
+
+    Make it so that pressing TAB while using helm will visit the
+    buffer / file / whatever. The default key binding for this is
+    C-z, and so we swap that out with what TAB used to do.
+
+#+BEGIN_SRC emacs-lisp
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+  (define-key helm-map (kbd "C-z")  'helm-select-action)
 #+END_SRC
 
     Activate helm everywhere.
@@ -1344,7 +1365,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key "\M-1"
-                  'project-persist-find)
+                  'helm-project-persist)
 
   (global-set-key "\M-2"
                   'helm-projectile)

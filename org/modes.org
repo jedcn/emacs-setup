@@ -525,7 +525,12 @@
     [[https://github.com/emacs-helm/helm][helm]]. My central motivation was to get toward "a single vertical
     line" per choice, and to gain access to the number of plugins.
 
-    Here's my basic helm setup:
+    Here's my basic helm setup. We begin with initialization:
+
+#+BEGIN_SRC emacs-lisp
+  (require 'helm)
+  (require 'helm-config)
+#+END_SRC
 
     Use helm for command completion:
 
@@ -703,7 +708,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (global-set-key "\M-1"
-                  'project-persist-find)
+                  'helm-project-persist)
 
   (global-set-key "\M-2"
                   'helm-projectile)

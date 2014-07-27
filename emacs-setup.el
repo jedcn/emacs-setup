@@ -356,6 +356,9 @@
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
 
+(require 'helm)
+(require 'helm-config)
+
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 (global-set-key (kbd "C-x b") 'helm-mini)
@@ -364,8 +367,18 @@
 
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-c h s") 'helm-semantic-or-imenu)
+
+;; Don't use marks or mark-ring. Start?
 (global-set-key (kbd "C-c m") 'helm-all-mark-rings)
 (global-set-key (kbd "C-c h o") 'helm-occur)
+
+;; Don't use eshell. Start?
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (define-key eshell-mode-map (kbd "M-l")  'helm-eshell-history)))
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(define-key helm-map (kbd "C-z")  'helm-select-action)
 
 (helm-mode 1)
 
@@ -416,7 +429,7 @@
             (jedcn-after-open-project project-persist-current-project-root-dir)))
 
 (global-set-key "\M-1"
-                'project-persist-find)
+                'helm-project-persist)
 
 (global-set-key "\M-2"
                 'helm-projectile)
