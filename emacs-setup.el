@@ -335,7 +335,7 @@
             (define-key org-mode-map
               (kbd "C-c SPC") 'ace-jump-mode)))
 
-;;  (add-hook 'after-init-hook #'global-flycheck-mode)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (defadvice rspec-compile (around rspec-compile-around)
   "Use BASH shell for running the specs because of ZSH issues."
