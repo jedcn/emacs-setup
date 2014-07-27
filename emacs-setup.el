@@ -343,16 +343,6 @@
     ad-do-it))
 (ad-activate 'rspec-compile)
 
-(setq smex-save-file (concat user-emacs-directory ".smex-items"))
-(smex-initialize)
-(global-set-key (kbd "M-x") 'smex)
-
-(require 'flx-ido)
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-(setq ido-use-faces nil)
-
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
 (eval-after-load "project-persist" '(diminish 'project-persist-mode))
 (diminish 'auto-fill-function)
@@ -365,6 +355,32 @@
 
 (require 'expand-region)
 (global-set-key (kbd "C-=") 'er/expand-region)
+
+(require 'helm)
+(require 'helm-config)
+
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+(global-set-key (kbd "C-x b") 'helm-mini)
+
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-c h s") 'helm-semantic-or-imenu)
+
+;; Don't use marks or mark-ring. Start?
+(global-set-key (kbd "C-c m") 'helm-all-mark-rings)
+(global-set-key (kbd "C-c h o") 'helm-occur)
+
+;; Don't use eshell. Start?
+(add-hook 'eshell-mode-hook
+          #'(lambda ()
+              (define-key eshell-mode-map (kbd "M-l")  'helm-eshell-history)))
+
+(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action)
+(define-key helm-map (kbd "C-z")  'helm-select-action)
+
+(helm-mode 1)
 
 (require 'projectile)
 
@@ -413,10 +429,10 @@
             (jedcn-after-open-project project-persist-current-project-root-dir)))
 
 (global-set-key "\M-1"
-                'project-persist-find)
+                'helm-project-persist)
 
 (global-set-key "\M-2"
-                'projectile-find-file)
+                'helm-projectile)
 
 (add-hook 'magit-mode-hook
           (lambda ()
