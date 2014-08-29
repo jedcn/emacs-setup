@@ -1,0 +1,7 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: describe('...', function() { '...' }); (Jasmine)
+# key: de
+# --
+describe("${1:thing}", function() {
+  $0
+});

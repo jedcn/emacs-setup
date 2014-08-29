@@ -1,0 +1,7 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: it('...', function() { '...' }); (Jasmine)
+# key: ji
+# --
+it("${1:is..}", function() {
+  $0
+});
