@@ -289,13 +289,7 @@
 
 (add-to-list 'auto-mode-alist '("\\.md$" . markdown-mode))
 
-(defun jedcn-coffee-custom ()
-  "jedcn's coffee-mode-hook"
-  (define-key coffee-mode-map [(meta c)] 'coffee-compile-buffer)
-  (make-local-variable 'tab-width)
-  (set 'tab-width 2))
-
-(add-hook 'coffee-mode-hook '(lambda () (jedcn-coffee-custom)))
+(setq coffee-tab-width 2)
 
 (add-to-list 'auto-mode-alist '("\\.pp$" . puppet-mode))
 
@@ -431,8 +425,18 @@
 (global-set-key "\M-1"
                 'helm-project-persist)
 
+(global-set-key "\C-cp"
+                'helm-project-persist)
+
 (global-set-key "\M-2"
                 'helm-projectile)
+
+(global-set-key "\C-cp"
+                'helm-projectile)
+
+(global-set-key "\C-cg"
+                'helm-google-suggest)
+
 
 (add-hook 'magit-mode-hook
           (lambda ()
