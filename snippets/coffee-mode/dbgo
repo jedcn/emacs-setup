@@ -1,0 +1,6 @@
+# -*- mode: coffee; require-final-newline: nil; backup-inhibited: t -*-
+# name: console.log("DBG: var (object)"); console.log(var)
+# expand-env: ((yas/indent-line 'fixed))
+# --
+console.log "DBG: $1"
+console.log ${1:var}
