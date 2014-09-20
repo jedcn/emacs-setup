@@ -1,0 +1,5 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: var
+# key: v
+# --
+var ${1:name} = ${2:value};$0

@@ -1,0 +1,5 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: return
+# key: r
+# --
+return ${1:value};$0
