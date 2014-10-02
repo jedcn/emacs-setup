@@ -209,7 +209,7 @@
     but also every time I invoke =new-emacs-instance=.
 
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'zenburn t)
+  (load-theme 'base16-chalk t)
 #+END_SRC
 
 *** Font

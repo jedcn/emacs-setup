@@ -33,7 +33,7 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
-(load-theme 'zenburn t)
+(load-theme 'base16-chalk t)
 
 (if window-system
     (set-face-attribute 'default nil :font "Menlo-18"))
