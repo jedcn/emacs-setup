@@ -396,8 +396,9 @@
     (while dirs
       (unless (member dir ignore-dirs)
         (unless (pp/project-exists dir)
-          (if (file-directory-p (concat root "/" dir "/"))
-              (pp/project-setup (concat root "/" dir "/") dir))))
+          (let ((dir-path (concat root "/" dir "/")))
+            (if (file-directory-p dir-path)
+                (pp/project-setup dir-path dir)))))
       (setq dirs (cdr dirs))
       (setq dir (car dirs)))))
 

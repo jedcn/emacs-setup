@@ -1291,13 +1291,13 @@
 
 #+BEGIN_SRC emacs-lisp
   (require 'project-persist)
-
+  
   (setq jedcn/pp-project-roots
         (list (concat (getenv "HOME") "/c/galileo")
               (concat (getenv "HOME") "/c/misc")
               (concat (getenv "HOME") "/c/personal")
               (concat (getenv "HOME") "/d")))
-
+  
   (defun jedcn/pp-create-projects-under-root (root)
     "Create project-persist projects for directories under root"
     (let* ((dirs (directory-files root))
@@ -1306,11 +1306,12 @@
       (while dirs
         (unless (member dir ignore-dirs)
           (unless (pp/project-exists dir)
-            (if (file-directory-p (concat root "/" dir "/"))
-                (pp/project-setup (concat root "/" dir "/") dir))))
+            (let ((dir-path (concat root "/" dir "/")))
+              (if (file-directory-p dir-path)
+                  (pp/project-setup dir-path dir)))))
         (setq dirs (cdr dirs))
         (setq dir (car dirs)))))
-
+  
   (defun jedcn/pp-create-all-projects (project-roots)
     "Create all project-persist projects based on PROJECT-ROOTS"
     (let* ((project-root (car project-roots)))
@@ -1318,24 +1319,24 @@
         (jedcn/pp-create-projects-under-root project-root)
         (setq project-roots (cdr project-roots))
         (setq project-root (car project-roots)))))
-
+  
   (defun jedcn/pp-destroy-all-projects ()
     "Remove all previously created project-persist projects"
     (let ((projects (pp/project-list)))
       (while projects
         (pp/project-destroy (car projects))
         (setq projects (cdr projects)))))
-
+  
   (defun jedcn-pp/rebuild-projects ()
     (interactive)
     (if (jedcn-pp/project-persist-initialized-p)
       (jedcn/pp-destroy-all-projects))
     (jedcn/pp-create-all-projects jedcn/pp-project-roots))
-
+  
   (defun jedcn-pp/project-persist-initialized-p ()
     "Has project-persist been initialized?"
     (file-directory-p project-persist-settings-dir))
-
+  
   (unless (jedcn-pp/project-persist-initialized-p)
     (message "Initializing Project Persist.")
     (jedcn-pp/rebuild-projects))
