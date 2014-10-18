@@ -665,11 +665,26 @@
         (setq project-roots (cdr project-roots))
         (setq project-root (car project-roots)))))
 
+  (defun jedcn/pp-destroy-all-projects ()
+    "Remove all previously created project-persist projects"
+    (let ((projects (pp/project-list)))
+      (while projects
+        (pp/project-destroy (car projects))
+        (setq projects (cdr projects)))))
+
   (defun jedcn-pp/rebuild-projects ()
     (interactive)
+    (if (jedcn-pp/project-persist-initialized-p)
+      (jedcn/pp-destroy-all-projects))
     (jedcn/pp-create-all-projects jedcn/pp-project-roots))
 
-  (jedcn-pp/rebuild-projects)
+  (defun jedcn-pp/project-persist-initialized-p ()
+    "Has project-persist been initialized?"
+    (file-directory-p project-persist-settings-dir))
+
+  (unless (jedcn-pp/project-persist-initialized-p)
+    (message "Initializing Project Persist.")
+    (jedcn-pp/rebuild-projects))
 #+END_SRC
 
 ***** Hooks
