@@ -653,7 +653,8 @@
       (while dirs
         (unless (member dir ignore-dirs)
           (unless (pp/project-exists dir)
-            (pp/project-setup (concat root "/" dir "/") dir)))
+            (if (file-directory-p (concat root "/" dir "/"))
+                (pp/project-setup (concat root "/" dir "/") dir))))
         (setq dirs (cdr dirs))
         (setq dir (car dirs)))))
 
