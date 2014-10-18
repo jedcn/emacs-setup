@@ -439,28 +439,11 @@
           (lambda ()
             (jedcn-after-open-project project-persist-current-project-root-dir)))
 
-(global-set-key "\M-1"
-                'helm-project-persist)
-
 (global-set-key "\C-cp"
                 'helm-project-persist)
 
-(global-set-key "\M-2"
+(global-set-key "\C-cf"
                 'helm-projectile)
-
-(global-set-key "\C-cp"
-                'helm-projectile)
-
-(global-set-key "\C-cg"
-                'helm-google-suggest)
-
-
-(add-hook 'magit-mode-hook
-          (lambda ()
-            (define-key magit-mode-map "\M-1"
-              'project-persist-find)
-            (define-key magit-mode-map "\M-2"
-              'projectile-find-file)))
 
 (defconst jedcn-eval-buffer-commands
   '(("js" . "/usr/local/bin/node")

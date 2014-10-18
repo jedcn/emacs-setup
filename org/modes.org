@@ -719,30 +719,15 @@
       The goal is to have a single binding to open a project, and a
       another binding to find a file within a project.
 
-      The sidebar is ignored when switching between windows, but you
-      can explicitly jump into it or toggle its presence.
+      Right now they are:
+
+      1. =C-c p=: Mnemonic: Choose Project
+      2. =C-c f=: Mnemonic: Choose File
 
 #+BEGIN_SRC emacs-lisp
-  (global-set-key "\M-1"
-                  'helm-project-persist)
-
   (global-set-key "\C-cp"
                   'helm-project-persist)
 
-  (global-set-key "\M-2"
+  (global-set-key "\C-cf"
                   'helm-projectile)
-
-  (global-set-key "\C-cp"
-                  'helm-projectile)
-
-  (global-set-key "\C-cg"
-                  'helm-google-suggest)
-
-
-  (add-hook 'magit-mode-hook
-            (lambda ()
-              (define-key magit-mode-map "\M-1"
-                'project-persist-find)
-              (define-key magit-mode-map "\M-2"
-                'projectile-find-file)))
 #+END_SRC
