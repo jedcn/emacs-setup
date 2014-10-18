@@ -104,15 +104,11 @@
 
 *** Color Theme
 
-    Zenburn and Base16 are great. I'm trying out color-theme-solarized
-    because of Graphene and [[https://github.com/rdallasgray/.emacs.d/blob/master/init.el#L300][rdallasgray]].
-
-    Regardless, bring in some categories of themes and load a random
-    one each time we start up. This happens every time I start emacs
-    but also every time I invoke =new-emacs-instance=.
+    I always switch around themes. In general, I like Zenburn and
+    Base16. I like monokai. And I'm trying out Sanity Inc's tomorrow collection.
 
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'base16-chalk t)
+  (load-theme 'monokai t)
 #+END_SRC
 
 *** Font
