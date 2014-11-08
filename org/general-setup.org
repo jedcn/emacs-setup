@@ -108,7 +108,9 @@
     Base16. I like monokai. And I'm trying out Sanity Inc's tomorrow collection.
 
 #+BEGIN_SRC emacs-lisp
-  (load-theme 'monokai t)
+  (require 'moe-theme)
+  (moe-theme-random-color)
+  (moe-light)
 #+END_SRC
 
 *** Font
@@ -125,7 +127,7 @@
 
 #+BEGIN_SRC emacs-lisp
   (require 'powerline)
-  (powerline-center-theme)
+  (powerline-moe-theme)
 #+END_SRC
 
 ** Memory

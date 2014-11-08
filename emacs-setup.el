@@ -33,13 +33,15 @@
 (setq-default save-place t)
 (setq save-place-file (expand-file-name ".places" user-emacs-directory))
 
-(load-theme 'monokai t)
+(require 'moe-theme)
+(moe-theme-random-color)
+(moe-light)
 
 (if window-system
     (set-face-attribute 'default nil :font "Menlo-18"))
 
 (require 'powerline)
-(powerline-center-theme)
+(powerline-moe-theme)
 
 (setq gc-cons-threshold 20000000)
 
