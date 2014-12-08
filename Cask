@@ -22,6 +22,7 @@
 (depends-on "json-mode")
 (depends-on "magit")
 (depends-on "markdown-mode")
+(depends-on "moe-theme")
 (depends-on "monokai-theme")
 (depends-on "multiple-cursors")
 (depends-on "pallet")
