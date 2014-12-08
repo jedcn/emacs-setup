@@ -378,6 +378,10 @@
 
 (helm-mode 1)
 
+(add-hook 'after-init-hook 'global-company-mode)
+
+(global-set-key (kbd "M-/") 'company-complete)
+
 (require 'projectile)
 
 (project-persist-mode t)

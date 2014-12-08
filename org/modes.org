@@ -580,6 +580,22 @@
   (helm-mode 1)
 #+END_SRC
 
+*** company-mode
+
+    When it comes to completion, I was considering [[http://cx4a.org/software/auto-complete/][auto-complete]] and
+    [[https://company-mode.github.io/][company-mode]]. I'm trying company-mode for now.
+
+#+BEGIN_SRC emacs-lisp
+  (add-hook 'after-init-hook 'global-company-mode)
+#+END_SRC
+
+    And this is my main keybinding for starting things up. It used to
+    be "hippie-expand:"
+
+#+BEGIN_SRC emacs-lisp
+  (global-set-key (kbd "M-/") 'company-complete)
+#+END_SRC
+
 ** Functional Areas
 *** Project Management
 
