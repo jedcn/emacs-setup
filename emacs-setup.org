@@ -1311,7 +1311,8 @@
   (require 'project-persist)
 
   (setq jedcn/pp-project-roots
-        (list (concat (getenv "HOME") "/c/galileo")
+        (list "/opt/init-src"
+              (concat (getenv "HOME") "/c/galileo")
               (concat (getenv "HOME") "/c/misc")
               (concat (getenv "HOME") "/c/personal")
               (concat (getenv "HOME") "/d")))
