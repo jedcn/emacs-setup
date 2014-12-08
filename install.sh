@@ -1,3 +1,4 @@
+#!/bin/bash
 
 emacs_setup_dir=`pwd`
 
