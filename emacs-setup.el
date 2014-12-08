@@ -412,7 +412,8 @@
   "Create all project-persist projects based on PROJECT-ROOTS"
   (let* ((project-root (car project-roots)))
     (while project-roots
-      (jedcn/pp-create-projects-under-root project-root)
+      (when (file-exists-p project-root)
+        (jedcn/pp-create-projects-under-root project-root))
       (setq project-roots (cdr project-roots))
       (setq project-root (car project-roots)))))
 
