@@ -9,7 +9,12 @@ echo "Creating $HOME/.emacs.d/emacs-setup as link to $emacs_setup_dir"
 ln -s $emacs_setup_dir $HOME/.emacs.d/emacs-setup
 
 echo "Creating $HOME/.emacs.d/init.el"
-cp init.el $HOME/.emacs.d
+BREW_PREFIX=$(brew --prefix)
+CASK_VERSION=$(cask --version)
+CASK_DIR="${BREW_PREFIX}/Cellar/cask/${CASK_VERSION}/"
+echo "(setq jedcn-cask-dir \"${CASK_DIR}\")" > init.el.tmp
+cat init.el >> init.el.tmp
+mv init.el.tmp $HOME/.emacs.d/init.el
 
 echo "Creating $HOME/.emacs.d/Cask"
 cp Cask $HOME/.emacs.d
