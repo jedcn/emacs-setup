@@ -259,7 +259,11 @@
 
 (define-key magit-status-mode-map (kbd "W") 'magit-toggle-whitespace)
 
-(setq magit-emacsclient-executable "/usr/local/bin/emacsclient")
+(if (file-exists-p "/usr/local/bin/emacsclient")
+    (setq magit-emacsclient-executable "/usr/local/bin/emacsclient"))
+
+(if (file-exists-p "/opt/boxen/homebrew/bin/emacsclient")
+    (setq magit-emacsclient-executable "/opt/boxen/homebrew/bin/emacsclient"))
 
 (setq magit-diff-refine-hunk 'all)
 
