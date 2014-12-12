@@ -57,7 +57,9 @@
    + Finally, they copy a =init.el= into HOME so that the next startup
      of Emacs will load the composite =emacs-setup.el=.
 
-#+begin_src sh :tangle install.sh
+#+begin_src sh :tangle install.sh :padline no
+  #!/bin/bash
+
   emacs_setup_dir=`pwd`
 
   echo "Creating $HOME/.emacs.d (if needed)"
@@ -67,7 +69,12 @@
   ln -s $emacs_setup_dir $HOME/.emacs.d/emacs-setup
 
   echo "Creating $HOME/.emacs.d/init.el"
-  cp init.el $HOME/.emacs.d
+  BREW_PREFIX=$(brew --prefix)
+  CASK_VERSION=$(cask --version)
+  CASK_DIR="${BREW_PREFIX}/Cellar/cask/${CASK_VERSION}/"
+  echo "(setq jedcn-cask-dir \"${CASK_DIR}\")" > init.el.tmp
+  cat init.el >> init.el.tmp
+  mv init.el.tmp $HOME/.emacs.d/init.el
 
   echo "Creating $HOME/.emacs.d/Cask"
   cp Cask $HOME/.emacs.d
