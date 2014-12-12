@@ -313,6 +313,7 @@
 (add-to-list 'auto-mode-alist '("\\.thor$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Thorfile$" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Guardfile" . ruby-mode))
+(add-to-list 'auto-mode-alist '("Puppetfile$" . ruby-mode))
 
 (add-hook 'ruby-mode-hook
           (lambda ()
