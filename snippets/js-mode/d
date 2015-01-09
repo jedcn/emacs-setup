@@ -1,0 +1,7 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: describe('...', function() { ... });
+# key: d
+# --
+describe("${1:something..}", function() {
+  $0
+});

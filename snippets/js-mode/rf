@@ -1,0 +1,7 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: return function('...') { '...' });
+# key: rf
+# --
+return function(${1:args...}) {
+  $0
+}

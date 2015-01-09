@@ -1,0 +1,7 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: function named('...') { '...' });
+# key: fwn
+# --
+function ${1:named}(${2:args...}) {
+  $0
+}

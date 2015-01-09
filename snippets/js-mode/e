@@ -1,0 +1,5 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: expect(...)
+# key: e
+# --
+expect(${1:thing})$0

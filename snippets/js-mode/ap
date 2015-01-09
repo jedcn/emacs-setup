@@ -1,0 +1,5 @@
+# -*- mode: javascript; require-final-newline: nil -*-
+# name: ap
+# key: ap
+# --
+apply(${1:context}${2:, argsArray})
