@@ -201,13 +201,23 @@
 
 *** Color Theme
 
-    I always switch around themes. In general, I like Zenburn and
-    Base16. I like monokai. And I'm trying out Sanity Inc's tomorrow collection.
+    I *really* like the =moe-theme=. It can be found here:
+    https://github.com/kuanyui/moe-theme.el. It's what I'm using for
+    now.
+
+    However, I pay close attention to themes, and ones that I've liked
+    in the past can be added back by putting the following in my
+    =Cask=:
+
+    + =(depends-on "base16-theme")=
+    + =(depends-on "color-theme-sanityinc-tomorrow")=
+    + =(depends-on "color-theme-solarized")=
+    + =(depends-on "monokai-theme")=
 
 #+BEGIN_SRC emacs-lisp
   (require 'moe-theme)
   (moe-theme-random-color)
-  (moe-light)
+  (moe-dark)
 #+END_SRC
 
 *** Font

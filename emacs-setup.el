@@ -35,7 +35,7 @@
 
 (require 'moe-theme)
 (moe-theme-random-color)
-(moe-light)
+(moe-dark)
 
 (if window-system
     (set-face-attribute 'default nil :font "Menlo-18"))
