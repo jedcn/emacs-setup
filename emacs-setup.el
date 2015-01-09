@@ -338,7 +338,9 @@
 
 (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
 (eval-after-load "project-persist" '(diminish 'project-persist-mode))
+(eval-after-load "company" '(diminish 'company-mode))
 (diminish 'auto-fill-function)
+(diminish 'magit-auto-revert-mode)
 (diminish 'smartparens-mode)
 
 (rvm-use-default)

@@ -1122,7 +1122,9 @@
 #+BEGIN_SRC emacs-lisp
   (eval-after-load "yasnippet" '(diminish 'yas-minor-mode))
   (eval-after-load "project-persist" '(diminish 'project-persist-mode))
+  (eval-after-load "company" '(diminish 'company-mode))
   (diminish 'auto-fill-function)
+  (diminish 'magit-auto-revert-mode)
   (diminish 'smartparens-mode)
 #+END_SRC
 
@@ -1145,18 +1147,6 @@
   (add-hook 'ruby-mode-hook
             (lambda () (rvm-activate-corresponding-ruby)))
 #+end_src
-
-*** multiple-cursors
-
-    This video, http://emacsrocks.com/e13.html, blew my
-    mind. Especially the writeable dired. Hah!
-
-    I'm not sure how to use this mode yet, or what the right bindings
-    are, but I think the main functions are:
-
-    + mc/mark-next-like-this
-    + mc/mark-all-like-this
-    + mc/edit-lines
 
 *** helm
 
