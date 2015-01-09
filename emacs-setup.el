@@ -328,14 +328,6 @@
 (smartparens-global-mode)
 (show-smartparens-global-mode +1)
 
-(require 'ace-jump-mode)
-(define-key global-map
-  (kbd "C-c SPC") 'ace-jump-mode)
-(add-hook 'org-mode-hook
-          (lambda ()
-            (define-key org-mode-map
-              (kbd "C-c SPC") 'ace-jump-mode)))
-
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (defadvice rspec-compile (around rspec-compile-around)
@@ -353,9 +345,6 @@
 
 (add-hook 'ruby-mode-hook
           (lambda () (rvm-activate-corresponding-ruby)))
-
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
 
 (require 'helm)
 (require 'helm-config)
