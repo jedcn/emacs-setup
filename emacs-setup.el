@@ -3,7 +3,7 @@
                     user-emacs-directory
                     "emacs-setup"))
 
-(setq jedcn-env-path "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/usr/local/share/npm/bin")
+(setq jedcn-env-path "/opt/boxen/rbenv/shims:/opt/boxen/nodenv/shims:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/texbin:/usr/local/share/npm/bin")
 
 (defun jedcn-sync-env-path-and-exec-path (desired-path)
   "Sets exec-path and env 'PATH' based on DESIRED-PATH"
