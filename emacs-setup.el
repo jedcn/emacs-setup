@@ -14,6 +14,9 @@
 
 (setq explicit-bash-args '("--noediting" "--login"))
 
+(setenv "NODENV_VERSION" "v0.10")
+(setenv "RBENV_VERSION" "2.1.2")
+
 (setq locale-coding-system 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)

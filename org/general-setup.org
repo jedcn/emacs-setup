@@ -54,6 +54,24 @@
      (setq explicit-bash-args '("--noediting" "--login"))
    #+END_SRC
 
+** Ruby and Node
+
+   When I'm on MacOS I use rbenv and nodenv for get ruby and node
+   installations. These projects allow you to have many rubies/nodes,
+   and they use environment variables to figure out which single
+   version should be the default version if there's no project
+   specific file. And so, the following lines let me call out what I
+   want to use:
+
+   #+BEGIN_SRC emacs-lisp
+     (setenv "NODENV_VERSION" "v0.10")
+     (setenv "RBENV_VERSION" "2.1.2")
+   #+END_SRC
+
+   This is particularly helpful for flycheck-mode-- I can install
+   rubocop with 2.1.2 and get linting/style help in emacs. Or I can
+   install jshint with v0.10 and get the same for .js.
+
 ** UTF-8
 
   I picked this up from Magnars in his [[https://github.com/magnars/.emacs.d/blob/master/sane-defaults.el][sane-defaults.el]].
