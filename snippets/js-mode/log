@@ -1,0 +1,4 @@
+# -*- mode: javascript; require-final-newline: nil; backup-inhibited: t -*-
+#name: console.log("variable", variable);
+# --
+console.log("$1", ${1:var});
